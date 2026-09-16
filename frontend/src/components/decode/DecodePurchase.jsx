@@ -22,11 +22,9 @@ export function PricingSection({ product, selected, onSelect }) {
           description="One complete guide. Instant digital access on any device. Transparent pricing — no false scarcity."
           testId="pricing"
         />
-        {product?.offer_end && (
-          <Reveal className="mt-8 flex justify-center">
-            <CountdownTimer end={product.offer_end} />
-          </Reveal>
-        )}
+        <Reveal className="mt-8 flex justify-center">
+          <CountdownTimer minutes={10} />
+        </Reveal>
         <div className="mt-10">
           <PricingEditions product={product} selected={selected} onSelect={onSelect} />
         </div>

@@ -74,7 +74,7 @@ export function ProblemSection() {
         <Reveal className="mt-12 flex flex-col items-center gap-4 text-center">
           <ArrowDown className="h-5 w-5 animate-pulse-dot text-orange-600" />
           <p className="max-w-2xl text-base font-medium text-ink md:text-lg">
-            Meta Ads Decode replaces guessing with a structured operating framework — the same workflow used across 3 years of real campaigns.
+            Sales Engine replaces guessing with a structured operating framework — the same workflow used across 3 years of real campaigns.
           </p>
         </Reveal>
       </div>

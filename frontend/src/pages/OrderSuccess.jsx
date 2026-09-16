@@ -1,6 +1,7 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { CheckCircle2, Clock, Mail, ArrowRight } from "lucide-react";
+import { toast } from "sonner";
+import { CheckCircle2, Clock, Mail, ArrowRight, Download } from "lucide-react";
 import { api, formatINR } from "../lib/api";
 import Seo from "../components/Seo";
 import { Skeleton } from "../components/ui/skeleton";
@@ -26,6 +27,22 @@ export default function OrderSuccess() {
     enabled: Boolean(orderId),
     retry: false,
   });
+
+  const { data: product } = useQuery({
+    queryKey: ["product", "meta-ads-decode"],
+    queryFn: async () => (await api.get("/products/meta-ads-decode")).data,
+    staleTime: 60_000,
+  });
+
+  function handleDownload() {
+    if (product?.download_url) {
+      window.open(product.download_url, "_blank");
+    } else {
+      toast.info("Download link is on its way", {
+        description: "Your access link is delivered by the payment provider — please check your email inbox (and spam folder).",
+      });
+    }
+  }
 
   const paid = order?.status === "paid" || order?.status === "delivered";
 
@@ -61,6 +78,14 @@ export default function OrderSuccess() {
               )}
 
               <div className="mt-8 flex flex-col items-center gap-3">
+                <button
+                  type="button"
+                  onClick={handleDownload}
+                  data-testid="download-now-button"
+                  className="inline-flex items-center gap-2 rounded-lg bg-orange-600 px-6 py-3.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-orange-700"
+                >
+                  <Download className="h-4 w-4" /> Download Now
+                </button>
                 <Link to="/products" className="inline-flex items-center gap-2 rounded-lg bg-ink-surface px-6 py-3.5 text-sm font-semibold text-white hover:bg-ink" data-testid="order-continue-link">
                   Continue Browsing <ArrowRight className="h-4 w-4" />
                 </Link>

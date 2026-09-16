@@ -42,7 +42,7 @@ export default function Testimonials({ productSlug, dark = false, title = "What 
                       {t.customer_name}
                       {t.verified_purchase && <BadgeCheck className="h-4 w-4 text-blue-500" aria-label="Verified purchase" />}
                     </div>
-                    {t.product_slug && <div className={`text-xs ${dark ? "text-slate-500" : "text-slate-500"}`}>Purchased: {t.product_slug.replace(/-/g, " ")}</div>}
+                    {t.product_slug && <div className={`text-xs ${dark ? "text-slate-500" : "text-slate-500"}`}>Purchased: Digital Product Sales Engine</div>}
                   </div>
                 </figcaption>
               </figure>

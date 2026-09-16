@@ -65,7 +65,6 @@ export default function Contact() {
           <div className="space-y-6 rounded-2xl border border-slate-200 bg-white p-7 lg:col-span-2" data-testid="contact-info-card">
             <InfoRow icon={Building2} label="Business / Brand Name" value={settings?.brand_name} testId="contact-brand" />
             <InfoRow icon={Mail} label="Support Email" value={settings?.support_email} testId="contact-email" />
-            <InfoRow icon={MapPin} label="Business Address" value={settings?.business_address} testId="contact-address" />
             <InfoRow icon={Clock} label="Support Hours" value={settings?.support_hours} testId="contact-hours" />
             {settings?.response_time && (
               <p className="rounded-lg bg-slate-50 p-3 text-xs text-slate-600 ring-1 ring-slate-200" data-testid="contact-response-time">

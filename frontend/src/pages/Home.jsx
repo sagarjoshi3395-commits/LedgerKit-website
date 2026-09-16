@@ -45,7 +45,7 @@ function HomeHero() {
         <Reveal delay={0.2} className="relative mx-auto hidden sm:block" data-testid="home-hero-visual">
           <div className="relative flex justify-center rounded-2xl border border-slate-200 bg-white p-10 shadow-subtle">
             <div className="animate-float-soft">
-              <BookMockup size="lg" />
+              <BookMockup size="lg" coverImage="/samples/cover.png" />
             </div>
             <div className="absolute -left-3 top-8 w-40 rounded-xl border border-slate-200 bg-white p-3 shadow-subtle">
               <div className="font-mono text-[9px] font-semibold uppercase tracking-widest text-orange-600">Framework</div>

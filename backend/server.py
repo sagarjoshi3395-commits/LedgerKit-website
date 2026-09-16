@@ -10,7 +10,7 @@ from datetime import datetime, timezone, timedelta
 from typing import Optional, Annotated
 from pydantic import BaseModel, Field, ConfigDict, BeforeValidator, EmailStr
 
-from seed_data import META_ADS_DECODE_PRODUCT, CATEGORIES, SITE_SETTINGS
+from seed_data import META_ADS_DECODE_PRODUCT, CATEGORIES, SITE_SETTINGS, TESTIMONIALS
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -269,6 +269,8 @@ async def seed_database():
     if await db.categories.count_documents({}) == 0:
         await db.categories.insert_many([dict(c) for c in CATEGORIES])
     await db.settings.update_one({"key": "site"}, {"$set": SITE_SETTINGS}, upsert=True)
+    if await db.testimonials.count_documents({}) == 0:
+        await db.testimonials.insert_many([dict(t) for t in TESTIMONIALS])
 
 
 @app.on_event("shutdown")

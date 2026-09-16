@@ -1,7 +1,7 @@
 export const NAV_LINKS = [
   { label: "Home", to: "/" },
   { label: "Products", to: "/products" },
-  { label: "Meta Ads Decode", to: "/meta-ads-decode" },
+  { label: "Sales Engine", to: "/meta-ads-decode" },
   { label: "About", to: "/about" },
   { label: "FAQ", to: "/faq" },
   { label: "Contact", to: "/contact" },
@@ -9,7 +9,7 @@ export const NAV_LINKS = [
 
 export const FOOTER_PRODUCTS = [
   { label: "All Products", to: "/products" },
-  { label: "Meta Ads Decode", to: "/meta-ads-decode" },
+  { label: "Sales Engine", to: "/meta-ads-decode" },
   { label: "Featured Guides", to: "/products?sort=featured" },
 ];
 

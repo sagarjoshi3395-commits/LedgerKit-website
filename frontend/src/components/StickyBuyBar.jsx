@@ -1,29 +1,15 @@
 import { useEffect, useState } from "react";
 import { formatINR } from "../lib/api";
 import { trackEvent, appendUtms, getStoredUtms } from "../lib/analytics";
-
-function useCountdown(end) {
-  const [now, setNow] = useState(Date.now());
-  useEffect(() => {
-    if (!end) return;
-    const t = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(t);
-  }, [end]);
-  if (!end) return null;
-  const diff = new Date(end).getTime() - now;
-  if (Number.isNaN(diff) || diff <= 0) return null;
-  const days = Math.floor(diff / 86_400_000);
-  const h = Math.floor((diff % 86_400_000) / 3_600_000);
-  const m = Math.floor((diff % 3_600_000) / 60_000);
-  const s = Math.floor((diff % 60_000) / 1000);
-  if (days > 0) return `${days}d ${String(h).padStart(2, "0")}h ${String(m).padStart(2, "0")}m`;
-  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-}
+import { useOfferTimer } from "../lib/offerTimer";
 
 /** Fixed bottom checkout bar (all screens). Direct-redirects to the product's configured checkout URL. */
 export default function StickyBuyBar({ product, offset = 600 }) {
   const [visible, setVisible] = useState(false);
-  const countdown = useCountdown(product?.offer_end);
+  const countdown = useOfferTimer(10);
+  const timerText = countdown != null
+    ? `${String(Math.floor(countdown / 60)).padStart(2, "0")}:${String(countdown % 60).padStart(2, "0")}`
+    : null;
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > offset);
@@ -59,9 +45,9 @@ export default function StickyBuyBar({ product, offset = 600 }) {
           <div className="flex flex-wrap items-baseline gap-x-2">
             <span className="font-display text-base font-extrabold text-ink" data-testid="sticky-buy-price">{formatINR(edition.price)}</span>
             {regular > edition.price && <span className="text-xs text-slate-400 line-through">{formatINR(regular)}</span>}
-            {countdown && (
+            {timerText && (
               <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-orange-600" data-testid="sticky-buy-timer">
-                Offer ends in {countdown}
+                Offer ends in {timerText}
               </span>
             )}
           </div>

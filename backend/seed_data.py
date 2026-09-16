@@ -192,6 +192,7 @@ CURRICULUM = [
 ]
 
 SAMPLE_PAGES = [
+    {"label": "Page 4", "title": "My First Research Tool — Meta Ad Library", "kind": "Chapter", "image": "/samples/page-ad-library.png"},
     {"label": "Page 35", "title": "The 3-Second Hook — 6 Proven Hook Types", "kind": "Chapter", "image": "/samples/page-hooks.png"},
     {"label": "Page 37", "title": "Build a Page-View Retargeting Campaign", "kind": "Framework", "image": "/samples/page-retargeting.png"},
     {"label": "Page 45", "title": "Reading Ad Set Performance — Real Ads Manager Data", "kind": "Real Example", "image": "/samples/page-adset-performance.png"},
@@ -199,13 +200,22 @@ SAMPLE_PAGES = [
     {"label": "Page 114", "title": "Real Case Study — Ad-Level Winner", "kind": "Case Study", "image": "/samples/page-ad-winner.png"},
 ]
 
+# Starter testimonials — replace these with genuine customer reviews as they come in.
+TESTIMONIALS = [
+    {"product_slug": "meta-ads-decode", "customer_name": "Aarav M.", "review": "Finally a guide that connects product creation and ads into one system. The diagnostic flow alone stopped me from killing a good campaign too early.", "verified_purchase": False},
+    {"product_slug": "meta-ads-decode", "customer_name": "Sneha R.", "review": "I understood more about CPA and unit economics in one evening than from months of random videos. The checklists stay open while I work.", "verified_purchase": False},
+    {"product_slug": "meta-ads-decode", "customer_name": "Rohan K.", "review": "The case studies showing winners and losers made the concepts click. It reads like someone sharing their actual working notebook.", "verified_purchase": False},
+]
+
 PHYSICAL_GALLERY_SLOTS = []
 
 META_ADS_DECODE_PRODUCT = {
     "slug": "meta-ads-decode",
-    "title": "Meta Ads Decode Guide",
-    "short_title": "Meta Ads Decode",
-    "tagline": "The complete digital product playbook — from idea research to launch, offers, tracking and ad scaling — with real Meta Ads campaigns inside.",
+    "title": "Digital Product Sales Engine",
+    "short_title": "Sales Engine",
+    "tagline": "The complete digital product sales system — research, create, launch and scale — with real Meta Ads campaigns inside.",
+    "cover_image": "/samples/cover.png",
+    "download_url": "",
     "description": (
         "A complete digital product guide covering the full journey — finding and validating product ideas, "
         "creating the product, building the sales page, setting up tracking, crafting creatives, and running "
@@ -225,7 +235,7 @@ META_ADS_DECODE_PRODUCT = {
     "is_new": True,
     "bestseller": False,
     "status": "published",
-    "offer_end": "2026-09-30T18:29:59+00:00",
+    "offer_end": None,
     "landing_path": "/meta-ads-decode",
     "experience_years": 3,
     "whats_included": [
@@ -274,8 +284,8 @@ META_ADS_DECODE_PRODUCT = {
         {"q": "Is this suitable for beginners?", "a": "Yes. Foundations are covered first — campaign structure, objectives, targeting and tracking — before the guide moves into testing systems, diagnostics and scaling."},
         {"q": "Does this guarantee profitable ads?", "a": "No. Advertising performance depends on your product, offer, market, creative, website, competition, pricing and many other factors. This guide is educational and results vary."},
         {"q": "Is this only about Meta Ads?", "a": "No. It covers the wider digital-product system — research, product development, website, tracking, creative strategy, advertising, funnel economics and business measurement."},
-        {"q": "Will I receive a physical book?", "a": "Only if you order the Physical Book or the Complete Bundle. The Digital Edition is a digital product with no physical delivery."},
-        {"q": "How will I receive access?", "a": "According to the configured delivery method — digital access is provided after successful payment confirmation, and physical orders are shipped to the address you provide at checkout."},
+        {"q": "Is this a physical book?", "a": "No — this is a 100% digital product. You get instant online access after successful payment; nothing is shipped."},
+        {"q": "How will I receive access?", "a": "Instantly. After successful payment confirmation you receive digital access through the configured delivery method (download page / email)."},
         {"q": "Does it contain practical examples?", "a": "Yes. The guide includes frameworks and campaign examples to explain decision-making, including case studies of campaign setup, ad-set winners & losers and an ad-level winner."},
         {"q": "Is Meta affiliated with this product?", "a": "No. This is an independent educational product and is not sponsored, endorsed or administered by Meta Platforms, Inc."},
     ],

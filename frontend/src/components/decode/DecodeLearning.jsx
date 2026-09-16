@@ -74,7 +74,8 @@ export function SamplePagesSection({ product }) {
               type="button"
               onClick={() => setOpen(i % pages.length)}
               data-testid={i < pages.length ? `sample-thumb-${i}` : undefined}
-              className="w-48 shrink-0 overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-white/15 transition-transform duration-200 hover:-translate-y-1.5 sm:w-56"
+              style={{ transform: i % 2 ? "rotate(1.4deg)" : "rotate(-1.4deg)" }}
+              className="w-60 shrink-0 overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-white/15 transition-transform duration-200 hover:-translate-y-1.5 sm:w-72"
             >
               <img src={p.image} alt={p.title} loading="lazy" className="aspect-[3/4] w-full object-cover object-top" />
             </button>

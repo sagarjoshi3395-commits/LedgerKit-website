@@ -1,7 +1,14 @@
-export function BookMockup({ size = "md", className = "", title = "META ADS DECODE", subtitle = "The Complete Digital Product Playbook", brand = "LEDGERKIT" }) {
+export function BookMockup({ size = "md", className = "", title = "DIGITAL PRODUCT SALES ENGINE", subtitle = "The Complete Digital Product Playbook", brand = "LEDGERKIT", coverImage = "" }) {
   const dims = size === "lg" ? "w-56 sm:w-64" : size === "sm" ? "w-28" : "w-40 sm:w-44";
   const titleSize = size === "lg" ? "text-xl sm:text-2xl" : size === "sm" ? "text-[10px]" : "text-sm sm:text-base";
   const subSize = size === "lg" ? "text-[10px] sm:text-xs" : "text-[7px] sm:text-[8px]";
+  if (coverImage) {
+    return (
+      <div className={`relative ${dims} ${className}`} data-testid="book-mockup">
+        <img src={coverImage} alt={title} loading="lazy" className="w-full drop-shadow-[0_25px_40px_rgba(0,0,0,0.45)]" />
+      </div>
+    );
+  }
   return (
     <div className={`relative ${dims} ${className}`} style={{ perspective: "900px" }} data-testid="book-mockup">
       <div

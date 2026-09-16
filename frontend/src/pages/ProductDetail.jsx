@@ -76,7 +76,7 @@ export default function ProductDetail() {
         <div className="container-site grid items-center gap-12 lg:grid-cols-2">
           <Reveal className="dot-grid flex justify-center rounded-2xl border border-slate-200 bg-slate-50 py-14">
             <div className="animate-float-soft">
-              <BookMockup size="lg" title={(product.short_title || product.title).toUpperCase()} subtitle={product.product_type} />
+              <BookMockup size="lg" coverImage={product.cover_image} title={(product.short_title || product.title).toUpperCase()} subtitle={product.product_type} />
             </div>
           </Reveal>
           <div>

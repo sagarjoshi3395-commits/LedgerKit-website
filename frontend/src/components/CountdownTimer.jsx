@@ -1,28 +1,13 @@
-import { useEffect, useState } from "react";
+import { useOfferTimer } from "../lib/offerTimer";
 
-/** Genuine offer countdown. Renders nothing unless a real end timestamp is configured and still in the future. */
-export default function CountdownTimer({ end, dark = false }) {
-  const [now, setNow] = useState(Date.now());
+/** 10-minute per-visitor launch timer. Price does not change after expiry — the timer simply hides. */
+export default function CountdownTimer({ minutes = 10, dark = false }) {
+  const remaining = useOfferTimer(minutes);
+  if (remaining === null) return null;
 
-  useEffect(() => {
-    if (!end) return;
-    const t = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(t);
-  }, [end]);
-
-  if (!end) return null;
-  const target = new Date(end).getTime();
-  const diff = target - now;
-  if (Number.isNaN(target) || diff <= 0) return null;
-
-  const days = Math.floor(diff / 86_400_000);
-  const hours = Math.floor((diff % 86_400_000) / 3_600_000);
-  const minutes = Math.floor((diff % 3_600_000) / 60_000);
-  const seconds = Math.floor((diff % 60_000) / 1000);
-  const units = days > 0
-    ? [[days, "Days"], [hours, "Hours"], [minutes, "Mins"], [seconds, "Secs"]]
-    : [[hours, "Hours"], [minutes, "Minutes"], [seconds, "Seconds"]];
-  const cell = `flex min-w-[64px] flex-col items-center rounded-lg px-3 py-2 ${
+  const m = Math.floor(remaining / 60);
+  const s = remaining % 60;
+  const cell = `flex min-w-[76px] flex-col items-center rounded-lg px-3 py-2 ${
     dark ? "bg-white/10 ring-1 ring-white/15" : "bg-white ring-1 ring-slate-200"
   }`;
 
@@ -32,9 +17,9 @@ export default function CountdownTimer({ end, dark = false }) {
         Launch Offer Ends In
       </span>
       <div className="flex items-center gap-2">
-        {units.map(([v, label]) => (
+        {[[m, "Minutes"], [s, "Seconds"]].map(([v, label]) => (
           <div key={label} className={cell}>
-            <span className={`font-display text-xl font-extrabold tabular-nums ${dark ? "text-white" : "text-ink"}`}>
+            <span className={`font-display text-2xl font-extrabold tabular-nums ${dark ? "text-white" : "text-ink"}`}>
               {String(v).padStart(2, "0")}
             </span>
             <span className={`font-mono text-[9px] uppercase tracking-wider ${dark ? "text-slate-400" : "text-slate-500"}`}>{label}</span>

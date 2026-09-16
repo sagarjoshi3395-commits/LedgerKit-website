@@ -21,7 +21,7 @@ export const LEGAL_PAGES = {
       { heading: "13. Limitation of Liability", body: ["To the maximum extent permitted by law, LedgerKit shall not be liable for indirect, incidental or consequential damages arising from the use of our products or website."] },
       { heading: "14. Changes to Products & Content", body: ["We may update, improve or discontinue products and content at any time. Material updates to purchased digital products may be provided at our discretion."] },
       { heading: "15. Governing Law", body: ["These terms are governed by the laws of India. Jurisdiction: [INSERT JURISDICTION / COURTS]."] },
-      { heading: "16. Contact", body: ["For any questions about these terms, contact us at ledgerkitsupport@gmail.com. Business address: [PHYSICAL BUSINESS ADDRESS]."] },
+      { heading: "16. Contact", body: ["For any questions about these terms, contact us at ledgerkitsupport@gmail.com."] },
     ],
   },
   "privacy-policy": {

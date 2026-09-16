@@ -9,7 +9,8 @@ import ExitIntent from "../components/ExitIntent";
 import Testimonials from "../components/Testimonials";
 import DecodeHero from "../components/decode/DecodeHero";
 import { ExperienceSection, ProblemSection, SystemSection } from "../components/decode/DecodeSystem";
-import { RealWorldSection, SamplePagesSection, IncludedSection, CurriculumSection, VisualToolsSection } from "../components/decode/DecodeLearning";
+import { SamplePagesSection, IncludedSection, CurriculumSection, VisualToolsSection } from "../components/decode/DecodeLearning";
+import AspirationSection from "../components/decode/DecodeAspiration";
 import { AudienceSection, CaseStudiesSection } from "../components/decode/DecodeAudience";
 import { PricingSection, DecodeFaqSection, FinalCtaSection } from "../components/decode/DecodePurchase";
 import { Skeleton } from "../components/ui/skeleton";
@@ -55,7 +56,7 @@ export default function MetaAdsDecode() {
   return (
     <main data-testid="meta-ads-decode-page">
       <Seo
-        title="Meta Ads Decode Guide"
+        title="Digital Product Sales Engine"
         description="A complete digital product guide with real Meta Ads campaign examples — research, product creation, sales pages, tracking, creative strategy, testing, scaling and business measurement. Built from 3 years of practical experience."
         path="/meta-ads-decode"
         jsonLd={faqJsonLd}
@@ -63,15 +64,15 @@ export default function MetaAdsDecode() {
       <DecodeHero product={product} onBuy={() => scrollToId("editions")} onPreview={() => scrollToId("samples")} />
       <ExperienceSection />
       <ProblemSection />
-      <SystemSection />
-      <RealWorldSection />
       <SamplePagesSection product={product} />
+      <AspirationSection />
+      <SystemSection />
       <IncludedSection product={product} />
       <CurriculumSection product={product} />
       <VisualToolsSection />
       <AudienceSection product={product} />
       <CaseStudiesSection />
-      <Testimonials productSlug="meta-ads-decode" title="What Readers Say" />
+      <Testimonials productSlug="meta-ads-decode" title="What Early Readers Say" />
       <PricingSection product={product} selected={selectedEdition} onSelect={setSelectedEdition} />
       <DecodeFaqSection product={product} />
       <FinalCtaSection product={product} onSelect={setSelectedEdition} />

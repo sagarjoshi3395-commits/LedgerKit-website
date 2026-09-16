@@ -42,6 +42,17 @@ Students; side-income explorers; beginners in digital business; existing digital
 - Sample pages: 5 real book pages (user-provided, in /public/samples/) shown as auto-scrolling flow strip (hover to pause, tap to open preview dialog) — rest of pages kept exclusive
 - "What This Guide Is Not" reframed to positive "Go In With the Right Expectations"
 
+## Update (2026-09-16, v3 — per user request)
+- Product renamed to **Digital Product Sales Engine** (short: "Sales Engine") — title, nav, footer, SEO, testimonials label all updated; route stays /meta-ads-decode
+- Countdown is now a 10-minute per-visitor urgency timer (lib/offerTimer.js, localStorage deadline set once, never resets; price unchanged after expiry — timer just hides). Shown at pricing + sticky bar (MM:SS)
+- Real book cover (transparent PNG) replaces CSS mockup everywhere via BookMockup coverImage prop; hero shows real "Performance Dashboard (Real Data)" image tilted behind cover + floating framework cards; cover also shows on mobile hero
+- Sample flow: 6 real pages, bigger cards (tilted alternating), moved to middle of page (after Problem section); Real-World Learning section removed
+- New AspirationSection ("Imagine Knowing Exactly What to Do Next") — hope/aspiration without income claims
+- 3 seeded testimonials now render (seed_data.py TESTIMONIALS — placeholders to replace with genuine reviews)
+- Purchase ping redesigned: dark card + cover thumbnail + spring slide-in + live dot
+- Order-success page: "Download Now" button (uses product.download_url when configured, else honest email-delivery toast). SuperProfile after-payment redirect must be set in SuperProfile dashboard → /order-success
+- Mobile scroll shake fixed: overflow-x clip on html/body; address removed from footer/contact/terms
+
 ## Backlog (prioritized)
 - **P0**: Configure real per-edition checkout URLs (SuperProfile) in product data; set bundle price; set ADMIN_KEY in backend/.env; replace [PLACEHOLDER] business details (support email/phone/address, refund/shipping timelines); upload real sample pages, Ads Manager screenshots, physical-book photos
 - **P1**: Direct Razorpay integration (create order → checkout → server-side signature verify → paid status → delivery email → /order-success); customer download/access flow; admin UI for editing products/settings/testimonials; real testimonials once collected

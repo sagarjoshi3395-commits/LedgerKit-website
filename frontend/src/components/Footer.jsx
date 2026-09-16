@@ -51,9 +51,6 @@ export default function Footer() {
               <li data-testid="footer-support-email">
                 Email: {settings?.support_email || <span className="placeholder-token">[SUPPORT EMAIL]</span>}
               </li>
-              <li data-testid="footer-support-address">
-                Address: {settings?.business_address || <span className="placeholder-token">[BUSINESS ADDRESS]</span>}
-              </li>
             </ul>
           </div>
         </div>

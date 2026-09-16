@@ -42,7 +42,7 @@ export default function DecodeHero({ product, onBuy, onPreview }) {
           </Reveal>
           <Reveal delay={0.08}>
             <h1 className="mt-5 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-6xl" data-testid="hero-title">
-              Build Digital Products.<br /><span className="text-orange-500">Learn to Scale Them.</span>
+              Build Digital Products.<br /><span className="highlight-brush">Learn to Scale Them.</span>
             </h1>
           </Reveal>
           <Reveal delay={0.16}>
@@ -61,7 +61,7 @@ export default function DecodeHero({ product, onBuy, onPreview }) {
                 data-testid="hero-buy-button"
                 className="inline-flex items-center justify-center gap-2 rounded-lg bg-orange-600 px-7 py-4 text-sm font-semibold text-white transition-colors duration-200 hover:bg-orange-700"
               >
-                Get Meta Ads Decode <ArrowRight className="h-4 w-4" />
+                Get Instant Access <ArrowRight className="h-4 w-4" />
               </button>
               <button
                 type="button"
@@ -87,25 +87,29 @@ export default function DecodeHero({ product, onBuy, onPreview }) {
           </Reveal>
         </div>
 
-        <div className="relative mx-auto hidden w-full max-w-md justify-center sm:flex lg:max-w-none" data-testid="hero-visual">
-          <Reveal delay={0.1} className="absolute -left-10 top-6 hidden lg:block">
-            <img
-              src="/samples/page-adset-performance.png"
-              alt="Real Meta Ads Manager results breakdown from inside the guide"
-              loading="lazy"
-              className="w-64 -rotate-6 rounded-xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] ring-1 ring-white/20"
-              data-testid="hero-dashboard-image"
-            />
+        <div className="relative mx-auto w-full max-w-md lg:max-w-none" data-testid="hero-visual">
+          <Reveal delay={0.15} className="mt-10 flex justify-center sm:hidden">
+            <BookMockup size="md" coverImage="/samples/cover.png" />
           </Reveal>
-          <Reveal delay={0.2} className="relative z-10">
-            <div className="animate-float-soft">
-              <BookMockup size="lg" />
-            </div>
-          </Reveal>
-          <FloatingCard className="-left-4 top-6 lg:-left-10" icon={Target} title="Campaign Diagnostics" lines={[88, 64, 76]} delay={0.35} />
-          <FloatingCard className="-right-2 top-1/3 lg:right-0" icon={Layers} title="Creative Testing Matrix" lines={[72, 90, 58]} delay={0.45} />
-          <FloatingCard className="-left-2 bottom-8 lg:left-2" icon={TrendingUp} title="Scaling Framework" lines={[80, 66, 84]} delay={0.55} />
-          <FloatingCard className="-right-4 bottom-24 hidden lg:block" icon={Zap} title="Hook Bank ×50" lines={[70, 82, 60]} delay={0.65} />
+          <div className="relative hidden justify-center sm:flex">
+            <Reveal delay={0.1} className="absolute -left-14 top-2 z-0 hidden lg:block">
+              <img
+                src="/samples/page-dashboard.jpg"
+                alt="Real Meta Ads performance dashboard breakdown from inside the guide"
+                loading="lazy"
+                className="w-80 -rotate-6 rounded-xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] ring-1 ring-white/20"
+                data-testid="hero-dashboard-image"
+              />
+            </Reveal>
+            <Reveal delay={0.2} className="relative z-10">
+              <div className="animate-float-soft">
+                <BookMockup size="lg" coverImage="/samples/cover.png" />
+              </div>
+            </Reveal>
+            <FloatingCard className="-right-2 top-0 lg:right-2" icon={Layers} title="Creative Testing Matrix" lines={[72, 90, 58]} delay={0.4} />
+            <FloatingCard className="-right-4 bottom-16 lg:right-0" icon={TrendingUp} title="Scaling Framework" lines={[80, 66, 84]} delay={0.5} />
+            <FloatingCard className="-left-2 bottom-2 lg:left-6" icon={Zap} title="Hook Bank ×50" lines={[70, 82, 60]} delay={0.6} />
+          </div>
         </div>
       </div>
 

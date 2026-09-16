@@ -32,7 +32,7 @@ export default function ProductCard({ product, index = 0 }) {
           )}
         </div>
         <div className="transition-transform duration-300 group-hover:-translate-y-1.5 group-hover:rotate-1">
-          <BookMockup size="sm" title={product.short_title?.toUpperCase() || product.title.toUpperCase()} subtitle={product.product_type} />
+          <BookMockup size="sm" coverImage={product.cover_image} title={product.short_title?.toUpperCase() || product.title.toUpperCase()} subtitle={product.product_type} />
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-2.5 p-5">
