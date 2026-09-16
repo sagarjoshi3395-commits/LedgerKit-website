@@ -1,0 +1,149 @@
+{
+  "project_name": "Meta Ads Decode & Digital Products Storefront",
+  "app_type": "hybrid_fullstack digital-product ecommerce storefront with high-converting landing page",
+  "theme": "Light mode base with high-contrast Obsidian/Dark Slate sections for conversion surfaces and editorial luxury",
+  "typography": {
+    "heading_font": "Plus Jakarta Sans, Cabinet Grotesk, or Outfit (Sans-serif display)",
+    "body_font": "Inter or DM Sans",
+    "mono_font": "JetBrains Mono or Source Code Pro",
+    "hierarchy": {
+      "h1": "text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1]",
+      "h2": "text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight leading-snug",
+      "h3": "text-xl sm:text-2xl font-semibold tracking-tight",
+      "h4": "text-lg sm:text-xl font-medium",
+      "body": "text-base sm:text-base leading-relaxed text-muted-foreground",
+      "small_label": "text-xs font-mono uppercase tracking-[0.2em] text-amber-600 dark:text-amber-400 font-semibold"
+    }
+  },
+  "colors": {
+    "palette_name": "SWISS PERFORMANCE HYBRID (Editorial Dark Obsidian & Warm Ember Accents)",
+    "background_light": "#FAFAFA",
+    "background_card_light": "#FFFFFF",
+    "foreground_light": "#0F172A",
+    "background_dark_surface": "#090D16",
+    "card_dark_surface": "#111827",
+    "primary_accent": "#EA580C",
+    "primary_accent_hover": "#C2410C",
+    "secondary_accent": "#2563EB",
+    "neutral_border_light": "rgba(226, 232, 240, 0.8)",
+    "neutral_border_dark": "rgba(255, 255, 255, 0.1)",
+    "status": {
+      "success": "#16A34A",
+      "warning": "#D97706",
+      "info": "#2563EB"
+    },
+    "forbidden_colors": [
+      "#7351B7 (Purple / Violet Gradients - STRICTLY FORBIDDEN)",
+      "#1B93A4 (Teal Blue - FORBIDDEN FOR DASHBOARDS)",
+      "Generic full-screen bright gradients"
+    ]
+  },
+  "visual_enhancers": {
+    "borders": "1px solid crisp borders (border-slate-200 in light, border-white/10 in dark)",
+    "shadows": {
+      "subtle": "0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03)",
+      "card_hover": "0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04)",
+      "dark_glow": "0 0 25px -5px rgba(234, 88, 12, 0.15)"
+    },
+    "textures": "Subtle dot-matrix or technical grid background pattern for diagram sections",
+    "radii": {
+      "button": "rounded-lg",
+      "card": "rounded-xl",
+      "badge": "rounded-full"
+    }
+  },
+  "layout_and_grids": {
+    "container_padding": "px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto",
+    "section_spacing": "py-16 sm:py-24 lg:py-32",
+    "bento_grid_mode": "TETRIS GRID (Asymmetrical row-span and col-span ratios: 8-col hero, 4-col sidebar/stats, 3-col feature cards)",
+    "mobile_rules": "Mobile-first stacked grid (grid-cols-1 md:grid-cols-2 lg:grid-cols-3), sticky mobile purchase bar with z-50 and bottom padding offset"
+  },
+  "motion_and_animations": {
+    "engine": "Framer Motion (framer-motion v11)",
+    "transitions": "Specific CSS properties only (e.g., transition-colors duration-200, transition-shadow duration-300). NO 'transition: all'",
+    "accessibility": "Respect prefers-reduced-motion; disable heavy parallax or loop animations if user prefers reduced motion",
+    "key_animations": [
+      "Scroll-triggered fade and rise (y: 20 -> 0, opacity: 0 -> 1)",
+      "16-step animated workflow path connection with highlighted step nodes",
+      "Interactive page-viewer slide transitions with active thumbnail focus",
+      "Curriculum accordion spring open/close"
+    ]
+  },
+  "image_urls": {
+    "primary_product_hero": {
+      "url": "https://images.unsplash.com/photo-1575909812264-6902b55846ad?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2OTF8MHwxfHNlYXJjaHw0fHxkaWdpdGFsJTIwcHJvZHVjdCUyMGJvb2slMjBtb2NrdXAlMjBsYXB0b3AlMjBkZXNrJTIwbWFya2V0aW5nfGVufDB8fHx8MTc4OTU3NzMyMXww&ixlib=rb-4.1.0&q=85",
+      "alt": "Meta Ads Decode Guide - Physical and Digital Book Mockup on Studio Desk",
+      "category": "Hero Product Presentation"
+    },
+    "workspace_clean": {
+      "url": "https://images.pexels.com/photos/8534382/pexels-photo-8534382.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "alt": "Minimalist digital education workspace with laptop and guide notebook",
+      "category": "Value Section Background / About Page"
+    },
+    "office_desk_laptop": {
+      "url": "https://images.pexels.com/photos/8092404/pexels-photo-8092404.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "alt": "High focus marketing strategist workspace",
+      "category": "Case Study & Learning Environment"
+    },
+    "macbook_desk": {
+      "url": "https://images.unsplash.com/photo-1455894127589-22f75500213a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2OTF8MHwxfHNlYXJjaHwzfHxkaWdpdGFsJTIwcHJvZHVjdCUyMGJvb2slMjBtb2NrdXAlMjBsYXB0b3AlMjBkZXNrJTIwbWFya2V0aW5nfGVufDB8fHx8MTc4OTU3NzMyMXww&ixlib=rb-4.1.0&q=85",
+      "alt": "MacBook showing live digital dashboard and Meta Ads analytics",
+      "category": "Product Preview & Screenshots"
+    }
+  },
+  "key_components_to_build": {
+    "dedicated_meta_ads_landing": {
+      "path": "/meta-ads-decode",
+      "features": [
+        "Hero section with 3D-styled physical/digital book mockup & floating sample page cards",
+        "Quick info chips (Format, Page Count, Access Type, Delivery Estimate)",
+        "The Problem section: 'Why 80% of Meta Ad Campaigns Fail'",
+        "16-Step Animated Complete-System Workflow Diagram with interactive step highlights",
+        "Interactive Sample Page Viewer with high-res thumbnails and zoom preview",
+        "13-Part Curriculum Accordion Navigator with lesson breakdowns & estimated reading times",
+        "Visual Learning Tools Cards (Frameworks, Calculators, SOPs, Campaign Checklists)",
+        "Who It's For vs Who It's NOT For dual comparison cards",
+        "Case Study Cards with real business metric breakdowns",
+        "3-Option SaaS-Style Pricing Section (Digital ₹299 / Physical ₹899 / Digital+Physical Bundle)",
+        "Sticky Mobile Purchase Bar with edition picker jump button",
+        "FAQ accordion & order risk-free reassurance banner"
+      ]
+    },
+    "products_catalogue": {
+      "path": "/products",
+      "features": [
+        "Category tabs (Meta Ads, E-commerce, Email Marketing, Funnels, Notion Templates)",
+        "Search bar with live filtering",
+        "Sort dropdown (Most Popular, Price: Low to High, Newest)",
+        "Product cards with price tags, badges, ratings, and instant CTA"
+      ]
+    },
+    "checkout_and_success": {
+      "path": "/order-success",
+      "features": [
+        "Instant digital download link generator",
+        "Order summary breakdown",
+        "Shipping tracking status (for physical book buyers)",
+        "Next steps getting started guide"
+      ]
+    }
+  },
+  "instructions_to_main_agent": [
+    "Use JavaScript / JSX files (.js / .jsx) as configured in the frontend codebase.",
+    "Do NOT create or wrap output in markdown codeblocks inside this file.",
+    "Ensure every interactive element (button, link, input, tab, accordion trigger) includes a clear 'data-testid' attribute.",
+    "Do NOT use fake countdown timers, fake live buyer notifications, fake testimonials, or income claims.",
+    "Render testimonials ONLY if genuine user reviews exist; otherwise keep the section hidden or replace with verified product features.",
+    "Use Lucide-React icons throughout for clean visual alignment.",
+    "Use Shadcn UI primitives (Accordion, Tabs, Dialog, DropdownMenu, RadioGroup) wrapped in custom Tailwind styling.",
+    "Ensure dark dark mode or high-contrast dark sections use solid deep colors (#090D16, #111827) rather than purple/violet gradients.",
+    "Always provide a sticky mobile bottom purchase bar for the landing page that smooth scrolls to the edition picker."
+  ],
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": {
+    "data_testid_rule": "MUST add data-testid attribute to all interactive and key informational elements (e.g. data-testid='cta-buy-digital-button')",
+    "contrast_rule": "Normal text must meet 4.5:1 WCAG AA contrast against background. Never place dark text over dark surfaces.",
+    "spacing_rule": "Containers with borders MUST have generous internal padding (p-6, p-8, p-12) to prevent text collision.",
+    "no_purple_gradients": "Strictly refrain from using purple (#7351B7) gradients or purple glow effects.",
+    "toast_notifications": "Use 'sonner' toast library for action feedbacks (e.g. coupon applied, added to cart, copy link)."
+  }
+}
