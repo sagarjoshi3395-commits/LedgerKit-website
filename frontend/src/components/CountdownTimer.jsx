@@ -15,9 +15,13 @@ export default function CountdownTimer({ end, dark = false }) {
   const diff = target - now;
   if (Number.isNaN(target) || diff <= 0) return null;
 
-  const hours = Math.floor(diff / 3_600_000);
+  const days = Math.floor(diff / 86_400_000);
+  const hours = Math.floor((diff % 86_400_000) / 3_600_000);
   const minutes = Math.floor((diff % 3_600_000) / 60_000);
   const seconds = Math.floor((diff % 60_000) / 1000);
+  const units = days > 0
+    ? [[days, "Days"], [hours, "Hours"], [minutes, "Mins"], [seconds, "Secs"]]
+    : [[hours, "Hours"], [minutes, "Minutes"], [seconds, "Seconds"]];
   const cell = `flex min-w-[64px] flex-col items-center rounded-lg px-3 py-2 ${
     dark ? "bg-white/10 ring-1 ring-white/15" : "bg-white ring-1 ring-slate-200"
   }`;
@@ -28,7 +32,7 @@ export default function CountdownTimer({ end, dark = false }) {
         Launch Offer Ends In
       </span>
       <div className="flex items-center gap-2">
-        {[[hours, "Hours"], [minutes, "Minutes"], [seconds, "Seconds"]].map(([v, label]) => (
+        {units.map(([v, label]) => (
           <div key={label} className={cell}>
             <span className={`font-display text-xl font-extrabold tabular-nums ${dark ? "text-white" : "text-ink"}`}>
               {String(v).padStart(2, "0")}

@@ -1,8 +1,9 @@
+import { useState } from "react";
 import { Reveal } from "../Reveal";
 import { SectionHeading } from "../SectionHeading";
-import SamplePageViewer from "../SamplePageViewer";
 import CurriculumAccordion from "../CurriculumAccordion";
-import { ImagePlus, Check, LayoutGrid, Camera, FileText, ListChecks, GitFork, FileStack, ArrowRight } from "lucide-react";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "../ui/dialog";
+import { ImagePlus, Check, LayoutGrid, Camera, FileText, ListChecks, GitFork, FileStack, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 const SCREENSHOT_SLOTS = [
   "Ads Manager screenshots", "Campaign results", "Ad-set comparison screenshots",
@@ -49,20 +50,71 @@ export function RealWorldSection() {
 }
 
 export function SamplePagesSection({ product }) {
+  const pages = (product?.sample_pages || []).filter((p) => p.image);
+  const [open, setOpen] = useState(null);
+  if (!pages.length) return null;
+  const current = open !== null ? pages[open] : null;
+
   return (
-    <section id="samples" className="ink-section dot-grid-dark scroll-mt-20 py-16 sm:py-24" data-testid="samples-section">
+    <section id="samples" className="ink-section dot-grid-dark scroll-mt-20 overflow-hidden py-16 sm:py-24" data-testid="samples-section">
       <div className="container-site">
         <SectionHeading
           eyebrow="Preview Inside"
-          title="Preview Inside Meta Ads Decode"
-          description="Flip through the types of pages inside the guide — chapter openers, frameworks, cheat sheets, decision trees and case studies. Real page previews are uploaded to these slots."
+          title="A Look Inside the Actual Guide"
+          description="A quick flow through a few real pages — the remaining 130+ pages stay exclusive to buyers."
           dark
           testId="samples"
         />
-        <div className="mt-12">
-          <SamplePageViewer pages={product?.sample_pages || []} />
+      </div>
+      <div className="marquee-paused mt-12 overflow-hidden" data-testid="sample-flow">
+        <div className="animate-marquee flex w-max gap-5 pr-5">
+          {[...pages, ...pages].map((p, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => setOpen(i % pages.length)}
+              data-testid={i < pages.length ? `sample-thumb-${i}` : undefined}
+              className="w-48 shrink-0 overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-white/15 transition-transform duration-200 hover:-translate-y-1.5 sm:w-56"
+            >
+              <img src={p.image} alt={p.title} loading="lazy" className="aspect-[3/4] w-full object-cover object-top" />
+            </button>
+          ))}
         </div>
       </div>
+      <p className="mt-6 text-center font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500">
+        Tap any page to preview • Hover to pause
+      </p>
+
+      <Dialog open={open !== null} onOpenChange={() => setOpen(null)}>
+        <DialogContent className="max-w-lg p-4" data-testid="sample-dialog">
+          {current && (
+            <div>
+              <DialogTitle className="font-display text-base font-bold text-ink">{current.title}</DialogTitle>
+              <DialogDescription className="sr-only">Sample page preview from Meta Ads Decode</DialogDescription>
+              <img src={current.image} alt={current.title} className="mt-3 w-full rounded-lg ring-1 ring-slate-200" />
+              <div className="mt-4 flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={() => setOpen((open - 1 + pages.length) % pages.length)}
+                  className="inline-flex items-center gap-1 rounded-lg bg-slate-100 px-4 py-2 text-xs font-semibold text-ink hover:bg-slate-200"
+                  data-testid="sample-dialog-prev"
+                >
+                  <ChevronLeft className="h-4 w-4" /> Prev
+                </button>
+                <span className="font-mono text-[10px] uppercase tracking-widest text-slate-400">{open + 1} / {pages.length} preview pages</span>
+                <button
+                  type="button"
+                  onClick={() => setOpen((open + 1) % pages.length)}
+                  className="inline-flex items-center gap-1 rounded-lg bg-slate-100 px-4 py-2 text-xs font-semibold text-ink hover:bg-slate-200"
+                  data-testid="sample-dialog-next"
+                >
+                  Next <ChevronRight className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }

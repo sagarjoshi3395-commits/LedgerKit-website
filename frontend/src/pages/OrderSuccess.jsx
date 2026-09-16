@@ -47,7 +47,7 @@ export default function OrderSuccess() {
               <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base" data-testid="order-status-message">
                 {paid
                   ? "Your digital product is ready. Access instructions have been sent to your email."
-                  : "Thank you for your order. If your payment was completed with the payment provider, your access instructions will be sent to your email after payment confirmation. Physical editions are processed and shipped to your address."}
+                  : "Thank you for your order. If your payment was completed with the payment provider, your access instructions will be sent to your email shortly after payment confirmation."}
               </p>
 
               {order && (

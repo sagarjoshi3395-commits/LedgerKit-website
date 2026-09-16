@@ -1,4 +1,4 @@
-export function BookMockup({ size = "md", className = "", title = "META ADS DECODE", subtitle = "The Complete Digital Product & Meta Ads System", brand = "DECODE" }) {
+export function BookMockup({ size = "md", className = "", title = "META ADS DECODE", subtitle = "The Complete Digital Product Playbook", brand = "LEDGERKIT" }) {
   const dims = size === "lg" ? "w-56 sm:w-64" : size === "sm" ? "w-28" : "w-40 sm:w-44";
   const titleSize = size === "lg" ? "text-xl sm:text-2xl" : size === "sm" ? "text-[10px]" : "text-sm sm:text-base";
   const subSize = size === "lg" ? "text-[10px] sm:text-xs" : "text-[7px] sm:text-[8px]";
@@ -22,7 +22,7 @@ export function BookMockup({ size = "md", className = "", title = "META ADS DECO
           </div>
           <div className="flex items-center gap-1.5">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-orange-500" />
-            <span className={`font-mono uppercase tracking-[0.2em] text-slate-500 ${subSize}`}>Digital + Print Edition</span>
+            <span className={`font-mono uppercase tracking-[0.2em] text-slate-500 ${subSize}`}>Digital Edition • Instant Access</span>
           </div>
         </div>
       </div>

@@ -103,9 +103,6 @@ export default function ProductDetail() {
             <div className="mt-6 grid gap-2 text-xs text-slate-500">
               <span className="flex items-center gap-2"><Zap className="h-3.5 w-3.5 text-orange-600" /> {product.delivery_method || "Instant digital access after successful payment"}</span>
               <span className="flex items-center gap-2"><RotateCcw className="h-3.5 w-3.5 text-orange-600" /> Refund rules: <Link to="/legal/refund-cancellation-policy" className="underline">Refund & Cancellation Policy</Link></span>
-              {product.editions?.physical && (
-                <span className="flex items-center gap-2"><Truck className="h-3.5 w-3.5 text-orange-600" /> Physical edition available — <Link to="/legal/shipping-delivery-policy" className="underline">Shipping Policy</Link></span>
-              )}
             </div>
           </div>
         </div>

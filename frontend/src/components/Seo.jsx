@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-const SITE = "Decode";
+const SITE = "LedgerKit";
 const BASE = typeof window !== "undefined" ? window.location.origin : "";
 
 function setMeta(attr, key, content) {

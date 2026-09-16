@@ -11,7 +11,7 @@ export function Logo({ dark = false }) {
         <span className="h-2.5 w-2.5 rounded-[3px] bg-orange-500" />
       </span>
       <span className={`font-display text-lg font-extrabold tracking-tight ${dark ? "text-white" : "text-ink"}`}>
-        DECODE<span className="text-orange-600">.</span>
+        LedgerKit<span className="text-orange-600">.</span>
       </span>
     </Link>
   );

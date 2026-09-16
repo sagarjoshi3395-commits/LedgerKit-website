@@ -103,6 +103,7 @@
 
 .animate-float-soft { animation: float-soft 6s ease-in-out infinite; }
 .animate-marquee { animation: marquee-x 40s linear infinite; }
+.marquee-paused:hover .animate-marquee { animation-play-state: paused; }
 .animate-pulse-dot { animation: pulse-dot 1.8s ease-in-out infinite; }
 
 @media (prefers-reduced-motion: reduce) {

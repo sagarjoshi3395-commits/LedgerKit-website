@@ -17,9 +17,9 @@ export function PricingSection({ product, selected, onSelect }) {
     <section id="editions" className="scroll-mt-20 py-16 sm:py-24" data-testid="pricing-section">
       <div className="container-site">
         <SectionHeading
-          eyebrow="Choose Your Edition"
-          title="Choose How You Want to Read Meta Ads Decode"
-          description="Get instant digital access, order the printed physical edition, or choose both. Transparent pricing — no false scarcity."
+          eyebrow="Launch Offer"
+          title="Get the Complete Guide — Digital Edition"
+          description="One complete guide. Instant digital access on any device. Transparent pricing — no false scarcity."
           testId="pricing"
         />
         {product?.offer_end && (
@@ -30,21 +30,6 @@ export function PricingSection({ product, selected, onSelect }) {
         <div className="mt-10">
           <PricingEditions product={product} selected={selected} onSelect={onSelect} />
         </div>
-
-        <Reveal className="mt-12">
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8" data-testid="physical-gallery">
-            <h3 className="font-display text-lg font-bold text-ink">The Printed Edition</h3>
-            <p className="mt-1 text-sm text-slate-500">Real photographs of the physical book are uploaded to these slots.</p>
-            <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-              {(product?.physical_gallery_slots || []).map((slot, i) => (
-                <div key={slot} className="flex aspect-square flex-col items-center justify-center gap-1.5 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-3 text-center" data-testid={`physical-slot-${i}`}>
-                  <ImagePlus className="h-4 w-4 text-slate-400" />
-                  <span className="text-[11px] font-medium leading-tight text-slate-500">{slot}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </Reveal>
 
         <div className="mx-auto mt-12 grid max-w-4xl gap-4 sm:grid-cols-3" data-testid="checkout-trust">
           {TRUST_ITEMS.map((item, i) => (
@@ -92,18 +77,19 @@ export function FinalCtaSection({ product, onSelect }) {
           </p>
         </Reveal>
         <Reveal delay={0.12}>
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row" data-testid="final-cta-buttons">
+          <div className="mt-10 flex flex-col items-center justify-center gap-3" data-testid="final-cta-buttons">
             {editions.digital && (
-              <CheckoutButton product={product} edition="digital" testId="final-buy-digital" className="w-full bg-orange-600 px-6 py-4 text-sm text-white hover:bg-orange-700 sm:w-auto" />
+              <CheckoutButton product={product} edition="digital" testId="final-buy-digital" className="bg-orange-600 px-10 py-4 text-base text-white hover:bg-orange-700" />
             )}
-            {editions.physical && (
-              <CheckoutButton product={product} edition="physical" testId="final-buy-physical" className="w-full bg-white/10 px-6 py-4 text-sm text-white ring-1 ring-white/20 hover:bg-white/15 sm:w-auto" />
-            )}
-            {editions.bundle && (
-              <CheckoutButton product={product} edition="bundle" testId="final-buy-bundle" className="w-full bg-white/10 px-6 py-4 text-sm text-white ring-1 ring-white/20 hover:bg-white/15 sm:w-auto" />
-            )}
+            <button
+              type="button"
+              onClick={() => document.getElementById("samples")?.scrollIntoView({ behavior: "smooth" })}
+              data-testid="final-preview-link"
+              className="text-sm font-semibold text-slate-300 underline-offset-4 transition-colors hover:text-white hover:underline"
+            >
+              Preview sample pages first
+            </button>
           </div>
-          <p className="mt-5 text-sm font-medium text-slate-300">Choose the format that works best for you.</p>
           <p className="mx-auto mt-3 max-w-xl font-mono text-[10px] uppercase leading-relaxed tracking-[0.15em] text-slate-500">
             Digital Product • Secure Checkout • Instant Access
           </p>

@@ -31,6 +31,17 @@ Students; side-income explorers; beginners in digital business; existing digital
 - curl: health, product list/detail, filtered/sorted search, order intent (ORD-… created, empty checkout_url → frontend toast), contact POST, recent-summary=0, admin 503 without key
 - Screenshots: home hero, decode hero/workflow/pricing/curriculum accordion, mobile 390px hero + sticky bar scroll-to-editions, products store search, contact form submit (toast confirmed), refund policy page
 
+## Update (2026-09-16, v2 — per user request)
+- Brand renamed to **LedgerKit** everywhere (logo, settings, SEO, legal, about, FAQs); support = ledgerkitsupport@gmail.com only (phone removed)
+- Digital-only: physical book + bundle editions removed everywhere; shipping policy page removed; ₹1699 regular → ₹299 launch price with auto savings (82% / ₹1,400)
+- Buy buttons direct-redirect to SuperProfile checkout: https://superprofile.bio/vp/6aab089e0cce8b001386b6f9 (order intent still recorded server-side; UTMs preserved)
+- Real launch countdown (offer_end = 2026-09-30 23:59 IST, editable in seed_data.py) shown at pricing + sticky bar; auto-hides after expiry
+- Fixed bottom checkout bar on ALL screens (price + timer + Buy Now direct redirect)
+- City-based purchase popups (PurchaseNotifications.jsx, config PURCHASE_PINGS in lib/siteContent.js — set enabled:false to disable; auto-switches to verified mode when genuine paid orders exist)
+- Hero repositioned: "Build Digital Products. Learn to Scale Them." + real Ads Manager dashboard page behind book mockup; copy now emphasizes complete digital-product guide with Meta Ads examples inside
+- Sample pages: 5 real book pages (user-provided, in /public/samples/) shown as auto-scrolling flow strip (hover to pause, tap to open preview dialog) — rest of pages kept exclusive
+- "What This Guide Is Not" reframed to positive "Go In With the Right Expectations"
+
 ## Backlog (prioritized)
 - **P0**: Configure real per-edition checkout URLs (SuperProfile) in product data; set bundle price; set ADMIN_KEY in backend/.env; replace [PLACEHOLDER] business details (support email/phone/address, refund/shipping timelines); upload real sample pages, Ads Manager screenshots, physical-book photos
 - **P1**: Direct Razorpay integration (create order → checkout → server-side signature verify → paid status → delivery email → /order-success); customer download/access flow; admin UI for editing products/settings/testimonials; real testimonials once collected

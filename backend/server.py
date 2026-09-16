@@ -263,15 +263,12 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 @app.on_event("startup")
 async def seed_database():
     await db.products.create_index("slug", unique=True)
-    if await db.products.count_documents({}) == 0:
-        doc = dict(META_ADS_DECODE_PRODUCT)
-        doc["created_at"] = datetime.now(timezone.utc).isoformat()
-        await db.products.insert_one(doc)
-        logger.info("Seeded Meta Ads Decode product")
+    doc = dict(META_ADS_DECODE_PRODUCT)
+    doc["created_at"] = datetime.now(timezone.utc).isoformat()
+    await db.products.update_one({"slug": doc["slug"]}, {"$set": doc}, upsert=True)
     if await db.categories.count_documents({}) == 0:
         await db.categories.insert_many([dict(c) for c in CATEGORIES])
-    if not await db.settings.find_one({"key": "site"}):
-        await db.settings.insert_one(dict(SITE_SETTINGS))
+    await db.settings.update_one({"key": "site"}, {"$set": SITE_SETTINGS}, upsert=True)
 
 
 @app.on_event("shutdown")

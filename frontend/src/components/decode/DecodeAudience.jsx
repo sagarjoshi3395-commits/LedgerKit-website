@@ -1,6 +1,14 @@
 import { Reveal } from "../Reveal";
 import { SectionHeading } from "../SectionHeading";
-import { XCircle, Gift, FlaskConical, Trophy, Target } from "lucide-react";
+import { CheckCircle2, Gift, FlaskConical, Trophy, Target } from "lucide-react";
+
+const EXPECTATIONS = [
+  "A complete learning system you study and apply — not a shortcut or overnight formula",
+  "Frameworks that guide your testing — your own experiments still matter",
+  "Real campaign examples that show how decisions are made — not promises of specific outcomes",
+  "Principles you adapt to your product and market — not a rigid one-size-fits-all template",
+  "Original workflows, checklists and case studies — no recycled internet content",
+];
 
 const CASE_STUDIES = [
   { icon: FlaskConical, title: "Campaign Setup Context", text: "Understand why the campaign was structured a particular way — objective, audiences, budgets and creative logic." },
@@ -33,18 +41,18 @@ export function AudienceSection({ product }) {
         <div className="mt-16 grid gap-8 lg:grid-cols-2">
           <Reveal>
             <div className="h-full rounded-2xl border border-slate-200 bg-white p-8" data-testid="not-for-card">
-              <span className="eyebrow">Honest Expectations</span>
-              <h3 className="mt-3 font-display text-xl font-bold text-ink sm:text-2xl">What This Guide Is Not</h3>
+              <span className="eyebrow">Read This First</span>
+              <h3 className="mt-3 font-display text-xl font-bold text-ink sm:text-2xl">Go In With the Right Expectations</h3>
               <ul className="mt-6 space-y-3">
-                {notFor.map((item, i) => (
+                {EXPECTATIONS.map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
-                    <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-500" />
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-orange-500" />
                     <span>{item}</span>
                   </li>
                 ))}
               </ul>
               <p className="mt-6 rounded-lg bg-orange-50 p-4 text-sm font-medium leading-relaxed text-orange-900 ring-1 ring-orange-200">
-                It is a structured framework for understanding, testing and improving your digital-product and Meta Ads system.
+                It's built to make you a sharper, more confident operator — the results come from how you apply it to your own business.
               </p>
             </div>
           </Reveal>

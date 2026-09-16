@@ -23,7 +23,6 @@ export const FOOTER_LEGAL = [
   { label: "Terms & Conditions", to: "/legal/terms-and-conditions" },
   { label: "Privacy Policy", to: "/legal/privacy-policy" },
   { label: "Refund & Cancellation Policy", to: "/legal/refund-cancellation-policy" },
-  { label: "Shipping & Delivery Policy", to: "/legal/shipping-delivery-policy" },
   { label: "Digital Delivery Policy", to: "/legal/digital-delivery-policy" },
   { label: "Disclaimer", to: "/legal/disclaimer" },
 ];
@@ -37,15 +36,24 @@ export const CONTACT_TOPICS = [
 ];
 
 export const SITE_FAQS = [
-  { q: "What does Decode sell?", a: "Practical digital educational products — guides, ebooks, templates and resources that turn complicated business, marketing and advertising concepts into structured, step-by-step systems. Select titles are also available as printed books." },
-  { q: "How do I receive my digital product?", a: "Digital access is provided after successful payment confirmation, through the delivery method configured for that product (download page, email or a platform such as SuperProfile). See our Digital Delivery Policy for details." },
-  { q: "Do you sell physical books?", a: "Yes — Meta Ads Decode is available as a Digital Edition, a Physical Book, or a Complete Bundle with both. Physical orders are shipped to the address you provide at checkout. See the Shipping & Delivery Policy." },
+  { q: "What does LedgerKit sell?", a: "Practical digital educational products — guides, ebooks, templates and resources that turn complicated business, marketing and advertising concepts into structured, step-by-step systems. All products are currently digital with instant access." },
+  { q: "How do I receive my product?", a: "Access is provided instantly after successful payment confirmation, through the delivery method configured for that product (download page, email or a platform such as SuperProfile). See our Digital Delivery Policy for details." },
+  { q: "Is Meta Ads Decode only about Meta Ads?", a: "No. It's a complete digital product guide — research, product creation, sales pages, offers, tracking and business measurement — with Meta Ads taught through real campaign examples and case studies." },
   { q: "What payment methods are supported?", a: "Payments are handled by our configured payment provider. The available methods (cards, UPI, netbanking etc.) depend on the provider shown at checkout." },
-  { q: "What is your refund policy?", a: "Refunds differ for digital editions, physical books and bundles. Please read the Refund & Cancellation Policy linked in the footer before purchasing." },
+  { q: "What is your refund policy?", a: "Please read the Refund & Cancellation Policy linked in the footer before purchasing — it explains the exact rules for digital products." },
   { q: "Do your guides guarantee business or advertising results?", a: "No. Our products are educational. Outcomes depend on your product, market, offer, creative, budget, competition and execution." },
-  { q: "Is Decode affiliated with Meta?", a: "No. This is an independent educational business and is not sponsored, endorsed or administered by Meta Platforms, Inc." },
-  { q: "How can I contact support?", a: "Use the Contact page form, or reach us via the support email and phone listed on the Contact page once configured." },
+  { q: "Is LedgerKit affiliated with Meta?", a: "No. This is an independent educational business and is not sponsored, endorsed or administered by Meta Platforms, Inc." },
+  { q: "How can I contact support?", a: "Use the Contact page form, or email us at ledgerkitsupport@gmail.com." },
 ];
+
+// Social-proof purchase popups. Set enabled: false to turn off completely.
+// When genuine paid orders exist in the backend, the popup automatically switches to verified mode.
+export const PURCHASE_PINGS = {
+  enabled: true,
+  cities: ["Mumbai", "Delhi", "Bengaluru", "Pune", "Hyderabad", "Jaipur", "Ahmedabad", "Surat", "Lucknow", "Indore", "Nagpur", "Kochi", "Bhopal", "Chandigarh"],
+  minDelaySec: 12,
+  maxDelaySec: 45,
+};
 
 export const VALUE_CARDS = [
   { key: "research", title: "Digital Product Research", text: "Find opportunities before investing time building products." },

@@ -2,9 +2,9 @@
 
 SITE_SETTINGS = {
     "key": "site",
-    "brand_name": "Decode",
+    "brand_name": "LedgerKit",
     "tagline": "Practical Digital Guides",
-    "support_email": "",
+    "support_email": "ledgerkitsupport@gmail.com",
     "support_phone": "",
     "business_address": "",
     "support_hours": "",
@@ -192,49 +192,40 @@ CURRICULUM = [
 ]
 
 SAMPLE_PAGES = [
-    {"label": "Sample 01", "title": "Chapter Opener — Don't Build First, Research First", "kind": "Chapter"},
-    {"label": "Sample 02", "title": "Digital Product Opportunity Scorecard", "kind": "Framework"},
-    {"label": "Sample 03", "title": "Before → After Transformation Worksheet", "kind": "Worksheet"},
-    {"label": "Sample 04", "title": "Meta Ad Library Research Walkthrough", "kind": "Screenshot"},
-    {"label": "Sample 05", "title": "Hook → Body → CTA Creative Structure", "kind": "Framework"},
-    {"label": "Sample 06", "title": "Meta Ads 101 Metrics Cheat Sheet", "kind": "Cheat Sheet"},
-    {"label": "Sample 07", "title": "Campaign Diagnostic Flow", "kind": "Decision Tree"},
-    {"label": "Sample 08", "title": "Creative Testing Matrix (Printable)", "kind": "Template"},
-    {"label": "Sample 09", "title": "Unit Economics — What One Order Really Earns", "kind": "Breakdown"},
-    {"label": "Sample 10", "title": "Case Study — Ad Set Winners & Losers", "kind": "Case Study"},
+    {"label": "Page 35", "title": "The 3-Second Hook — 6 Proven Hook Types", "kind": "Chapter", "image": "/samples/page-hooks.png"},
+    {"label": "Page 37", "title": "Build a Page-View Retargeting Campaign", "kind": "Framework", "image": "/samples/page-retargeting.png"},
+    {"label": "Page 45", "title": "Reading Ad Set Performance — Real Ads Manager Data", "kind": "Real Example", "image": "/samples/page-adset-performance.png"},
+    {"label": "Page 64", "title": "When an Ad Stops Working — Creative Fatigue Signals", "kind": "Chapter", "image": "/samples/page-creative-fatigue.png"},
+    {"label": "Page 114", "title": "Real Case Study — Ad-Level Winner", "kind": "Case Study", "image": "/samples/page-ad-winner.png"},
 ]
 
-PHYSICAL_GALLERY_SLOTS = [
-    "Front cover photo", "Back cover photo", "Book spine",
-    "Book held in hand", "Open-page spread", "Packaging photo",
-]
+PHYSICAL_GALLERY_SLOTS = []
 
 META_ADS_DECODE_PRODUCT = {
     "slug": "meta-ads-decode",
     "title": "Meta Ads Decode Guide",
     "short_title": "Meta Ads Decode",
-    "tagline": "Research. Build. Test. Scale. — A practical digital product & Meta Ads guide built from 3 years of real experience.",
+    "tagline": "The complete digital product playbook — from idea research to launch, offers, tracking and ad scaling — with real Meta Ads campaigns inside.",
     "description": (
-        "A complete digital-product and Meta Ads operating system. Learn the full journey — "
-        "finding and validating product opportunities, creating the product, building the sales page, "
-        "setting up tracking, creating ads, testing campaigns, analysing results and scaling what works. "
-        "Built from practical workflows, real-life campaign examples, frameworks, checklists and case studies "
-        "collected over 3 years of hands-on experience."
+        "A complete digital product guide covering the full journey — finding and validating product ideas, "
+        "creating the product, building the sales page, setting up tracking, crafting creatives, and running "
+        "Meta Ads with real campaign examples, testing, analysis and scaling. Built from practical workflows, "
+        "real Ads Manager examples, frameworks, checklists and case studies collected over 3 years of hands-on experience."
     ),
-    "category": "meta-ads",
+    "category": "digital-products",
     "product_type": "Guide",
-    "format": "Digital PDF + Printed Book",
-    "delivery_method": "Instant digital access after payment; physical edition shipped to your address",
+    "format": "Digital PDF",
+    "delivery_method": "Instant digital access after successful payment",
     "cta_text": "Get Meta Ads Decode",
     "currency": "INR",
-    "regular_price": 999,
+    "regular_price": 1699,
     "sale_price": 299,
     "pages_count": "135+ Core Pages + Case Studies",
     "featured": True,
     "is_new": True,
     "bestseller": False,
     "status": "published",
-    "offer_end": None,
+    "offer_end": "2026-09-30T18:29:59+00:00",
     "landing_path": "/meta-ads-decode",
     "experience_years": 3,
     "whats_included": [
@@ -293,49 +284,16 @@ META_ADS_DECODE_PRODUCT = {
             "label": "Digital Edition",
             "badge": "Instant Access",
             "price": 299,
-            "cta": "Get Digital Edition",
-            "note": "Digital Product • No Physical Delivery",
-            "checkout_url": "",
+            "cta": "Get Instant Access",
+            "note": "Secure Checkout • Digital Product • Instant Access",
+            "checkout_url": "https://superprofile.bio/vp/6aab089e0cce8b001386b6f9",
             "features": [
-                "Complete Meta Ads Decode Guide",
+                "Complete Meta Ads Decode Guide — the full digital product system",
                 "Digital PDF / ebook edition",
                 "Read on phone, tablet or laptop",
                 "Searchable digital format where supported",
-                "Instant digital access after successful payment",
+                "Real Meta Ads campaign examples & case studies",
                 "Bonus printable resources included",
-            ],
-        },
-        "physical": {
-            "label": "Physical Book",
-            "badge": "Printed Edition",
-            "price": 899,
-            "cta": "Order Physical Book",
-            "note": "Physical Product • Shipping Required",
-            "checkout_url": "",
-            "shipping_charge_label": "[FREE SHIPPING / ₹___ SHIPPING — CONFIGURE]",
-            "dispatch_label": "[CONFIGURE DISPATCH TIMELINE]",
-            "delivery_label": "[CONFIGURE DELIVERY ESTIMATE]",
-            "features": [
-                "Professionally printed physical book",
-                "Complete Meta Ads Decode content",
-                "Real campaign examples & frameworks",
-                "Checklists & case studies",
-                "Delivered to your address",
-            ],
-        },
-        "bundle": {
-            "label": "Complete Bundle",
-            "badge": "Best Value",
-            "price": None,
-            "cta": "Get Complete Bundle",
-            "note": "Digital access immediately + physical copy shipped separately",
-            "checkout_url": "",
-            "features": [
-                "Digital Edition included",
-                "Physical printed book included",
-                "Immediate digital access after successful payment",
-                "Physical copy delivered separately",
-                "Complete bonus resources & printables",
             ],
         },
     },

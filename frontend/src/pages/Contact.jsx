@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Mail, Phone, MapPin, Clock, Building2, Send, Loader2 } from "lucide-react";
+import { Mail, MapPin, Clock, Building2, Send, Loader2 } from "lucide-react";
 import { api } from "../lib/api";
 import Seo from "../components/Seo";
 import { Input } from "../components/ui/input";
@@ -65,7 +65,6 @@ export default function Contact() {
           <div className="space-y-6 rounded-2xl border border-slate-200 bg-white p-7 lg:col-span-2" data-testid="contact-info-card">
             <InfoRow icon={Building2} label="Business / Brand Name" value={settings?.brand_name} testId="contact-brand" />
             <InfoRow icon={Mail} label="Support Email" value={settings?.support_email} testId="contact-email" />
-            <InfoRow icon={Phone} label="Phone" value={settings?.support_phone} testId="contact-phone" />
             <InfoRow icon={MapPin} label="Business Address" value={settings?.business_address} testId="contact-address" />
             <InfoRow icon={Clock} label="Support Hours" value={settings?.support_hours} testId="contact-hours" />
             {settings?.response_time && (

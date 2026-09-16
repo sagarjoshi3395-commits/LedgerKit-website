@@ -12,7 +12,7 @@ export default function FaqPage() {
   };
   return (
     <main className="py-14 sm:py-20" data-testid="faq-page">
-      <Seo title="FAQ" description="Frequently asked questions about Decode digital guides, delivery, payments, refunds and physical book orders." path="/faq" jsonLd={faqJsonLd} />
+      <Seo title="FAQ" description="Frequently asked questions about LedgerKit digital guides, delivery, payments and refunds." path="/faq" jsonLd={faqJsonLd} />
       <div className="container-site max-w-3xl">
         <span className="eyebrow">Help Centre</span>
         <h1 className="mt-3 font-display text-4xl font-extrabold tracking-tight text-ink sm:text-5xl" data-testid="faq-title">Frequently Asked Questions</h1>

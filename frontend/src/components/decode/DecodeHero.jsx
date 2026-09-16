@@ -42,15 +42,15 @@ export default function DecodeHero({ product, onBuy, onPreview }) {
           </Reveal>
           <Reveal delay={0.08}>
             <h1 className="mt-5 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-6xl" data-testid="hero-title">
-              Research. Build.<br />Test. <span className="text-orange-500">Scale.</span>
+              Build Digital Products.<br /><span className="text-orange-500">Learn to Scale Them.</span>
             </h1>
           </Reveal>
           <Reveal delay={0.16}>
             <p className="mt-5 text-base font-medium text-slate-300 md:text-lg" data-testid="hero-subtitle">
-              A practical digital product &amp; Meta Ads guide built from 3 years of real experience.
+              A complete digital product guide — with real Meta Ads campaigns, examples and case studies inside.
             </p>
             <p className="mt-4 max-w-xl text-sm leading-relaxed text-slate-400 sm:text-base">
-              Learn the complete process — from finding and validating digital-product opportunities to creating the product, building the sales page, setting up tracking, creating ads, testing campaigns, analysing results and scaling what works.
+              Learn the full journey — research and validate an idea, create the product, build the sales page, set up tracking, craft scroll-stopping creatives, then test, analyse and scale ad campaigns. One connected system, taught through real examples from 3 years of hands-on work.
             </p>
           </Reveal>
           <Reveal delay={0.24}>
@@ -73,7 +73,7 @@ export default function DecodeHero({ product, onBuy, onPreview }) {
               </button>
             </div>
             <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.18em] text-slate-500">
-              Available as Digital Edition, Physical Book or Complete Bundle
+              Instant Digital Access • Read on Phone, Tablet or Desktop
             </p>
           </Reveal>
           <Reveal delay={0.3}>
@@ -88,7 +88,16 @@ export default function DecodeHero({ product, onBuy, onPreview }) {
         </div>
 
         <div className="relative mx-auto hidden w-full max-w-md justify-center sm:flex lg:max-w-none" data-testid="hero-visual">
-          <Reveal delay={0.2}>
+          <Reveal delay={0.1} className="absolute -left-10 top-6 hidden lg:block">
+            <img
+              src="/samples/page-adset-performance.png"
+              alt="Real Meta Ads Manager results breakdown from inside the guide"
+              loading="lazy"
+              className="w-64 -rotate-6 rounded-xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] ring-1 ring-white/20"
+              data-testid="hero-dashboard-image"
+            />
+          </Reveal>
+          <Reveal delay={0.2} className="relative z-10">
             <div className="animate-float-soft">
               <BookMockup size="lg" />
             </div>

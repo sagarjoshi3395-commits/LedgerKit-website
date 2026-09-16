@@ -21,7 +21,7 @@ export default function About() {
             We Turn Complex Subjects Into Understandable Systems
           </h1>
           <p className="mt-6 text-base leading-relaxed text-slate-600 md:text-lg">
-            Decode creates practical digital educational products — guides, ebooks, templates and tools — designed to simplify complicated business, marketing and advertising topics into structured, step-by-step systems.
+            LedgerKit creates practical digital educational products — guides, ebooks, templates and tools — designed to simplify complicated business, marketing and advertising topics into structured, step-by-step systems.
           </p>
           <p className="mt-4 text-base leading-relaxed text-slate-600">
             Our work is built around practical workflows and real examples rather than theory alone. We believe educational products should be honest about what they can and cannot do — which is why you won't find income promises, fabricated reviews or fake urgency here.

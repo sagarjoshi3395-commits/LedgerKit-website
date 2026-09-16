@@ -79,7 +79,7 @@ function FeaturedProduct({ product }) {
               {product.title}
             </h2>
             <p className="mt-5 max-w-xl text-sm leading-relaxed text-slate-400 sm:text-base">
-              A complete digital-product and Meta Ads operating system — covering the journey from research and product creation to campaign testing, analysis and scaling. Built from 3 years of practical experience.
+              A complete digital product playbook — from idea research and product creation to launch, tracking and ad scaling — with real Meta Ads campaign examples inside. Built from 3 years of practical experience.
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
               {["13 Parts", "Real Case Studies", "Bonus Toolkit", "Printable Frameworks"].map((chip) => (
