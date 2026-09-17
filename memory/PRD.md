@@ -73,6 +73,8 @@ Students; side-income explorers; beginners in digital business; existing digital
 - All 3 redirect paths browser-verified (SuperProfile shows a Vercel bot-check only to headless test browsers — normal for real visitors)
 - NOTE: standalone AI-guide-only and Prompt-guide-only payment pages don't exist yet — their store/bump card buttons show "not connected" until user creates those SuperProfile pages (or points them at combo links)
 
+- Sticky bottom bar now has a one-tap Guide (₹299) / Bundle (₹499, "Save More" badge) switch; Buy Now label + redirect follow the selection (bundle → ...9c19f link). Mobile-verified, no overflow
+
 ## Backlog (prioritized)
 - **P0**: Configure real per-edition checkout URLs (SuperProfile) in product data; set bundle price; set ADMIN_KEY in backend/.env; replace [PLACEHOLDER] business details (support email/phone/address, refund/shipping timelines); upload real sample pages, Ads Manager screenshots, physical-book photos
 - **P1**: Direct Razorpay integration (create order → checkout → server-side signature verify → paid status → delivery email → /order-success); customer download/access flow; admin UI for editing products/settings/testimonials; real testimonials once collected
