@@ -36,8 +36,8 @@ export default function About() {
             {PRINCIPLES.map((p, i) => (
               <Reveal key={p.title} delay={i * 0.07}>
                 <div className="card-lift h-full rounded-xl border border-slate-200 bg-white p-7">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-100">
-                    <p.icon className="h-5 w-5 text-orange-600" />
+                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-100">
+                    <p.icon className="h-5 w-5 text-brand-600" />
                   </span>
                   <h3 className="mt-4 font-display text-lg font-bold text-ink">{p.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-slate-600">{p.text}</p>

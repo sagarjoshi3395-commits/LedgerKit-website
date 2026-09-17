@@ -11,12 +11,12 @@ export default function PricingEditions({ product }) {
 
   return (
     <div className="mx-auto max-w-xl" data-testid="pricing-editions">
-      <div className="card-lift relative flex flex-col rounded-2xl border border-orange-500 bg-white p-6 ring-2 ring-orange-500/30 sm:p-8" data-testid="edition-card-digital">
-        <span className="absolute -top-3 left-6 rounded-full bg-orange-600 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-white">
+      <div className="card-lift relative flex flex-col rounded-2xl border border-brand-500 bg-white p-6 ring-2 ring-brand-500/30 sm:p-8" data-testid="edition-card-digital">
+        <span className="absolute -top-3 left-6 rounded-full bg-brand-600 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-white">
           {edition.badge || "Instant Access"}
         </span>
         {pct != null && (
-          <span className="absolute -top-3 right-6 rounded-full bg-ink-surface px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-orange-400" data-testid="edition-discount-badge">
+          <span className="absolute -top-3 right-6 rounded-full bg-ink-surface px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-brand-400" data-testid="edition-discount-badge">
             {pct}% Off — Launch Offer
           </span>
         )}
@@ -40,7 +40,7 @@ export default function PricingEditions({ product }) {
           product={product}
           edition="digital"
           testId="buy-digital-button"
-          className="mt-6 w-full bg-orange-600 px-5 py-4 text-base text-white hover:bg-orange-700"
+          className="mt-6 w-full bg-brand-600 px-5 py-4 text-base text-white hover:bg-brand-700"
         />
         <p className="mt-3 text-center font-mono text-[10px] uppercase tracking-wider text-slate-400">
           {edition.note || "Secure Checkout • Digital Product • Instant Access"}

@@ -37,8 +37,8 @@ export function ExperienceSection() {
           {EXPERIENCE_CARDS.map((card, i) => (
             <Reveal key={card.title} delay={i * 0.06}>
               <div className="card-lift h-full rounded-xl border border-slate-200 bg-white p-6" data-testid={`experience-card-${i}`}>
-                <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-100">
-                  <card.icon className="h-5 w-5 text-orange-600" />
+                <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-100">
+                  <card.icon className="h-5 w-5 text-brand-600" />
                 </span>
                 <h3 className="mt-4 font-display text-base font-bold text-ink">{card.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-slate-600">{card.text}</p>
@@ -65,14 +65,14 @@ export function ProblemSection() {
           {CHALLENGES.map((item, i) => (
             <Reveal key={item} delay={i * 0.04}>
               <div className="flex h-full items-start gap-3 rounded-xl border border-slate-200 bg-[#FAFAFA] p-5" data-testid={`problem-card-${i}`}>
-                <AlertCircle className="mt-0.5 h-4.5 w-4.5 shrink-0 text-orange-600" />
+                <AlertCircle className="mt-0.5 h-4.5 w-4.5 shrink-0 text-brand-600" />
                 <span className="text-sm font-medium leading-relaxed text-slate-700">{item}</span>
               </div>
             </Reveal>
           ))}
         </div>
         <Reveal className="mt-12 flex flex-col items-center gap-4 text-center">
-          <ArrowDown className="h-5 w-5 animate-pulse-dot text-orange-600" />
+          <ArrowDown className="h-5 w-5 animate-pulse-dot text-brand-600" />
           <p className="max-w-2xl text-base font-medium text-ink md:text-lg">
             Sales Engine replaces guessing with a structured operating framework — the same workflow used across 3 years of real campaigns.
           </p>

@@ -8,10 +8,10 @@ export function Logo({ dark = false }) {
   return (
     <Link to="/" className="flex items-center gap-2" data-testid="logo-link">
       <span className="flex h-7 w-7 items-center justify-center rounded-md bg-ink-surface">
-        <span className="h-2.5 w-2.5 rounded-[3px] bg-orange-500" />
+        <span className="h-2.5 w-2.5 rounded-[3px] bg-[#FFD400]" />
       </span>
       <span className={`font-display text-lg font-extrabold tracking-tight ${dark ? "text-white" : "text-ink"}`}>
-        LedgerKit<span className="text-orange-600">.</span>
+        LedgerKit<span className="text-brand-600">.</span>
       </span>
     </Link>
   );
@@ -90,7 +90,7 @@ export default function Navbar() {
                 <Link
                   to="/meta-ads-decode#editions"
                   data-testid="mobile-nav-cta"
-                  className="mt-4 inline-flex items-center justify-center gap-1.5 rounded-lg bg-orange-600 px-4 py-3 text-sm font-semibold text-white"
+                  className="mt-4 inline-flex items-center justify-center gap-1.5 rounded-lg bg-brand-600 px-4 py-3 text-sm font-semibold text-white"
                 >
                   Get the Guide <ArrowRight className="h-4 w-4" />
                 </Link>

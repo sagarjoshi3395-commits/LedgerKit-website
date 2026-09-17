@@ -48,7 +48,7 @@ export default function ProductDetail() {
     return (
       <div className="container-site py-24 text-center" data-testid="product-not-found">
         <h1 className="font-display text-3xl font-extrabold text-ink">Product not found</h1>
-        <Link to="/products" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-orange-600">Back to all products <ArrowRight className="h-4 w-4" /></Link>
+        <Link to="/products" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-600">Back to all products <ArrowRight className="h-4 w-4" /></Link>
       </div>
     );
   }
@@ -93,7 +93,7 @@ export default function ProductDetail() {
               )}
             </div>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <CheckoutButton product={product} edition="digital" testId="product-buy-button" className="bg-orange-600 px-7 py-4 text-sm text-white hover:bg-orange-700" />
+              <CheckoutButton product={product} edition="digital" testId="product-buy-button" className="bg-brand-600 px-7 py-4 text-sm text-white hover:bg-brand-700" />
               {hasDedicatedPage && (
                 <Link to="/meta-ads-decode" data-testid="product-dedicated-page-link" className="inline-flex items-center justify-center gap-2 rounded-lg bg-ink-surface px-7 py-4 text-sm font-semibold text-white hover:bg-ink">
                   View Full Details <ArrowRight className="h-4 w-4" />
@@ -101,8 +101,8 @@ export default function ProductDetail() {
               )}
             </div>
             <div className="mt-6 grid gap-2 text-xs text-slate-500">
-              <span className="flex items-center gap-2"><Zap className="h-3.5 w-3.5 text-orange-600" /> {product.delivery_method || "Instant digital access after successful payment"}</span>
-              <span className="flex items-center gap-2"><RotateCcw className="h-3.5 w-3.5 text-orange-600" /> Refund rules: <Link to="/legal/refund-cancellation-policy" className="underline">Refund & Cancellation Policy</Link></span>
+              <span className="flex items-center gap-2"><Zap className="h-3.5 w-3.5 text-brand-600" /> {product.delivery_method || "Instant digital access after successful payment"}</span>
+              <span className="flex items-center gap-2"><RotateCcw className="h-3.5 w-3.5 text-brand-600" /> Refund rules: <Link to="/legal/refund-cancellation-policy" className="underline">Refund & Cancellation Policy</Link></span>
             </div>
           </div>
         </div>
@@ -149,7 +149,7 @@ export default function ProductDetail() {
         <div className="container-site text-center">
           <h2 className="font-display text-2xl font-extrabold text-white sm:text-3xl">Ready to get started?</h2>
           <div className="mt-6 flex justify-center">
-            <CheckoutButton product={product} edition="digital" testId="product-final-buy-button" className="bg-orange-600 px-8 py-4 text-sm text-white hover:bg-orange-700" />
+            <CheckoutButton product={product} edition="digital" testId="product-final-buy-button" className="bg-brand-600 px-8 py-4 text-sm text-white hover:bg-brand-700" />
           </div>
           <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-slate-500">Secure Checkout • Digital Product • Instant Access</p>
         </div>

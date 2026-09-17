@@ -20,15 +20,15 @@ export function BookMockup({ size = "md", className = "", title = "DIGITAL PRODU
         <div className="absolute inset-0 dot-grid-dark opacity-60" />
         <div className="relative h-full flex flex-col justify-between p-[9%] pl-[14%]">
           <div>
-            <div className="font-mono text-orange-500 font-bold tracking-[0.25em] text-[8px] sm:text-[10px]">{brand}</div>
-            <div className="mt-1 h-px w-8 bg-orange-500" />
+            <div className="font-mono text-brand-500 font-bold tracking-[0.25em] text-[8px] sm:text-[10px]">{brand}</div>
+            <div className="mt-1 h-px w-8 bg-brand-500" />
           </div>
           <div>
             <div className={`font-display font-extrabold text-white leading-[1.05] tracking-tight ${titleSize}`}>{title}</div>
             <div className={`mt-2 text-slate-400 leading-snug ${subSize}`}>{subtitle}</div>
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-orange-500" />
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand-500" />
             <span className={`font-mono uppercase tracking-[0.2em] text-slate-500 ${subSize}`}>Digital Edition • Instant Access</span>
           </div>
         </div>

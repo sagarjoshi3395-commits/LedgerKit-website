@@ -16,8 +16,19 @@ module.exports = {
             colors: {
                 ink: {
                     DEFAULT: '#0F172A',
-                    surface: '#090D16',
-                    card: '#111827',
+                    surface: '#0B1437',
+                    card: '#141D42',
+                },
+                brand: {
+                    50: '#F3F1FD',
+                    100: '#EAE7FB',
+                    200: '#D6D0F8',
+                    300: '#B3A8F2',
+                    400: '#FFD400',
+                    500: '#2E1AC8',
+                    600: '#2E1AC8',
+                    700: '#2213A0',
+                    900: '#150C66',
                 },
                 ember: {
                     DEFAULT: '#EA580C',

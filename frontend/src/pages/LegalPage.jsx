@@ -27,7 +27,7 @@ export default function LegalPage() {
     return (
       <div className="container-site py-24 text-center" data-testid="legal-not-found">
         <h1 className="font-display text-3xl font-extrabold text-ink">Page not found</h1>
-        <Link to="/" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-orange-600">Back to home <ArrowRight className="h-4 w-4" /></Link>
+        <Link to="/" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-600">Back to home <ArrowRight className="h-4 w-4" /></Link>
       </div>
     );
   }

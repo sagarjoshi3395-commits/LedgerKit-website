@@ -33,7 +33,7 @@ export function PricingSection({ product, selected, onSelect }) {
           {TRUST_ITEMS.map((item, i) => (
             <Reveal key={item.title} delay={i * 0.06}>
               <div className="flex h-full flex-col items-center gap-2 rounded-xl border border-slate-200 bg-white p-6 text-center">
-                <item.icon className="h-5 w-5 text-orange-600" />
+                <item.icon className="h-5 w-5 text-brand-600" />
                 <h4 className="font-display text-sm font-bold text-ink">{item.title}</h4>
                 <p className="text-xs leading-relaxed text-slate-500">{item.text}</p>
               </div>
@@ -77,7 +77,7 @@ export function FinalCtaSection({ product, onSelect }) {
         <Reveal delay={0.12}>
           <div className="mt-10 flex flex-col items-center justify-center gap-3" data-testid="final-cta-buttons">
             {editions.digital && (
-              <CheckoutButton product={product} edition="digital" testId="final-buy-digital" className="bg-orange-600 px-10 py-4 text-base text-white hover:bg-orange-700" />
+              <CheckoutButton product={product} edition="digital" testId="final-buy-digital" className="bg-brand-600 px-10 py-4 text-base text-white hover:bg-brand-700" />
             )}
             <button
               type="button"

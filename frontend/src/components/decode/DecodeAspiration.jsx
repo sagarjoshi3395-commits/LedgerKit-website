@@ -30,7 +30,7 @@ export default function AspirationSection() {
               <Reveal key={u.title} delay={i * 0.06}>
                 <div className="card-lift h-full rounded-xl border border-slate-200 bg-white p-6" data-testid={`aspiration-card-${i}`}>
                   <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-ink-surface">
-                    <u.icon className="h-5 w-5 text-orange-400" />
+                    <u.icon className="h-5 w-5 text-brand-400" />
                   </span>
                   <h3 className="mt-4 font-display text-base font-bold text-ink">{u.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-slate-600">{u.text}</p>

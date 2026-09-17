@@ -23,7 +23,7 @@ function HomeHero() {
           </Reveal>
           <Reveal delay={0.08}>
             <h1 className="mt-5 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-6xl" data-testid="home-hero-title">
-              Real Systems.<br />Actionable <span className="text-orange-600">Learning.</span>
+              Real Systems.<br />Actionable <span className="text-brand-600">Learning.</span>
             </h1>
           </Reveal>
           <Reveal delay={0.16}>
@@ -37,7 +37,7 @@ function HomeHero() {
                 Explore Products <ArrowRight className="h-4 w-4" />
               </Link>
               <Link to="/meta-ads-decode" data-testid="home-view-decode-button" className="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-7 py-4 text-sm font-semibold text-ink ring-1 ring-slate-300 transition-colors duration-200 hover:bg-slate-50">
-                View Meta Ads Decode
+                View Sales Engine
               </Link>
             </div>
           </Reveal>
@@ -48,13 +48,13 @@ function HomeHero() {
               <BookMockup size="lg" coverImage="/samples/cover.png" />
             </div>
             <div className="absolute -left-3 top-8 w-40 rounded-xl border border-slate-200 bg-white p-3 shadow-subtle">
-              <div className="font-mono text-[9px] font-semibold uppercase tracking-widest text-orange-600">Framework</div>
+              <div className="font-mono text-[9px] font-semibold uppercase tracking-widest text-brand-600">Framework</div>
               <div className="mt-2 space-y-1.5">
                 {[85, 60, 72].map((w, i) => <div key={i} className="h-1.5 rounded bg-slate-100" style={{ width: `${w}%` }} />)}
               </div>
             </div>
             <div className="absolute -right-3 bottom-10 w-40 rounded-xl border border-slate-200 bg-white p-3 shadow-subtle">
-              <div className="font-mono text-[9px] font-semibold uppercase tracking-widest text-orange-600">Checklist</div>
+              <div className="font-mono text-[9px] font-semibold uppercase tracking-widest text-brand-600">Checklist</div>
               <div className="mt-2 space-y-1.5">
                 {[70, 90, 55].map((w, i) => <div key={i} className="h-1.5 rounded bg-slate-100" style={{ width: `${w}%` }} />)}
               </div>
@@ -86,7 +86,7 @@ function FeaturedProduct({ product }) {
                 <span key={chip} className="rounded-full bg-white/5 px-3.5 py-1.5 text-xs font-medium text-slate-300 ring-1 ring-white/10">{chip}</span>
               ))}
             </div>
-            <Link to="/meta-ads-decode" data-testid="featured-explore-button" className="mt-8 inline-flex items-center gap-2 rounded-lg bg-orange-600 px-7 py-4 text-sm font-semibold text-white transition-colors duration-200 hover:bg-orange-700">
+            <Link to="/meta-ads-decode" data-testid="featured-explore-button" className="mt-8 inline-flex items-center gap-2 rounded-lg bg-brand-600 px-7 py-4 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-700">
               Explore Meta Ads Decode <ArrowRight className="h-4 w-4" />
             </Link>
           </Reveal>
@@ -96,7 +96,7 @@ function FeaturedProduct({ product }) {
             <Reveal key={page.label} delay={i * 0.1}>
               <div className={`overflow-hidden rounded-lg bg-white ring-1 ring-white/15 ${i === 1 ? "translate-y-6" : ""}`}>
                 <div className="border-b border-slate-100 bg-slate-50 px-2.5 py-1.5">
-                  <span className="font-mono text-[8px] font-semibold uppercase tracking-widest text-orange-600">{page.kind}</span>
+                  <span className="font-mono text-[8px] font-semibold uppercase tracking-widest text-brand-600">{page.kind}</span>
                 </div>
                 <div className="p-3">
                   <div className="font-display text-[10px] font-bold leading-tight text-ink">{page.title}</div>
@@ -140,8 +140,8 @@ export default function Home() {
               return (
                 <Reveal key={card.key} delay={i * 0.06}>
                   <div className="card-lift h-full rounded-xl border border-slate-200 bg-white p-6" data-testid={`value-card-${card.key}`}>
-                    <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-100">
-                      <Icon className="h-5 w-5 text-orange-600" />
+                    <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-100">
+                      <Icon className="h-5 w-5 text-brand-600" />
                     </span>
                     <h3 className="mt-4 font-display text-base font-bold text-ink">{card.title}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-slate-600">{card.text}</p>
@@ -157,7 +157,7 @@ export default function Home() {
         <div className="container-site">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <SectionHeading align="left" eyebrow="Catalogue" title="Browse Products" testId="browse" />
-            <Link to="/products" data-testid="browse-view-all-link" className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-orange-600 hover:text-orange-700">
+            <Link to="/products" data-testid="browse-view-all-link" className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-brand-600 hover:text-brand-700">
               View all products <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -202,7 +202,7 @@ export default function Home() {
               return (
                 <Reveal key={item.title} delay={i * 0.06}>
                   <div className="card-lift h-full rounded-xl border border-slate-200 bg-[#FAFAFA] p-6" data-testid={`why-card-${i}`}>
-                    <Icon className="h-5 w-5 text-orange-600" />
+                    <Icon className="h-5 w-5 text-brand-600" />
                     <h3 className="mt-4 font-display text-base font-bold text-ink">{item.title}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-slate-600">{item.text}</p>
                   </div>
@@ -221,7 +221,7 @@ export default function Home() {
             <h2 className="mx-auto max-w-3xl font-display text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl" data-testid="home-cta-title">
               Build Better. Test Smarter. Understand What the Numbers Are Telling You.
             </h2>
-            <Link to="/products" data-testid="home-cta-button" className="mt-8 inline-flex items-center gap-2 rounded-lg bg-orange-600 px-8 py-4 text-sm font-semibold text-white transition-colors duration-200 hover:bg-orange-700">
+            <Link to="/products" data-testid="home-cta-button" className="mt-8 inline-flex items-center gap-2 rounded-lg bg-brand-600 px-8 py-4 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-700">
               Explore Digital Guides <ArrowRight className="h-4 w-4" />
             </Link>
           </Reveal>

@@ -25,7 +25,7 @@ export default function ProductCard({ product, index = 0 }) {
             <span className="rounded-full bg-emerald-100 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-wider text-emerald-700" data-testid={`product-card-${product.slug}-badge-new`}>New</span>
           )}
           {product.featured && (
-            <span className="rounded-full bg-orange-100 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-wider text-orange-700" data-testid={`product-card-${product.slug}-badge-featured`}>Featured</span>
+            <span className="rounded-full bg-brand-100 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-wider text-brand-700" data-testid={`product-card-${product.slug}-badge-featured`}>Featured</span>
           )}
           {product.bestseller && (
             <span className="rounded-full bg-blue-100 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-wider text-blue-700">Bestseller</span>
@@ -36,7 +36,7 @@ export default function ProductCard({ product, index = 0 }) {
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-2.5 p-5">
-        <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-orange-600">
+        <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-600">
           {(product.category || "guide").replace(/-/g, " ")} • {product.product_type || "Guide"}
         </span>
         <h3 className="font-display text-lg font-bold leading-snug text-ink">{product.title}</h3>
@@ -52,7 +52,7 @@ export default function ProductCard({ product, index = 0 }) {
               <span className="text-sm font-medium text-slate-500">Price TBA</span>
             )}
           </div>
-          <span className="inline-flex items-center gap-1 text-sm font-semibold text-ink transition-colors duration-200 group-hover:text-orange-600">
+          <span className="inline-flex items-center gap-1 text-sm font-semibold text-ink transition-colors duration-200 group-hover:text-brand-600">
             View Details <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
           </span>
         </div>

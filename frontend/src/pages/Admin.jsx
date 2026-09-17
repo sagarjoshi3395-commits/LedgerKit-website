@@ -100,7 +100,7 @@ export default function Admin() {
               <Switch checked={form.is_new} onCheckedChange={set("is_new")} /> Mark as New
             </label>
           </div>
-          <button type="submit" disabled={saving} data-testid="admin-submit-button" className="inline-flex items-center gap-2 rounded-lg bg-orange-600 px-7 py-3.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-orange-700 disabled:opacity-60">
+          <button type="submit" disabled={saving} data-testid="admin-submit-button" className="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-7 py-3.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-700 disabled:opacity-60">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <PlusCircle className="h-4 w-4" />}
             Add Product
           </button>

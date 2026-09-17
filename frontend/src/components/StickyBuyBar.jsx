@@ -46,7 +46,7 @@ export default function StickyBuyBar({ product, offset = 600 }) {
             <span className="font-display text-base font-extrabold text-ink" data-testid="sticky-buy-price">{formatINR(edition.price)}</span>
             {regular > edition.price && <span className="text-xs text-slate-400 line-through">{formatINR(regular)}</span>}
             {timerText && (
-              <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-orange-600" data-testid="sticky-buy-timer">
+              <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-brand-600" data-testid="sticky-buy-timer">
                 Offer ends in {timerText}
               </span>
             )}
@@ -56,7 +56,7 @@ export default function StickyBuyBar({ product, offset = 600 }) {
           type="button"
           onClick={handleClick}
           data-testid="sticky-buy-cta"
-          className="shrink-0 rounded-lg bg-orange-600 px-5 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-orange-700"
+          className="shrink-0 rounded-lg bg-brand-600 px-5 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-700"
         >
           Buy Now — {formatINR(edition.price)}
         </button>

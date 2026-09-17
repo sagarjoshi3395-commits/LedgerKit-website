@@ -25,7 +25,7 @@ export default function Testimonials({ productSlug, dark = false, title = "What 
           {data.map((t, i) => (
             <Reveal key={t.id || i} delay={i * 0.06}>
               <figure className={`flex h-full flex-col rounded-xl border p-6 ${dark ? "border-white/10 bg-ink-card" : "border-slate-200 bg-white"}`}>
-                <Quote className={`h-5 w-5 ${dark ? "text-orange-400" : "text-orange-600"}`} />
+                <Quote className={`h-5 w-5 ${dark ? "text-brand-400" : "text-brand-600"}`} />
                 <blockquote className={`mt-4 flex-1 text-sm leading-relaxed ${dark ? "text-slate-300" : "text-slate-600"}`}>
                   “{t.review}”
                 </blockquote>

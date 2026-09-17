@@ -13,7 +13,7 @@ export default function CountdownTimer({ minutes = 10, dark = false }) {
 
   return (
     <div className="flex flex-col items-center gap-2" data-testid="offer-countdown">
-      <span className={`font-mono text-[11px] font-semibold uppercase tracking-[0.2em] ${dark ? "text-orange-400" : "text-orange-600"}`}>
+      <span className={`font-mono text-[11px] font-semibold uppercase tracking-[0.2em] ${dark ? "text-brand-400" : "text-brand-600"}`}>
         Launch Offer Ends In
       </span>
       <div className="flex items-center gap-2">

@@ -11,9 +11,9 @@ const EXPECTATIONS = [
 ];
 
 const CASE_STUDIES = [
-  { icon: FlaskConical, title: "Campaign Setup Context", text: "Understand why the campaign was structured a particular way — objective, audiences, budgets and creative logic." },
-  { icon: Target, title: "Ad Set Winners & Losers", text: "Compare performance across ad sets and understand what the data actually means before making decisions." },
-  { icon: Trophy, title: "Ad-Level Winner", text: "See why an individual creative can outperform inside an ad set — and how to act on it." },
+  { icon: FlaskConical, title: "Campaign Setup Context", text: "Understand why the campaign was structured a particular way — objective, audiences, budgets and creative logic.", image: "/samples/case-campaign.jpg" },
+  { icon: Target, title: "Ad Set Winners & Losers", text: "Compare performance across ad sets and understand what the data actually means before making decisions.", image: "/samples/case-adset.jpg" },
+  { icon: Trophy, title: "Ad-Level Winner", text: "See why an individual creative can outperform inside an ad set — and how to act on it.", image: "/samples/case-adlevel.jpg" },
 ];
 
 export function AudienceSection({ product }) {
@@ -46,12 +46,12 @@ export function AudienceSection({ product }) {
               <ul className="mt-6 space-y-3">
                 {EXPECTATIONS.map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-orange-500" />
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-500" />
                     <span>{item}</span>
                   </li>
                 ))}
               </ul>
-              <p className="mt-6 rounded-lg bg-orange-50 p-4 text-sm font-medium leading-relaxed text-orange-900 ring-1 ring-orange-200">
+              <p className="mt-6 rounded-lg bg-brand-50 p-4 text-sm font-medium leading-relaxed text-brand-900 ring-1 ring-brand-200">
                 It's built to make you a sharper, more confident operator — the results come from how you apply it to your own business.
               </p>
             </div>
@@ -63,7 +63,7 @@ export function AudienceSection({ product }) {
               <ul className="mt-6 flex-1 space-y-3">
                 {(product?.bonuses || []).map((bonus, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-slate-300">
-                    <Gift className="mt-0.5 h-4 w-4 shrink-0 text-orange-400" />
+                    <Gift className="mt-0.5 h-4 w-4 shrink-0 text-brand-400" />
                     <span>{bonus}</span>
                   </li>
                 ))}
@@ -86,17 +86,14 @@ export function CaseStudiesSection() {
         <SectionHeading
           eyebrow="Real Case Studies"
           title="See How Campaign Decisions Are Broken Down"
-          description="Three case studies walk through real campaign situations. Actual Ads Manager screenshots are uploaded to these slots — never fabricated data."
+          description="Real campaign breakdowns from inside the guide — actual Ads Manager data, explained decision by decision."
           testId="case-studies"
         />
         <div className="mt-12 grid gap-5 md:grid-cols-3">
           {CASE_STUDIES.map((cs, i) => (
             <Reveal key={cs.title} delay={i * 0.07}>
               <div className="card-lift flex h-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-[#FAFAFA]" data-testid={`case-study-${i}`}>
-                <div className="flex h-40 flex-col items-center justify-center gap-2 border-b border-dashed border-slate-300 bg-slate-100 text-center">
-                  <cs.icon className="h-6 w-6 text-slate-400" />
-                  <span className="px-4 font-mono text-[10px] uppercase tracking-wider text-slate-400">Real screenshot — to be uploaded</span>
-                </div>
+                <img src={cs.image} alt={cs.title} loading="lazy" className="w-full border-b border-slate-200 object-cover" />
                 <div className="p-6">
                   <h3 className="font-display text-base font-bold text-ink">{cs.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-slate-600">{cs.text}</p>

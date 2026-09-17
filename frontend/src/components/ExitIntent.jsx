@@ -22,8 +22,8 @@ export default function ExitIntent({ onPreview }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="max-w-md" data-testid="exit-intent-modal">
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-100">
-          <BookOpen className="h-5 w-5 text-orange-600" />
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-100">
+          <BookOpen className="h-5 w-5 text-brand-600" />
         </div>
         <DialogTitle className="font-display text-xl font-bold text-ink">Want to Preview It First?</DialogTitle>
         <DialogDescription className="text-sm leading-relaxed text-slate-600">

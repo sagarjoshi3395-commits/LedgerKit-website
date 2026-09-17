@@ -9,7 +9,7 @@ function PageArt({ page, large = false }) {
   return (
     <div className="flex h-full w-full flex-col bg-white">
       <div className="flex items-center justify-between border-b border-slate-100 bg-slate-50 px-4 py-2">
-        <span className="rounded-full bg-ink-surface px-2 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-widest text-orange-400">{page.kind}</span>
+        <span className="rounded-full bg-ink-surface px-2 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-widest text-brand-400">{page.kind}</span>
         <span className="font-mono text-[9px] uppercase tracking-widest text-slate-400">{page.label}</span>
       </div>
       <div className={`flex flex-1 flex-col ${large ? "p-6 sm:p-8" : "p-3"}`}>
@@ -77,7 +77,7 @@ export default function SamplePageViewer({ pages = [], dark = true }) {
             onClick={() => setActive(i)}
             data-testid={`sample-thumb-${i}`}
             className={`w-20 shrink-0 snap-start overflow-hidden rounded-lg ring-2 transition-shadow duration-200 ${
-              i === active ? "ring-orange-500" : "ring-white/10 hover:ring-white/30"
+              i === active ? "ring-brand-500" : "ring-white/10 hover:ring-white/30"
             }`}
           >
             <div className="aspect-[3/4]">

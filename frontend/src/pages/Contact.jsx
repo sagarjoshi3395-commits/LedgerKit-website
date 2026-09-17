@@ -13,8 +13,8 @@ import { CONTACT_TOPICS } from "../lib/siteContent";
 function InfoRow({ icon: Icon, label, value, testId }) {
   return (
     <div className="flex items-start gap-3" data-testid={testId}>
-      <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-100">
-        <Icon className="h-4 w-4 text-orange-600" />
+      <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-100">
+        <Icon className="h-4 w-4 text-brand-600" />
       </span>
       <div>
         <div className="text-xs font-semibold uppercase tracking-wider text-slate-500">{label}</div>
@@ -109,7 +109,7 @@ export default function Contact() {
               type="submit"
               disabled={sending}
               data-testid="contact-submit-button"
-              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-orange-600 px-7 py-3.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-orange-700 disabled:opacity-60"
+              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-brand-600 px-7 py-3.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-700 disabled:opacity-60"
             >
               {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
               Send Message

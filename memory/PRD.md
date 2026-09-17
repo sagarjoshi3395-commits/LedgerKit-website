@@ -53,6 +53,12 @@ Students; side-income explorers; beginners in digital business; existing digital
 - Order-success page: "Download Now" button (uses product.download_url when configured, else honest email-delivery toast). SuperProfile after-payment redirect must be set in SuperProfile dashboard → /order-success
 - Mobile scroll shake fixed: overflow-x clip on html/body; address removed from footer/contact/terms
 
+## Update (2026-09-17, v4 — re-theme + real assets)
+- Full design re-skin to match the book's own identity: violet #2E1AC8 + yellow #FFD400 on white, navy #0B1437 dark sections (orange palette swapped to a `brand` Tailwind palette; yellow brush highlights)
+- Hero rebuilt: light editorial layout with the real cover poster (hero-cover.png) large on desktop AND mobile — fixes short-mockup/black-space complaint; rotated poster card with yellow sticky-note + navy badge accents; violet marquee strip with yellow text
+- Case Studies section now shows the 3 real campaign breakdowns (case-campaign / case-adset / case-adlevel JPEGs)
+- Verified: mobile no horizontal overflow (scrollWidth == innerWidth), timer MM:SS, ping design, home + pricing in new palette
+
 ## Backlog (prioritized)
 - **P0**: Configure real per-edition checkout URLs (SuperProfile) in product data; set bundle price; set ADMIN_KEY in backend/.env; replace [PLACEHOLDER] business details (support email/phone/address, refund/shipping timelines); upload real sample pages, Ads Manager screenshots, physical-book photos
 - **P1**: Direct Razorpay integration (create order → checkout → server-side signature verify → paid status → delivery email → /order-success); customer download/access flow; admin UI for editing products/settings/testimonials; real testimonials once collected

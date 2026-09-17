@@ -82,7 +82,7 @@ export default function OrderSuccess() {
                   type="button"
                   onClick={handleDownload}
                   data-testid="download-now-button"
-                  className="inline-flex items-center gap-2 rounded-lg bg-orange-600 px-6 py-3.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-orange-700"
+                  className="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-6 py-3.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-700"
                 >
                   <Download className="h-4 w-4" /> Download Now
                 </button>

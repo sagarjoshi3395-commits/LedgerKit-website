@@ -159,7 +159,7 @@ export function CurriculumSection({ product }) {
             {["Research", "Product", "Ads", "Analysis", "Scaling", "Business Measurement"].map((s, i, arr) => (
               <span key={s} className="flex items-center gap-2">
                 <span className="text-ink">{s}</span>
-                {i < arr.length - 1 && <ArrowRight className="h-3.5 w-3.5 text-orange-500" />}
+                {i < arr.length - 1 && <ArrowRight className="h-3.5 w-3.5 text-brand-500" />}
               </span>
             ))}
           </div>
@@ -187,7 +187,7 @@ export function VisualToolsSection() {
             <Reveal key={tool.title} delay={i * 0.05}>
               <div className="card-lift h-full rounded-xl border border-slate-200 bg-[#FAFAFA] p-6" data-testid={`visual-tool-${i}`}>
                 <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-ink-surface">
-                  <tool.icon className="h-5 w-5 text-orange-400" />
+                  <tool.icon className="h-5 w-5 text-brand-400" />
                 </span>
                 <h3 className="mt-4 font-display text-base font-bold text-ink">{tool.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-slate-600">{tool.text}</p>
