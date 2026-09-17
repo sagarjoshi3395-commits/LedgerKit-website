@@ -75,6 +75,8 @@ Students; side-income explorers; beginners in digital business; existing digital
 
 - Sticky bottom bar now has a one-tap Guide (₹299) / Bundle (₹499, "Save More" badge) switch; Buy Now label + redirect follow the selection (bundle → ...9c19f link). Mobile-verified, no overflow
 
+- v6b restructure: toolkit section is now bundle-only (wide 2-col showcase card, savings auto-calc); individual add-on cards removed from it (products still live in /products store); slim bundle banner added directly below the pricing card in the Launch Offer section (redirects to bundle link); bump ticks now have small sub-descriptions (ChatGPT: "Product research, ebook creation, landing pages to ads")
+
 ## Backlog (prioritized)
 - **P0**: Configure real per-edition checkout URLs (SuperProfile) in product data; set bundle price; set ADMIN_KEY in backend/.env; replace [PLACEHOLDER] business details (support email/phone/address, refund/shipping timelines); upload real sample pages, Ads Manager screenshots, physical-book photos
 - **P1**: Direct Razorpay integration (create order → checkout → server-side signature verify → paid status → delivery email → /order-success); customer download/access flow; admin UI for editing products/settings/testimonials; real testimonials once collected

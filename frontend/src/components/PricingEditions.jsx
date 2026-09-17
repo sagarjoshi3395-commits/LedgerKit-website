@@ -7,8 +7,8 @@ import { trackEvent, appendUtms, getStoredUtms } from "../lib/analytics";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "./ui/dialog";
 
 const ADDON_DEFS = [
-  { slug: "ai-business-ideas-2026", testId: "addon-tick-ai" },
-  { slug: "chatgpt-prompt-guide", testId: "addon-tick-chatgpt" },
+  { slug: "ai-business-ideas-2026", testId: "addon-tick-ai", sub: "Automation-ready AI business ideas that run on systems" },
+  { slug: "chatgpt-prompt-guide", testId: "addon-tick-chatgpt", sub: "Product research, ebook creation, landing pages to ads" },
 ];
 const BUNDLE_SLUG = "complete-business-bundle";
 
@@ -125,7 +125,10 @@ export default function PricingEditions({ product }) {
                   <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition-colors duration-200 ${active ? "border-brand-600 bg-brand-600" : "border-slate-300 bg-white"}`}>
                     {active && <Check className="h-3.5 w-3.5 text-white" />}
                   </span>
-                  <span className="flex-1 text-sm font-semibold text-ink">{a.product.title}</span>
+                  <span className="flex-1">
+                    <span className="block text-sm font-semibold text-ink">{a.product.title}</span>
+                    {a.sub && <span className="mt-0.5 block text-[11px] font-medium text-slate-500">{a.sub}</span>}
+                  </span>
                   <span className="font-display text-sm font-extrabold text-brand-600">+{formatINR(price)}</span>
                 </button>
               );
@@ -146,6 +149,29 @@ export default function PricingEditions({ product }) {
           {edition.note || "Secure Checkout • Digital Product • Instant Access"}
         </p>
       </div>
+
+      {bundle && bundleEdition?.price != null && (
+        <div className="mt-4 flex flex-col items-center gap-4 rounded-2xl border-2 border-dashed border-brand-300 bg-brand-50 p-4 sm:flex-row sm:p-5" data-testid="bundle-banner">
+          <img src="/samples/bundle-covers.png" alt="Complete Business Bundle — all three guides" loading="lazy" className="w-28 shrink-0 rounded-lg ring-1 ring-slate-200 sm:w-32" />
+          <div className="flex-1 text-center sm:text-left">
+            <p className="font-display text-sm font-bold text-ink sm:text-base">Want all 3 guides? Get the Complete Business Bundle</p>
+            <p className="mt-1 text-xs text-slate-500">
+              Sales Engine + AI Ideas 2026 + Prompt Guide — {formatINR(bundleEdition.price)}
+              {bundleSavings == null && total <= bundleEdition.price ? "" : " instead of ₹647"}
+              <span className="ml-1.5 rounded-full bg-emerald-100 px-2 py-0.5 font-semibold text-emerald-700">Save ₹148</span>
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={handleGetBundle}
+            disabled={busy}
+            data-testid="bundle-banner-buy"
+            className="shrink-0 rounded-xl bg-brand-600 px-5 py-3 text-sm font-bold text-white transition-colors duration-200 hover:bg-brand-700 disabled:opacity-60"
+          >
+            Get Bundle — {formatINR(bundleEdition.price)}
+          </button>
+        </div>
+      )}
 
       <Dialog open={offerOpen} onOpenChange={setOfferOpen}>
         <DialogContent className="max-w-md overflow-hidden p-0" data-testid="bundle-offer-modal">
