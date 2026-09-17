@@ -10,7 +10,7 @@ from datetime import datetime, timezone, timedelta
 from typing import Optional, Annotated
 from pydantic import BaseModel, Field, ConfigDict, BeforeValidator, EmailStr
 
-from seed_data import META_ADS_DECODE_PRODUCT, CATEGORIES, SITE_SETTINGS, TESTIMONIALS
+from seed_data import META_ADS_DECODE_PRODUCT, CATEGORIES, SITE_SETTINGS, TESTIMONIALS, AI_IDEAS_PRODUCT, PROMPT_GUIDE_PRODUCT, BUNDLE_PRODUCT
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -263,9 +263,10 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 @app.on_event("startup")
 async def seed_database():
     await db.products.create_index("slug", unique=True)
-    doc = dict(META_ADS_DECODE_PRODUCT)
-    doc["created_at"] = datetime.now(timezone.utc).isoformat()
-    await db.products.update_one({"slug": doc["slug"]}, {"$set": doc}, upsert=True)
+    for product_doc in [META_ADS_DECODE_PRODUCT, AI_IDEAS_PRODUCT, PROMPT_GUIDE_PRODUCT, BUNDLE_PRODUCT]:
+        doc = dict(product_doc)
+        doc["created_at"] = datetime.now(timezone.utc).isoformat()
+        await db.products.update_one({"slug": doc["slug"]}, {"$set": doc}, upsert=True)
     if await db.categories.count_documents({}) == 0:
         await db.categories.insert_many([dict(c) for c in CATEGORIES])
     await db.settings.update_one({"key": "site"}, {"$set": SITE_SETTINGS}, upsert=True)

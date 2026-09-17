@@ -59,6 +59,12 @@ Students; side-income explorers; beginners in digital business; existing digital
 - Case Studies section now shows the 3 real campaign breakdowns (case-campaign / case-adset / case-adlevel JPEGs)
 - Verified: mobile no horizontal overflow (scrollWidth == innerWidth), timer MM:SS, ping design, home + pricing in new palette
 
+## Update (2026-09-17, v5 — bump offers + bundle)
+- 3 new products seeded: AI Business Ideas Guide 2026 (₹199), ChatGPT Prompt Guide (₹149), Complete Business Bundle (₹499, strike ₹647, genuine "You Save ₹148")
+- New "Add These to Your Order" bump-offer section on the Sales Engine page (after pricing): 2 add-on cards with CSS mini covers + highlighted bundle card showing all 3 covers together
+- All 4 products live in the /products store with search/filter; each new product gets its auto product page
+- New products' checkout_url fields are EMPTY — need SuperProfile payment links from user (buttons show honest "not connected" toast until then); main guide checkout unchanged
+
 ## Backlog (prioritized)
 - **P0**: Configure real per-edition checkout URLs (SuperProfile) in product data; set bundle price; set ADMIN_KEY in backend/.env; replace [PLACEHOLDER] business details (support email/phone/address, refund/shipping timelines); upload real sample pages, Ads Manager screenshots, physical-book photos
 - **P1**: Direct Razorpay integration (create order → checkout → server-side signature verify → paid status → delivery email → /order-success); customer download/access flow; admin UI for editing products/settings/testimonials; real testimonials once collected

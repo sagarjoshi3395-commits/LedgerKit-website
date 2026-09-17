@@ -11,6 +11,7 @@ import DecodeHero from "../components/decode/DecodeHero";
 import { ExperienceSection, ProblemSection, SystemSection } from "../components/decode/DecodeSystem";
 import { SamplePagesSection, IncludedSection, CurriculumSection, VisualToolsSection } from "../components/decode/DecodeLearning";
 import AspirationSection from "../components/decode/DecodeAspiration";
+import AddonOffers from "../components/decode/DecodeAddons";
 import { AudienceSection, CaseStudiesSection } from "../components/decode/DecodeAudience";
 import { PricingSection, DecodeFaqSection, FinalCtaSection } from "../components/decode/DecodePurchase";
 import { Skeleton } from "../components/ui/skeleton";
@@ -74,6 +75,7 @@ export default function MetaAdsDecode() {
       <CaseStudiesSection />
       <Testimonials productSlug="meta-ads-decode" title="What Early Readers Say" />
       <PricingSection product={product} selected={selectedEdition} onSelect={setSelectedEdition} />
+      <AddonOffers mainProduct={product} />
       <DecodeFaqSection product={product} />
       <FinalCtaSection product={product} onSelect={setSelectedEdition} />
       {product && <StickyBuyBar product={product} />}
