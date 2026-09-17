@@ -3,7 +3,7 @@
 export const LEGAL_PAGES = {
   "terms-and-conditions": {
     title: "Terms & Conditions",
-    updated: "Last updated: [INSERT DATE]",
+    updated: "Last updated: 17 September 2026",
     intro: "These Terms & Conditions govern your purchase and use of digital educational products from LedgerKit (“we”, “us”, “our”). By accessing this website or purchasing a product, you agree to these terms.",
     sections: [
       { heading: "1. Acceptance of Terms", body: ["By using this website or purchasing any product, you confirm that you have read, understood and agree to be bound by these Terms & Conditions, along with our Privacy Policy, Refund & Cancellation Policy and Delivery policies."] },
@@ -26,7 +26,7 @@ export const LEGAL_PAGES = {
   },
   "privacy-policy": {
     title: "Privacy Policy",
-    updated: "Last updated: [INSERT DATE]",
+    updated: "Last updated: 17 September 2026",
     intro: "This Privacy Policy explains what information LedgerKit collects, how it is used, and the choices you have.",
     sections: [
       { heading: "1. Information We Collect", body: ["Contact information you provide (name, email, phone) through forms or checkout.", "Transaction information related to your purchases (product, edition, amount, order ID).", "Website usage data such as pages visited, device and browser information."] },
@@ -44,7 +44,7 @@ export const LEGAL_PAGES = {
   },
   "refund-cancellation-policy": {
     title: "Refund & Cancellation Policy",
-    updated: "Last updated: [INSERT DATE]",
+    updated: "Last updated: 17 September 2026",
     intro: "This policy explains how refunds and cancellations work for digital products purchased from LedgerKit. Please read it before purchasing.",
     sections: [
       { heading: "1. Digital Products", body: ["Refund eligibility for downloadable digital products: [INSERT POLICY].", "Refund request period: [INSERT PERIOD].", "Because digital products are delivered instantly, please describe the issue in detail when requesting support so we can resolve it quickly."] },
@@ -55,7 +55,7 @@ export const LEGAL_PAGES = {
   },
   "digital-delivery-policy": {
     title: "Digital Delivery Policy",
-    updated: "Last updated: [INSERT DATE]",
+    updated: "Last updated: 17 September 2026",
     intro: "This policy explains how digital products from LedgerKit are delivered.",
     sections: [
       { heading: "1. Digital Products Only", body: ["All LedgerKit products are currently digital. No physical shipment is made — access is delivered electronically to the contact details you provide."] },
@@ -67,7 +67,7 @@ export const LEGAL_PAGES = {
   },
   "disclaimer": {
     title: "Disclaimer",
-    updated: "Last updated: [INSERT DATE]",
+    updated: "Last updated: 17 September 2026",
     intro: "Please read this disclaimer carefully before using our products.",
     sections: [
       { heading: "Educational Purposes Only", body: ["All products and content are provided for educational purposes only."] },

@@ -1,5 +1,6 @@
 import { Reveal } from "../Reveal";
-import { ArrowRight, BookOpen, Star } from "lucide-react";
+import { ArrowRight, BookOpen, Star, Clock } from "lucide-react";
+import { useOfferTimer } from "../../lib/offerTimer";
 
 const CHIPS = ["Digital Guide", "135+ Core Pages + Case Studies", "Instant Digital Access", "Practical Frameworks"];
 
@@ -11,11 +12,52 @@ const STRIP = [
   "Case Studies + Frameworks + Checklists",
 ];
 
+function SpinBadge() {
+  return (
+    <div
+      className="absolute -right-5 -top-9 z-20 h-24 w-24 animate-[spin_14s_linear_infinite] sm:-right-8 sm:h-28 sm:w-28"
+      data-testid="hero-spin-badge"
+    >
+      <svg viewBox="0 0 100 100" className="h-full w-full drop-shadow-lg">
+        <circle cx="50" cy="50" r="49" fill="#FFD400" />
+        <defs>
+          <path id="badge-circle" d="M50,50 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0" />
+        </defs>
+        <text fontSize="9.5" fontWeight="700" letterSpacing="2.4" fill="#0F172A" fontFamily="JetBrains Mono, monospace">
+          <textPath href="#badge-circle">3 YEARS EXPERIENCE • REAL CAMPAIGNS •</textPath>
+        </text>
+        <text x="50" y="55" textAnchor="middle" fontSize="15" fontWeight="800" fill="#0F172A" fontFamily="Plus Jakarta Sans, sans-serif">
+          ₹299
+        </text>
+      </svg>
+    </div>
+  );
+}
+
+function HandArrow() {
+  return (
+    <svg
+      className="absolute -right-6 bottom-28 hidden h-16 w-16 -rotate-12 text-brand-600 lg:block"
+      viewBox="0 0 60 60"
+      fill="none"
+      aria-hidden
+      data-testid="hero-hand-arrow"
+    >
+      <path d="M8 8 C 18 26, 30 38, 50 44 M41 37 L51 45 L40 50" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export default function DecodeHero({ product, onBuy, onPreview }) {
+  const countdown = useOfferTimer(10);
+  const timerText = countdown != null
+    ? `${String(Math.floor(countdown / 60)).padStart(2, "0")}:${String(countdown % 60).padStart(2, "0")}`
+    : null;
+
   return (
     <section className="dot-grid relative overflow-hidden border-b border-slate-200 bg-white" data-testid="decode-hero">
       <div className="container-site grid items-center gap-12 py-14 sm:py-20 lg:grid-cols-2 lg:py-24">
-        <div>
+        <div className="relative">
           <Reveal>
             <span className="inline-flex items-center gap-2 rounded-full bg-brand-100 px-4 py-1.5 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-brand-700" data-testid="hero-eyebrow">
               <Star className="h-3.5 w-3.5 fill-[#FFD400] text-[#FFD400]" />
@@ -55,9 +97,16 @@ export default function DecodeHero({ product, onBuy, onPreview }) {
                 <BookOpen className="h-4 w-4" /> Preview the Book
               </button>
             </div>
-            <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.18em] text-slate-400">
-              Instant Digital Access • Read on Phone, Tablet or Desktop
-            </p>
+            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-slate-400">
+                Instant Digital Access • Read on Phone, Tablet or Desktop
+              </p>
+              {timerText && (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-wider text-brand-700 ring-1 ring-amber-200" data-testid="hero-timer-chip">
+                  <Clock className="h-3.5 w-3.5" /> Offer ends in {timerText}
+                </span>
+              )}
+            </div>
           </Reveal>
           <Reveal delay={0.3}>
             <div className="mt-8 flex flex-wrap gap-2" data-testid="hero-info-chips">
@@ -68,14 +117,17 @@ export default function DecodeHero({ product, onBuy, onPreview }) {
               ))}
             </div>
           </Reveal>
+          <HandArrow />
         </div>
 
         <div className="relative mx-auto w-full max-w-lg" data-testid="hero-visual">
           <Reveal delay={0.15}>
             <div className="relative rotate-1 transition-transform duration-300 hover:rotate-0">
+              <SpinBadge />
               <img
-                src="/samples/hero-cover.png"
+                src="/samples/hero-cover.webp"
                 alt="Digital Product Sales Engine — guide cover with real Meta Ads dashboard preview"
+                fetchpriority="high"
                 className="w-full rounded-2xl border border-slate-200 shadow-[0_35px_70px_-20px_rgba(46,26,200,0.35)]"
                 data-testid="hero-cover-image"
               />

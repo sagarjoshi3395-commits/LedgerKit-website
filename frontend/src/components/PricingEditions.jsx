@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import { toast } from "sonner";
 import { api, formatINR } from "../lib/api";
 import { trackEvent, appendUtms, getStoredUtms } from "../lib/analytics";
+import { useOfferTimer } from "../lib/offerTimer";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "./ui/dialog";
 
 const ADDON_DEFS = [
@@ -16,6 +17,10 @@ export default function PricingEditions({ product }) {
   const [ticks, setTicks] = useState({});
   const [offerOpen, setOfferOpen] = useState(false);
   const [busy, setBusy] = useState(false);
+  const countdown = useOfferTimer(10);
+  const timerText = countdown != null
+    ? `${String(Math.floor(countdown / 60)).padStart(2, "0")}:${String(countdown % 60).padStart(2, "0")}`
+    : null;
   const { data: allProducts = [] } = useQuery({
     queryKey: ["products", "bump-offers"],
     queryFn: async () => (await api.get("/products")).data,
@@ -136,12 +141,22 @@ export default function PricingEditions({ product }) {
           </div>
         )}
 
+        {timerText && (
+          <div className="mt-6 flex items-center justify-center gap-2 rounded-lg bg-amber-50 px-3 py-2.5 ring-1 ring-amber-200" data-testid="pricing-card-timer">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-500 opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-600" />
+            </span>
+            <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-brand-700">Launch offer ends in {timerText}</span>
+          </div>
+        )}
+
         <button
           type="button"
           onClick={handleMainCta}
           disabled={busy}
           data-testid="buy-digital-button"
-          className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand-600 px-5 py-4 text-base font-semibold text-white transition-colors duration-200 hover:bg-brand-700 disabled:opacity-60"
+          className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand-600 px-5 py-4 text-base font-semibold text-white transition-colors duration-200 hover:bg-brand-700 disabled:opacity-60"
         >
           {edition.cta || "Get Instant Access"} — <span data-testid="edition-total">{formatINR(total)}</span>
         </button>
@@ -152,7 +167,7 @@ export default function PricingEditions({ product }) {
 
       {bundle && bundleEdition?.price != null && (
         <div className="mt-4 flex flex-col items-center gap-4 rounded-2xl border-2 border-dashed border-brand-300 bg-brand-50 p-4 sm:flex-row sm:p-5" data-testid="bundle-banner">
-          <img src="/samples/bundle-covers.png" alt="Complete Business Bundle — all three guides" loading="lazy" className="w-28 shrink-0 rounded-lg ring-1 ring-slate-200 sm:w-32" />
+          <img src="/samples/bundle-covers.webp" alt="Complete Business Bundle — all three guides" loading="lazy" className="w-28 shrink-0 rounded-lg ring-1 ring-slate-200 sm:w-32" />
           <div className="flex-1 text-center sm:text-left">
             <p className="font-display text-sm font-bold text-ink sm:text-base">Want all 3 guides? Get the Complete Business Bundle</p>
             <p className="mt-1 text-xs text-slate-500">
@@ -175,7 +190,7 @@ export default function PricingEditions({ product }) {
 
       <Dialog open={offerOpen} onOpenChange={setOfferOpen}>
         <DialogContent className="max-w-md overflow-hidden p-0" data-testid="bundle-offer-modal">
-          <img src="/samples/bundle-covers.png" alt="All three LedgerKit guides" className="w-full" />
+          <img src="/samples/bundle-covers.webp" alt="All three LedgerKit guides" className="w-full" />
           <div className="p-6">
             <span className="eyebrow">Special Offer — Only Here</span>
             <DialogTitle className="mt-2 font-display text-2xl font-extrabold tracking-tight text-ink">

@@ -192,12 +192,12 @@ CURRICULUM = [
 ]
 
 SAMPLE_PAGES = [
-    {"label": "Page 4", "title": "My First Research Tool — Meta Ad Library", "kind": "Chapter", "image": "/samples/page-ad-library.png"},
-    {"label": "Page 35", "title": "The 3-Second Hook — 6 Proven Hook Types", "kind": "Chapter", "image": "/samples/page-hooks.png"},
-    {"label": "Page 37", "title": "Build a Page-View Retargeting Campaign", "kind": "Framework", "image": "/samples/page-retargeting.png"},
-    {"label": "Page 45", "title": "Reading Ad Set Performance — Real Ads Manager Data", "kind": "Real Example", "image": "/samples/page-adset-performance.png"},
-    {"label": "Page 64", "title": "When an Ad Stops Working — Creative Fatigue Signals", "kind": "Chapter", "image": "/samples/page-creative-fatigue.png"},
-    {"label": "Page 114", "title": "Real Case Study — Ad-Level Winner", "kind": "Case Study", "image": "/samples/page-ad-winner.png"},
+    {"label": "Page 4", "title": "My First Research Tool — Meta Ad Library", "kind": "Chapter", "image": "/samples/page-ad-library.webp"},
+    {"label": "Page 35", "title": "The 3-Second Hook — 6 Proven Hook Types", "kind": "Chapter", "image": "/samples/page-hooks.webp"},
+    {"label": "Page 37", "title": "Build a Page-View Retargeting Campaign", "kind": "Framework", "image": "/samples/page-retargeting.webp"},
+    {"label": "Page 45", "title": "Reading Ad Set Performance — Real Ads Manager Data", "kind": "Real Example", "image": "/samples/page-adset-performance.webp"},
+    {"label": "Page 64", "title": "When an Ad Stops Working — Creative Fatigue Signals", "kind": "Chapter", "image": "/samples/page-creative-fatigue.webp"},
+    {"label": "Page 114", "title": "Real Case Study — Ad-Level Winner", "kind": "Case Study", "image": "/samples/page-ad-winner.webp"},
 ]
 
 # Starter testimonials — replace these with genuine customer reviews as they come in.
@@ -214,7 +214,7 @@ META_ADS_DECODE_PRODUCT = {
     "title": "Digital Product Sales Engine",
     "short_title": "Sales Engine",
     "tagline": "The complete digital product sales system — research, create, launch and scale — with real Meta Ads campaigns inside.",
-    "cover_image": "/samples/sales-engine-cover.png",
+    "cover_image": "/samples/sales-engine-cover.webp",
     "combo_checkout_urls": {
         "ai-business-ideas-2026": "https://superprofile.bio/vp/6aabbbe69c594000137ba85a",
         "chatgpt-prompt-guide": "https://superprofile.bio/vp/6aabbae09c594000137b7a66"
@@ -317,7 +317,7 @@ AI_IDEAS_PRODUCT = {
     "slug": "ai-business-ideas-2026",
     "title": "AI Business Ideas Guide 2026",
     "short_title": "AI Ideas 2026",
-    "cover_image": "/samples/ai-ideas-cover.png",
+    "cover_image": "/samples/ai-ideas-cover.webp",
     "tagline": "Automation-ready AI business ideas you can start lean — with tools, workflows and monetization paths for each.",
     "description": "A practical guide to AI-powered business ideas for 2026 that run on automation. Each idea includes the tools stack, the workflow, and how it makes money — so you can pick one and start building instead of scrolling for inspiration.",
     "category": "ai",
@@ -364,7 +364,7 @@ PROMPT_GUIDE_PRODUCT = {
     "slug": "chatgpt-prompt-guide",
     "title": "ChatGPT Prompt Guide",
     "short_title": "Prompt Guide",
-    "cover_image": "/samples/prompt-guide-cover.png",
+    "cover_image": "/samples/prompt-guide-cover.webp",
     "tagline": "Ready-to-use prompts for product research, ebook creation, landing page copy, hooks and ads.",
     "description": "A copy-paste prompt library for digital product builders. Covers product research, ebook creation, landing page copy, ad hooks and ad copy — the exact prompts that turn ChatGPT into a useful assistant instead of a generic content machine.",
     "category": "ai",
@@ -411,7 +411,7 @@ BUNDLE_PRODUCT = {
     "slug": "complete-business-bundle",
     "title": "Complete Business Bundle",
     "short_title": "Business Bundle",
-    "cover_image": "/samples/bundle-covers.png",
+    "cover_image": "/samples/bundle-covers.webp",
     "tagline": "Digital Product Sales Engine + AI Business Ideas 2026 + ChatGPT Prompt Guide — the full stack in one purchase.",
     "description": "Everything you need to research, build, market and scale a digital product business: the complete Sales Engine guide, 50+ automation-ready AI business ideas, and the copy-paste ChatGPT prompt library — together at a bundle price.",
     "category": "business",

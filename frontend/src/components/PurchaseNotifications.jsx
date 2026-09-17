@@ -50,7 +50,7 @@ export default function PurchaseNotifications({ productTitle = "Sales Engine" })
       className="fixed bottom-24 left-3 z-40 flex max-w-[320px] items-center gap-3 rounded-2xl bg-ink-surface p-3 pr-9 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)] ring-1 ring-white/10 sm:left-5"
       data-testid="purchase-ping"
     >
-      <img src="/samples/cover.png" alt="" className="h-14 w-10 shrink-0 rounded-lg object-cover ring-1 ring-white/15" />
+      <img src="/samples/cover.webp" alt="" className="h-14 w-10 shrink-0 rounded-lg object-cover ring-1 ring-white/15" />
       <div className="min-w-0">
         <p className="text-xs font-semibold leading-snug text-white">{ping.text}</p>
         <p className="mt-1 flex items-center gap-1.5 text-[10px] font-medium text-slate-400">

@@ -37,7 +37,7 @@ export default function AddonOffers() {
         <Reveal className="mx-auto mt-12 max-w-3xl">
           <div className="card-lift relative rounded-2xl border-2 border-brand-600 bg-white ring-4 ring-brand-600/10 sm:grid sm:grid-cols-2" data-testid="addon-card-bundle">
             <img
-              src="/samples/bundle-covers.png"
+              src="/samples/bundle-covers.webp"
               alt="Digital Product Guide + ChatGPT Prompt Guide + AI Business Ideas Guide"
               loading="lazy"
               className="h-full w-full rounded-t-2xl object-cover sm:rounded-l-2xl sm:rounded-tr-none"

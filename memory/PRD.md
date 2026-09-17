@@ -77,6 +77,8 @@ Students; side-income explorers; beginners in digital business; existing digital
 
 - v6b restructure: toolkit section is now bundle-only (wide 2-col showcase card, savings auto-calc); individual add-on cards removed from it (products still live in /products store); slim bundle banner added directly below the pricing card in the Launch Offer section (redirects to bundle link); bump ticks now have small sub-descriptions (ChatGPT: "Product research, ebook creation, landing pages to ads")
 
+- v7 polish: all images converted to WebP (13MB → 1.3MB total, hero 1.6MB→160KB, fetchpriority=high on hero); 10-min timer chips added near hero CTAs and above the pricing card Buy button (pulsing dot); hero engagement: spinning yellow circular badge (₹299 / 3 YEARS EXPERIENCE) + hand-drawn arrow pointing to poster; legal "Last updated" set to 17 September 2026; support email (ledgerkitsupport@gmail.com) added to checkout trust + FAQ note; no address/phone anywhere on site
+
 ## Backlog (prioritized)
 - **P0**: Configure real per-edition checkout URLs (SuperProfile) in product data; set bundle price; set ADMIN_KEY in backend/.env; replace [PLACEHOLDER] business details (support email/phone/address, refund/shipping timelines); upload real sample pages, Ads Manager screenshots, physical-book photos
 - **P1**: Direct Razorpay integration (create order → checkout → server-side signature verify → paid status → delivery email → /order-success); customer download/access flow; admin UI for editing products/settings/testimonials; real testimonials once collected

@@ -11,9 +11,9 @@ const EXPECTATIONS = [
 ];
 
 const CASE_STUDIES = [
-  { icon: FlaskConical, title: "Campaign Setup Context", text: "Understand why the campaign was structured a particular way — objective, audiences, budgets and creative logic.", image: "/samples/case-campaign.jpg" },
-  { icon: Target, title: "Ad Set Winners & Losers", text: "Compare performance across ad sets and understand what the data actually means before making decisions.", image: "/samples/case-adset.jpg" },
-  { icon: Trophy, title: "Ad-Level Winner", text: "See why an individual creative can outperform inside an ad set — and how to act on it.", image: "/samples/case-adlevel.jpg" },
+  { icon: FlaskConical, title: "Campaign Setup Context", text: "Understand why the campaign was structured a particular way — objective, audiences, budgets and creative logic.", image: "/samples/case-campaign.webp" },
+  { icon: Target, title: "Ad Set Winners & Losers", text: "Compare performance across ad sets and understand what the data actually means before making decisions.", image: "/samples/case-adset.webp" },
+  { icon: Trophy, title: "Ad-Level Winner", text: "See why an individual creative can outperform inside an ad set — and how to act on it.", image: "/samples/case-adlevel.webp" },
 ];
 
 export function AudienceSection({ product }) {
