@@ -214,7 +214,11 @@ META_ADS_DECODE_PRODUCT = {
     "title": "Digital Product Sales Engine",
     "short_title": "Sales Engine",
     "tagline": "The complete digital product sales system — research, create, launch and scale — with real Meta Ads campaigns inside.",
-    "cover_image": "/samples/cover.png",
+    "cover_image": "/samples/sales-engine-cover.png",
+    "combo_checkout_urls": {
+        "ai-business-ideas-2026": "https://superprofile.bio/vp/6aabbbe69c594000137ba85a",
+        "chatgpt-prompt-guide": "https://superprofile.bio/vp/6aabbae09c594000137b7a66"
+    },
     "download_url": "",
     "description": (
         "A complete digital product guide covering the full journey — finding and validating product ideas, "
@@ -313,6 +317,7 @@ AI_IDEAS_PRODUCT = {
     "slug": "ai-business-ideas-2026",
     "title": "AI Business Ideas Guide 2026",
     "short_title": "AI Ideas 2026",
+    "cover_image": "/samples/ai-ideas-cover.png",
     "tagline": "Automation-ready AI business ideas you can start lean — with tools, workflows and monetization paths for each.",
     "description": "A practical guide to AI-powered business ideas for 2026 that run on automation. Each idea includes the tools stack, the workflow, and how it makes money — so you can pick one and start building instead of scrolling for inspiration.",
     "category": "ai",
@@ -359,6 +364,7 @@ PROMPT_GUIDE_PRODUCT = {
     "slug": "chatgpt-prompt-guide",
     "title": "ChatGPT Prompt Guide",
     "short_title": "Prompt Guide",
+    "cover_image": "/samples/prompt-guide-cover.png",
     "tagline": "Ready-to-use prompts for product research, ebook creation, landing page copy, hooks and ads.",
     "description": "A copy-paste prompt library for digital product builders. Covers product research, ebook creation, landing page copy, ad hooks and ad copy — the exact prompts that turn ChatGPT into a useful assistant instead of a generic content machine.",
     "category": "ai",
@@ -405,6 +411,7 @@ BUNDLE_PRODUCT = {
     "slug": "complete-business-bundle",
     "title": "Complete Business Bundle",
     "short_title": "Business Bundle",
+    "cover_image": "/samples/bundle-covers.png",
     "tagline": "Digital Product Sales Engine + AI Business Ideas 2026 + ChatGPT Prompt Guide — the full stack in one purchase.",
     "description": "Everything you need to research, build, market and scale a digital product business: the complete Sales Engine guide, 50+ automation-ready AI business ideas, and the copy-paste ChatGPT prompt library — together at a bundle price.",
     "category": "business",
@@ -440,7 +447,7 @@ BUNDLE_PRODUCT = {
             "price": 499,
             "cta": "Get Complete Bundle",
             "note": "Secure Checkout • Digital Products • Instant Access",
-            "checkout_url": "",
+            "checkout_url": "https://superprofile.bio/vp/6aabaf99aa63460013c9c19f",
             "features": [],
         },
     },

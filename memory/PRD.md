@@ -65,6 +65,14 @@ Students; side-income explorers; beginners in digital business; existing digital
 - All 4 products live in the /products store with search/filter; each new product gets its auto product page
 - New products' checkout_url fields are EMPTY — need SuperProfile payment links from user (buttons show honest "not connected" toast until then); main guide checkout unchanged
 
+## Update (2026-09-17, v6 — bump ticks + bundle popup + covers)
+- Real covers wired: AI Ideas (ai-ideas-cover.png), Prompt Guide (prompt-guide-cover.png), Bundle trio (bundle-covers.png), main guide (sales-engine-cover.png) — store cards, bump section, bundle visual all use them
+- Bundle checkout_url set: https://superprofile.bio/vp/6aabaf99aa63460013c9c19f
+- Pricing card now has "Bump Offer — Tick to Add" checkboxes (AI ₹199 / ChatGPT ₹149); CTA total updates live
+- Tick flow: any tick + buy → bundle offer modal (trio image, highlighted "Get the Bundle Offer — ₹499" → bundle link); "Continue without offer" → combo link: main+ChatGPT = ...7b7a66, main+AI = ...7ba85a (stored in product.combo_checkout_urls); both ticked + decline → falls back to main-only link; no ticks → main link direct
+- All 3 redirect paths browser-verified (SuperProfile shows a Vercel bot-check only to headless test browsers — normal for real visitors)
+- NOTE: standalone AI-guide-only and Prompt-guide-only payment pages don't exist yet — their store/bump card buttons show "not connected" until user creates those SuperProfile pages (or points them at combo links)
+
 ## Backlog (prioritized)
 - **P0**: Configure real per-edition checkout URLs (SuperProfile) in product data; set bundle price; set ADMIN_KEY in backend/.env; replace [PLACEHOLDER] business details (support email/phone/address, refund/shipping timelines); upload real sample pages, Ads Manager screenshots, physical-book photos
 - **P1**: Direct Razorpay integration (create order → checkout → server-side signature verify → paid status → delivery email → /order-success); customer download/access flow; admin UI for editing products/settings/testimonials; real testimonials once collected

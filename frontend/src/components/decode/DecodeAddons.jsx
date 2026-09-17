@@ -11,16 +11,8 @@ const BUNDLE_SLUG = "complete-business-bundle";
 
 function BundleVisual() {
   return (
-    <div className="flex items-end justify-center gap-1 py-2" data-testid="bundle-visual">
-      <div className="-rotate-6">
-        <BookMockup size="sm" title="AI BUSINESS IDEAS 2026" subtitle="Automation Playbook" />
-      </div>
-      <div className="z-10 -mx-3">
-        <BookMockup size="sm" coverImage="/samples/cover.png" title="DIGITAL PRODUCT SALES ENGINE" />
-      </div>
-      <div className="rotate-6">
-        <BookMockup size="sm" title="CHATGPT PROMPT GUIDE" subtitle="Copy-Paste Prompt Library" />
-      </div>
+    <div className="py-1" data-testid="bundle-visual">
+      <img src="/samples/bundle-covers.png" alt="Digital Product Guide + ChatGPT Prompt Guide + AI Business Ideas Guide" loading="lazy" className="w-full rounded-xl ring-1 ring-slate-200" />
     </div>
   );
 }
@@ -31,7 +23,7 @@ function AddonCard({ product, delay = 0 }) {
     <Reveal delay={delay}>
       <div className="card-lift flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-6" data-testid={`addon-card-${product.slug}`}>
         <div className="dot-grid flex justify-center rounded-xl border border-slate-100 bg-slate-50 py-6">
-          <BookMockup size="sm" title={(product.short_title || product.title).toUpperCase()} subtitle={product.product_type} />
+          <BookMockup size="sm" coverImage={product.cover_image} title={(product.short_title || product.title).toUpperCase()} subtitle={product.product_type} />
         </div>
         <span className="mt-4 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-600">Add-On Guide</span>
         <h3 className="mt-1.5 font-display text-base font-bold text-ink">{product.title}</h3>

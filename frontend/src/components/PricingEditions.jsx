@@ -1,13 +1,82 @@
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Check } from "lucide-react";
-import { CheckoutButton } from "./CheckoutButton";
-import { formatINR } from "../lib/api";
+import { toast } from "sonner";
+import { api, formatINR } from "../lib/api";
+import { trackEvent, appendUtms, getStoredUtms } from "../lib/analytics";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "./ui/dialog";
+
+const ADDON_DEFS = [
+  { slug: "ai-business-ideas-2026", testId: "addon-tick-ai" },
+  { slug: "chatgpt-prompt-guide", testId: "addon-tick-chatgpt" },
+];
+const BUNDLE_SLUG = "complete-business-bundle";
 
 export default function PricingEditions({ product }) {
+  const [ticks, setTicks] = useState({});
+  const [offerOpen, setOfferOpen] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const { data: allProducts = [] } = useQuery({
+    queryKey: ["products", "bump-offers"],
+    queryFn: async () => (await api.get("/products")).data,
+    staleTime: 60_000,
+  });
+
   const edition = product?.editions?.digital;
   if (!edition) return null;
+
   const regular = product?.regular_price;
   const savings = edition.price != null && regular != null && regular > edition.price ? regular - edition.price : null;
   const pct = savings != null ? Math.round((savings / regular) * 100) : null;
+
+  const addons = ADDON_DEFS.map((d) => ({ ...d, product: allProducts.find((p) => p.slug === d.slug) })).filter((a) => a.product);
+  const bundle = allProducts.find((p) => p.slug === BUNDLE_SLUG);
+  const bundleEdition = bundle?.editions?.digital;
+  const ticked = addons.filter((a) => ticks[a.slug]);
+  const addonsTotal = ticked.reduce((s, a) => s + (a.product.editions?.digital?.price || 0), 0);
+  const total = (edition.price || 0) + addonsTotal;
+  const bundleSavings = bundleEdition?.price != null && total > bundleEdition.price ? total - bundleEdition.price : null;
+
+  async function redirectTo(url, value) {
+    setBusy(true);
+    trackEvent("InitiateCheckout", { content_name: product.slug, value, currency: product.currency || "INR", ...getStoredUtms() });
+    try {
+      await api.post("/orders", { product_slug: product.slug, edition: "digital" });
+    } catch (e) {
+      // order intent logging must never block checkout
+    }
+    window.location.href = appendUtms(url);
+  }
+
+  function handleMainCta() {
+    if (busy) return;
+    if (!ticked.length) {
+      if (edition.checkout_url) redirectTo(edition.checkout_url, edition.price);
+      else toast.info("Checkout link not connected yet", { description: "The store owner still needs to add the payment link." });
+      return;
+    }
+    setOfferOpen(true);
+  }
+
+  function handleContinueWithoutOffer() {
+    setOfferOpen(false);
+    const combo = product.combo_checkout_urls || {};
+    let url = edition.checkout_url;
+    if (ticked.length === 1 && combo[ticked[0].slug]) url = combo[ticked[0].slug];
+    if (!url) {
+      toast.info("Checkout link not connected yet");
+      return;
+    }
+    redirectTo(url, total);
+  }
+
+  function handleGetBundle() {
+    if (!bundleEdition?.checkout_url) {
+      toast.info("Bundle checkout link not connected yet");
+      return;
+    }
+    redirectTo(bundleEdition.checkout_url, bundleEdition.price);
+  }
 
   return (
     <div className="mx-auto max-w-xl" data-testid="pricing-editions">
@@ -28,7 +97,7 @@ export default function PricingEditions({ product }) {
             <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">You Save {formatINR(savings)}</span>
           )}
         </div>
-        <ul className="mt-6 flex-1 space-y-2.5">
+        <ul className="mt-6 space-y-2.5">
           {(edition.features || []).map((f, i) => (
             <li key={i} className="flex items-start gap-2.5 text-sm text-slate-600">
               <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
@@ -36,16 +105,80 @@ export default function PricingEditions({ product }) {
             </li>
           ))}
         </ul>
-        <CheckoutButton
-          product={product}
-          edition="digital"
-          testId="buy-digital-button"
-          className="mt-6 w-full bg-brand-600 px-5 py-4 text-base text-white hover:bg-brand-700"
-        />
+
+        {addons.length > 0 && (
+          <div className="mt-6 space-y-2.5 rounded-xl bg-brand-50 p-4 ring-1 ring-brand-100" data-testid="bump-offers">
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-700">Bump Offer — Tick to Add</p>
+            {addons.map((a) => {
+              const price = a.product.editions?.digital?.price;
+              const active = Boolean(ticks[a.slug]);
+              return (
+                <button
+                  key={a.slug}
+                  type="button"
+                  onClick={() => setTicks((t) => ({ ...t, [a.slug]: !t[a.slug] }))}
+                  data-testid={a.testId}
+                  className={`flex w-full items-center gap-3 rounded-lg border px-3.5 py-3 text-left transition-colors duration-200 ${
+                    active ? "border-brand-600 bg-white ring-1 ring-brand-600/40" : "border-slate-200 bg-white hover:border-brand-300"
+                  }`}
+                >
+                  <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition-colors duration-200 ${active ? "border-brand-600 bg-brand-600" : "border-slate-300 bg-white"}`}>
+                    {active && <Check className="h-3.5 w-3.5 text-white" />}
+                  </span>
+                  <span className="flex-1 text-sm font-semibold text-ink">{a.product.title}</span>
+                  <span className="font-display text-sm font-extrabold text-brand-600">+{formatINR(price)}</span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        <button
+          type="button"
+          onClick={handleMainCta}
+          disabled={busy}
+          data-testid="buy-digital-button"
+          className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand-600 px-5 py-4 text-base font-semibold text-white transition-colors duration-200 hover:bg-brand-700 disabled:opacity-60"
+        >
+          {edition.cta || "Get Instant Access"} — <span data-testid="edition-total">{formatINR(total)}</span>
+        </button>
         <p className="mt-3 text-center font-mono text-[10px] uppercase tracking-wider text-slate-400">
           {edition.note || "Secure Checkout • Digital Product • Instant Access"}
         </p>
       </div>
+
+      <Dialog open={offerOpen} onOpenChange={setOfferOpen}>
+        <DialogContent className="max-w-md overflow-hidden p-0" data-testid="bundle-offer-modal">
+          <img src="/samples/bundle-covers.png" alt="All three LedgerKit guides" className="w-full" />
+          <div className="p-6">
+            <span className="eyebrow">Special Offer — Only Here</span>
+            <DialogTitle className="mt-2 font-display text-2xl font-extrabold tracking-tight text-ink">
+              Get Everything for {formatINR(bundleEdition?.price)}
+            </DialogTitle>
+            <DialogDescription className="mt-2 text-sm leading-relaxed text-slate-600">
+              You're adding {ticked.map((t) => t.product.title).join(" + ")}. Take the Complete Business Bundle instead — all three guides for {formatINR(bundleEdition?.price)} instead of {formatINR(total)}.{bundleSavings ? ` You save ${formatINR(bundleSavings)}.` : ""}
+            </DialogDescription>
+            <button
+              type="button"
+              onClick={handleGetBundle}
+              disabled={busy}
+              data-testid="bundle-offer-accept"
+              className="mt-5 w-full rounded-xl bg-brand-600 px-5 py-4 text-sm font-bold text-white shadow-[0_12px_30px_-8px_rgba(46,26,200,0.5)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-brand-700 disabled:opacity-60"
+            >
+              Get the Bundle Offer — {formatINR(bundleEdition?.price)}
+            </button>
+            <button
+              type="button"
+              onClick={handleContinueWithoutOffer}
+              disabled={busy}
+              data-testid="bundle-offer-decline"
+              className="mt-3 w-full rounded-xl px-5 py-3 text-sm font-semibold text-slate-500 underline-offset-4 transition-colors hover:text-ink hover:underline"
+            >
+              Continue without the offer — {formatINR(total)}
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
