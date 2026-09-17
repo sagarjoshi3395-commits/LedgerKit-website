@@ -79,6 +79,8 @@ Students; side-income explorers; beginners in digital business; existing digital
 
 - v7 polish: all images converted to WebP (13MB → 1.3MB total, hero 1.6MB→160KB, fetchpriority=high on hero); 10-min timer chips added near hero CTAs and above the pricing card Buy button (pulsing dot); hero engagement: spinning yellow circular badge (₹299 / 3 YEARS EXPERIENCE) + hand-drawn arrow pointing to poster; legal "Last updated" set to 17 September 2026; support email (ledgerkitsupport@gmail.com) added to checkout trust + FAQ note; no address/phone anywhere on site
 
+- v8: timer expiry state decided & verified — when a visitor's 10-minute deadline ends, all timers (hero chip, pricing card chip, big countdown, sticky bar) hide cleanly and the price stays ₹299; deadline is stored once per visitor and never resets (no fake scarcity loop)
+
 ## Backlog (prioritized)
 - **P0**: Configure real per-edition checkout URLs (SuperProfile) in product data; set bundle price; set ADMIN_KEY in backend/.env; replace [PLACEHOLDER] business details (support email/phone/address, refund/shipping timelines); upload real sample pages, Ads Manager screenshots, physical-book photos
 - **P1**: Direct Razorpay integration (create order → checkout → server-side signature verify → paid status → delivery email → /order-success); customer download/access flow; admin UI for editing products/settings/testimonials; real testimonials once collected
