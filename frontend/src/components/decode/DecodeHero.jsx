@@ -124,13 +124,28 @@ export default function DecodeHero({ product, onBuy, onPreview }) {
           <Reveal delay={0.15}>
             <div className="relative rotate-1 transition-transform duration-300 hover:rotate-0">
               <SpinBadge />
-              <img
-                src="/samples/hero-cover.webp"
-                alt="Digital Product Sales Engine — guide cover with real Meta Ads dashboard preview"
-                fetchpriority="high"
-                className="w-full rounded-2xl border border-slate-200 shadow-[0_35px_70px_-20px_rgba(46,26,200,0.35)]"
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                poster="/samples/hero-cover.webp"
+                aria-label="Digital Product Sales Engine — animated flip-through of real guide pages"
+                className="w-full rounded-2xl border border-slate-200 bg-white shadow-[0_35px_70px_-20px_rgba(46,26,200,0.35)]"
                 data-testid="hero-cover-image"
-              />
+                disablePictureInPicture
+                controlsList="nodownload nofullscreen noremoteplayback"
+              >
+                <source src="/samples/hero-flip.mp4" type="video/mp4" />
+                <source src="/samples/hero-flip.webm" type="video/webm" />
+                <img
+                  src="/samples/hero-cover.webp"
+                  alt="Digital Product Sales Engine — guide cover with real Meta Ads dashboard preview"
+                  fetchPriority="high"
+                  className="w-full"
+                />
+              </video>
               <div className="absolute -left-3 -top-4 -rotate-6 rounded-lg bg-[#FFD400] px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-wider text-ink shadow-lg sm:-left-6" data-testid="hero-sticky-note">
                 Real dashboards inside →
               </div>

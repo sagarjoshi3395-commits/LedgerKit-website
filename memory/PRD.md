@@ -81,6 +81,12 @@ Students; side-income explorers; beginners in digital business; existing digital
 
 - v8: timer expiry state decided & verified — when a visitor's 10-minute deadline ends, all timers (hero chip, pricing card chip, big countdown, sticky bar) hide cleanly and the price stays ₹299; deadline is stored once per visitor and never resets (no fake scarcity loop)
 
+## Update (2026-09-17, v9 — hero flip-through video)
+- New muted, auto-playing, looping hero video on the Sales Engine landing (/meta-ads-decode): `/public/samples/hero-flip.mp4` (1.75MB h264, 760×1074, 30fps, 18s) + `hero-flip.webm` (2.4MB VP9 fallback for Chromium/Firefox without h264)
+- Built frame-by-frame from the real assets with PIL+ffmpeg (imageio-ffmpeg binary): cover → 7 interior sample pages → dashboard → crossfade back to cover (seamless loop); slide-left page-turn transitions with smoothstep easing + subtle Ken Burns zoom on holds
+- DecodeHero.jsx: static cover <img> replaced with <video autoPlay muted loop playsInline poster=hero-cover.webp> (mp4 source first, webm fallback, img fallback inside); same rounded card, shadow, spin badge, sticky note, data-testid kept
+- NOTE: headless test Chromium decodes video extremely slowly (environment CPU throttling — verified with tiny test clip); plays at full speed in real browsers
+
 ## Backlog (prioritized)
 - **P0**: Configure real per-edition checkout URLs (SuperProfile) in product data; set bundle price; set ADMIN_KEY in backend/.env; replace [PLACEHOLDER] business details (support email/phone/address, refund/shipping timelines); upload real sample pages, Ads Manager screenshots, physical-book photos
 - **P1**: Direct Razorpay integration (create order → checkout → server-side signature verify → paid status → delivery email → /order-success); customer download/access flow; admin UI for editing products/settings/testimonials; real testimonials once collected
