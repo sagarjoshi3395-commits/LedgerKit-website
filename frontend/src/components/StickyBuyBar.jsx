@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
 import { api, formatINR } from "../lib/api";
-import { trackEvent, appendUtms, getStoredUtms } from "../lib/analytics";
+import { trackEvent, getStoredUtms } from "../lib/analytics";
+import { startRazorpayCheckout } from "../lib/razorpay";
 import { useOfferTimer } from "../lib/offerTimer";
 
 const BUNDLE_SLUG = "complete-business-bundle";
@@ -10,6 +12,7 @@ const BUNDLE_SLUG = "complete-business-bundle";
 export default function StickyBuyBar({ product, offset = 600 }) {
   const [visible, setVisible] = useState(false);
   const [choice, setChoice] = useState("guide");
+  const [busy, setBusy] = useState(false);
   const countdown = useOfferTimer(10);
   const timerText = countdown != null
     ? `${String(Math.floor(countdown / 60)).padStart(2, "0")}:${String(countdown % 60).padStart(2, "0")}`
@@ -37,21 +40,28 @@ export default function StickyBuyBar({ product, offset = 600 }) {
   const regular = product?.regular_price;
 
   const options = [
-    { key: "guide", label: "Guide Only", price: edition.price, url: edition.checkout_url, badge: null },
+    { key: "guide", label: "Guide Only", price: edition.price, slug: product.slug, badge: null },
     ...(hasBundle
-      ? [{ key: "bundle", label: "Bundle", price: bundleEdition.price, url: bundleEdition.checkout_url, badge: "Save More" }]
+      ? [{ key: "bundle", label: "Bundle", price: bundleEdition.price, slug: BUNDLE_SLUG, badge: "Save More" }]
       : []),
   ];
   const active = options.find((o) => o.key === choice) || options[0];
 
-  const handleClick = () => {
+  const handleClick = async () => {
+    if (busy) return;
+    setBusy(true);
     trackEvent("InitiateCheckout", {
-      content_name: active.key === "bundle" ? BUNDLE_SLUG : product.slug,
+      content_name: active.slug,
       value: active.price || undefined,
       currency: product.currency || "INR",
       ...getStoredUtms(),
     });
-    if (active.url) window.location.href = appendUtms(active.url);
+    await startRazorpayCheckout({
+      items: [{ product_slug: active.slug, edition: "digital" }],
+      onError: (msg) => toast.error("Couldn't start checkout", { description: msg }),
+      onDismiss: () => setBusy(false),
+    });
+    setBusy(false);
   };
 
   return (
@@ -103,8 +113,9 @@ export default function StickyBuyBar({ product, offset = 600 }) {
         <button
           type="button"
           onClick={handleClick}
+          disabled={busy}
           data-testid="sticky-buy-cta"
-          className="shrink-0 rounded-lg bg-brand-600 px-5 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-700"
+          className="shrink-0 rounded-lg bg-brand-600 px-5 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-700 disabled:opacity-60"
         >
           Buy Now — {formatINR(active.price)}
         </button>

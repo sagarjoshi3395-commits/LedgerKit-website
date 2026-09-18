@@ -87,7 +87,15 @@ Students; side-income explorers; beginners in digital business; existing digital
 - DecodeHero.jsx: static cover <img> replaced with <video autoPlay muted loop playsInline poster=hero-cover.webp> (mp4 source first, webm fallback, img fallback inside); same rounded card, shadow, spin badge, sticky note, data-testid kept
 - NOTE: headless test Chromium decodes video extremely slowly (environment CPU throttling — verified with tiny test clip); plays at full speed in real browsers
 
-## Backlog (prioritized)
+## Update (2026-09-18, v10 — native Razorpay checkout)
+- Replaced all SuperProfile external redirects with native Razorpay Checkout across every buy path (CheckoutButton, StickyBuyBar, PricingEditions bump/combo/bundle flows, DecodeAddons, ProductDetail)
+- Backend (server.py): razorpay SDK client (guarded on env); POST /api/checkout/create-order (accepts items[], computes total server-side from DB prices, creates Razorpay order, stores Order with items[]+razorpay_order_id, status payment_pending, provider razorpay) → returns order_id, razorpay_order_id, amount(paise), key_id, name, description; POST /api/checkout/verify (verify_payment_signature → marks order paid + razorpay_payment_id + paid_at; bad signature → 400 + payment_failed; unknown order → 404)
+- Frontend: new lib/razorpay.js (loads checkout.js, calls create-order, opens modal with theme #2E1AC8, verifies, redirects /order-success?order_id=). Amount + key_id come from backend — nothing hardcoded in frontend
+- Keys in backend/.env: RAZORPAY_KEY_ID/RAZORPAY_KEY_SECRET (LIVE keys — real charges). Combo_checkout_urls / SuperProfile URLs in product data are now unused (kept but ignored; multi-item totals handled by Razorpay directly)
+- Backend fully tested (create-order single/multi/bundle math, 404/400 edge cases, signature-rejection) — all pass. Frontend payment NOT auto-tested (live keys = real money); Razorpay script injection verified in-browser. Real end-to-end purchase needs a live test by the owner.
+- NEXT: Razorpay webhook (/api/webhook + RAZORPAY_WEBHOOK_SECRET) for server-authoritative paid status; email/download delivery on paid; capture buyer email into order
+
+
 - **P0**: Configure real per-edition checkout URLs (SuperProfile) in product data; set bundle price; set ADMIN_KEY in backend/.env; replace [PLACEHOLDER] business details (support email/phone/address, refund/shipping timelines); upload real sample pages, Ads Manager screenshots, physical-book photos
 - **P1**: Direct Razorpay integration (create order → checkout → server-side signature verify → paid status → delivery email → /order-success); customer download/access flow; admin UI for editing products/settings/testimonials; real testimonials once collected
 - **P2**: Meta CAPI server-side events, offer countdown config, physical order shipping status tracking in admin

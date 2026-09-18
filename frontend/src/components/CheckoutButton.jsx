@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
-import { api } from "../lib/api";
-import { trackEvent, appendUtms, getStoredUtms } from "../lib/analytics";
+import { trackEvent, getStoredUtms } from "../lib/analytics";
+import { startRazorpayCheckout } from "../lib/razorpay";
 
 /**
- * Purchase button. Creates an order-intent in the backend, then redirects to the
- * edition's configured checkout_url (SuperProfile / Razorpay / any provider).
- * If no checkout URL is configured yet, it informs the visitor instead of faking a checkout.
+ * Purchase button. Opens the Razorpay checkout for this product edition,
+ * verifies the payment server-side, then routes to /order-success.
  */
 export function CheckoutButton({ product, edition = "digital", className = "", children, testId }) {
   const [loading, setLoading] = useState(false);
@@ -26,21 +25,15 @@ export function CheckoutButton({ product, edition = "digital", className = "", c
       currency: product?.currency || "INR",
       ...getStoredUtms(),
     });
-    try {
-      const res = await api.post("/orders", { product_slug: product.slug, edition });
-      const url = res.data.checkout_url;
-      if (url) {
-        window.location.href = appendUtms(url);
-        return;
-      }
-      toast.info("Checkout link not connected yet", {
-        description: `Order reference ${res.data.order_id} was created. The store owner still needs to add the ${editionData?.label || edition} payment link.`,
-      });
-    } catch (err) {
-      toast.error("Couldn't start checkout", { description: "Please try again in a moment." });
-    } finally {
-      setLoading(false);
-    }
+    await startRazorpayCheckout({
+      items: [{ product_slug: product.slug, edition }],
+      onError: (msg) => toast.error("Couldn't start checkout", { description: msg }),
+      onDismiss: () => setLoading(false),
+      onSuccess: ({ order_id }) => {
+        window.location.href = `/order-success?order_id=${order_id}`;
+      },
+    });
+    setLoading(false);
   }
 
   return (

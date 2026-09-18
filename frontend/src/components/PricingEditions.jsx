@@ -3,7 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Check } from "lucide-react";
 import { toast } from "sonner";
 import { api, formatINR } from "../lib/api";
-import { trackEvent, appendUtms, getStoredUtms } from "../lib/analytics";
+import { trackEvent, getStoredUtms } from "../lib/analytics";
+import { startRazorpayCheckout } from "../lib/razorpay";
 import { useOfferTimer } from "../lib/offerTimer";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "./ui/dialog";
 
@@ -42,22 +43,22 @@ export default function PricingEditions({ product }) {
   const total = (edition.price || 0) + addonsTotal;
   const bundleSavings = bundleEdition?.price != null && total > bundleEdition.price ? total - bundleEdition.price : null;
 
-  async function redirectTo(url, value) {
+  async function checkout(items, value) {
+    if (busy) return;
     setBusy(true);
     trackEvent("InitiateCheckout", { content_name: product.slug, value, currency: product.currency || "INR", ...getStoredUtms() });
-    try {
-      await api.post("/orders", { product_slug: product.slug, edition: "digital" });
-    } catch (e) {
-      // order intent logging must never block checkout
-    }
-    window.location.href = appendUtms(url);
+    await startRazorpayCheckout({
+      items,
+      onError: (msg) => toast.error("Couldn't start checkout", { description: msg }),
+      onDismiss: () => setBusy(false),
+    });
+    setBusy(false);
   }
 
   function handleMainCta() {
     if (busy) return;
     if (!ticked.length) {
-      if (edition.checkout_url) redirectTo(edition.checkout_url, edition.price);
-      else toast.info("Checkout link not connected yet", { description: "The store owner still needs to add the payment link." });
+      checkout([{ product_slug: product.slug, edition: "digital" }], edition.price);
       return;
     }
     setOfferOpen(true);
@@ -65,22 +66,20 @@ export default function PricingEditions({ product }) {
 
   function handleContinueWithoutOffer() {
     setOfferOpen(false);
-    const combo = product.combo_checkout_urls || {};
-    let url = edition.checkout_url;
-    if (ticked.length === 1 && combo[ticked[0].slug]) url = combo[ticked[0].slug];
-    if (!url) {
-      toast.info("Checkout link not connected yet");
-      return;
-    }
-    redirectTo(url, total);
+    const items = [
+      { product_slug: product.slug, edition: "digital" },
+      ...ticked.map((t) => ({ product_slug: t.slug, edition: "digital" })),
+    ];
+    checkout(items, total);
   }
 
   function handleGetBundle() {
-    if (!bundleEdition?.checkout_url) {
-      toast.info("Bundle checkout link not connected yet");
+    if (!bundle) {
+      toast.info("Bundle is not available right now");
       return;
     }
-    redirectTo(bundleEdition.checkout_url, bundleEdition.price);
+    setOfferOpen(false);
+    checkout([{ product_slug: BUNDLE_SLUG, edition: "digital" }], bundleEdition?.price);
   }
 
   return (

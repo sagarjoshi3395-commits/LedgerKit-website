@@ -5,9 +5,10 @@ from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
 import uuid
+import razorpay
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
-from typing import Optional, Annotated
+from typing import Optional, Annotated, List
 from pydantic import BaseModel, Field, ConfigDict, BeforeValidator, EmailStr
 
 from seed_data import META_ADS_DECODE_PRODUCT, CATEGORIES, SITE_SETTINGS, TESTIMONIALS, AI_IDEAS_PRODUCT, PROMPT_GUIDE_PRODUCT, BUNDLE_PRODUCT
@@ -18,6 +19,14 @@ load_dotenv(ROOT_DIR / '.env')
 mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
+
+RAZORPAY_KEY_ID = os.environ.get("RAZORPAY_KEY_ID", "")
+RAZORPAY_KEY_SECRET = os.environ.get("RAZORPAY_KEY_SECRET", "")
+razorpay_client = (
+    razorpay.Client(auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET))
+    if RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET
+    else None
+)
 
 app = FastAPI(title="Decode Storefront API")
 api_router = APIRouter(prefix="/api")
@@ -73,6 +82,23 @@ class Order(BaseDocument):
     status: str = "payment_pending"
     payment_provider: str = "external"
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+class CheckoutItem(BaseModel):
+    product_slug: str
+    edition: str = "digital"
+
+
+class RazorpayCreateIn(BaseModel):
+    items: List[CheckoutItem]
+    email: Optional[EmailStr] = None
+
+
+class RazorpayVerifyIn(BaseModel):
+    order_id: str
+    razorpay_order_id: str
+    razorpay_payment_id: str
+    razorpay_signature: str
 
 
 class ProductCreate(BaseModel):
@@ -188,6 +214,109 @@ async def create_order(payload: OrderCreate):
     await db.orders.insert_one(order.to_mongo())
     checkout_url = edition.get("checkout_url") or product.get("checkout_url") or ""
     return {"order_id": order.order_id, "checkout_url": checkout_url, "amount": order.amount, "currency": order.currency}
+
+
+@api_router.post("/checkout/create-order")
+async def create_razorpay_order(payload: RazorpayCreateIn):
+    """Create a Razorpay order for one or more items (guide / add-ons / combo / bundle).
+    Amount is always computed server-side from DB prices — never trusted from the client."""
+    if razorpay_client is None:
+        raise HTTPException(status_code=503, detail="Payments are not configured. Set RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET in backend/.env.")
+    if not payload.items:
+        raise HTTPException(status_code=400, detail="No items to check out")
+
+    line_items = []
+    total = 0.0
+    currency = "INR"
+    for item in payload.items:
+        product = await db.products.find_one({"slug": item.product_slug, "status": "published"})
+        if not product:
+            raise HTTPException(status_code=404, detail=f"Product not found: {item.product_slug}")
+        edition = (product.get("editions") or {}).get(item.edition)
+        if not edition:
+            raise HTTPException(status_code=400, detail=f"Unknown edition '{item.edition}' for {item.product_slug}")
+        price = edition.get("price")
+        if price is None:
+            raise HTTPException(status_code=400, detail=f"No price set for {item.product_slug}")
+        currency = product.get("currency", "INR")
+        total += float(price)
+        line_items.append({
+            "product_slug": product["slug"],
+            "product_title": product["title"],
+            "edition": item.edition,
+            "price": float(price),
+        })
+
+    if total <= 0:
+        raise HTTPException(status_code=400, detail="Order total must be greater than zero")
+
+    amount_paise = int(round(total * 100))
+    order = Order(
+        product_slug=line_items[0]["product_slug"],
+        product_title=" + ".join(li["product_title"] for li in line_items),
+        edition=line_items[0]["edition"],
+        amount=total,
+        currency=currency,
+        email=str(payload.email) if payload.email else None,
+        payment_provider="razorpay",
+    )
+    order_doc = order.to_mongo()
+    order_doc["items"] = line_items
+
+    try:
+        rzp_order = razorpay_client.order.create({
+            "amount": amount_paise,
+            "currency": currency,
+            "receipt": order.order_id,
+            "payment_capture": 1,
+            "notes": {"order_id": order.order_id},
+        })
+    except Exception as exc:
+        logger.error("Razorpay order creation failed: %s", exc)
+        raise HTTPException(status_code=502, detail="Could not create payment order. Please try again.")
+
+    order_doc["razorpay_order_id"] = rzp_order["id"]
+    await db.orders.insert_one(order_doc)
+
+    return {
+        "order_id": order.order_id,
+        "razorpay_order_id": rzp_order["id"],
+        "amount": amount_paise,
+        "display_amount": total,
+        "currency": currency,
+        "key_id": RAZORPAY_KEY_ID,
+        "name": "LedgerKit",
+        "description": order.product_title,
+        "items": line_items,
+    }
+
+
+@api_router.post("/checkout/verify")
+async def verify_razorpay_payment(payload: RazorpayVerifyIn):
+    """Verify the Razorpay payment signature and mark the order paid."""
+    if razorpay_client is None:
+        raise HTTPException(status_code=503, detail="Payments are not configured.")
+    order = await db.orders.find_one({"order_id": payload.order_id, "razorpay_order_id": payload.razorpay_order_id})
+    if not order:
+        raise HTTPException(status_code=404, detail="Order not found")
+    try:
+        razorpay_client.utility.verify_payment_signature({
+            "razorpay_order_id": payload.razorpay_order_id,
+            "razorpay_payment_id": payload.razorpay_payment_id,
+            "razorpay_signature": payload.razorpay_signature,
+        })
+    except razorpay.errors.SignatureVerificationError:
+        await db.orders.update_one({"order_id": payload.order_id}, {"$set": {"status": "payment_failed"}})
+        raise HTTPException(status_code=400, detail="Payment signature verification failed")
+    await db.orders.update_one(
+        {"order_id": payload.order_id},
+        {"$set": {
+            "status": "paid",
+            "razorpay_payment_id": payload.razorpay_payment_id,
+            "paid_at": datetime.now(timezone.utc).isoformat(),
+        }},
+    )
+    return {"ok": True, "order_id": payload.order_id, "status": "paid"}
 
 
 @api_router.get("/orders/recent-summary")
