@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { api, formatINR } from "../lib/api";
 import { trackEvent, getStoredUtms } from "../lib/analytics";
 import { startRazorpayCheckout } from "../lib/razorpay";
+import BuyerEmailDialog from "./BuyerEmailDialog";
 import { useOfferTimer } from "../lib/offerTimer";
 
 const BUNDLE_SLUG = "complete-business-bundle";
@@ -13,6 +14,7 @@ export default function StickyBuyBar({ product, offset = 600 }) {
   const [visible, setVisible] = useState(false);
   const [choice, setChoice] = useState("guide");
   const [busy, setBusy] = useState(false);
+  const [emailOpen, setEmailOpen] = useState(false);
   const countdown = useOfferTimer(10);
   const timerText = countdown != null
     ? `${String(Math.floor(countdown / 60)).padStart(2, "0")}:${String(countdown % 60).padStart(2, "0")}`
@@ -47,8 +49,12 @@ export default function StickyBuyBar({ product, offset = 600 }) {
   ];
   const active = options.find((o) => o.key === choice) || options[0];
 
-  const handleClick = async () => {
+  const handleClick = () => {
     if (busy) return;
+    setEmailOpen(true);
+  };
+
+  const handleEmailSubmit = async (email) => {
     setBusy(true);
     trackEvent("InitiateCheckout", {
       content_name: active.slug,
@@ -58,13 +64,24 @@ export default function StickyBuyBar({ product, offset = 600 }) {
     });
     await startRazorpayCheckout({
       items: [{ product_slug: active.slug, edition: "digital" }],
+      email,
       onError: (msg) => toast.error("Couldn't start checkout", { description: msg }),
-      onDismiss: () => setBusy(false),
+      onDismiss: () => { setBusy(false); setEmailOpen(false); },
     });
     setBusy(false);
+    setEmailOpen(false);
   };
 
   return (
+    <>
+    <BuyerEmailDialog
+      open={emailOpen}
+      onOpenChange={setEmailOpen}
+      onSubmit={handleEmailSubmit}
+      busy={busy}
+      productTitle={active.key === "bundle" ? "Complete Business Bundle" : product.title}
+      total={active.price}
+    />
     <div
       className={`fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 backdrop-blur-md transition-transform duration-300 ${
         visible ? "translate-y-0" : "translate-y-full"
@@ -121,5 +138,6 @@ export default function StickyBuyBar({ product, offset = 600 }) {
         </button>
       </div>
     </div>
+    </>
   );
 }

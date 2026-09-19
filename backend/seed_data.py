@@ -219,7 +219,7 @@ META_ADS_DECODE_PRODUCT = {
         "ai-business-ideas-2026": "https://superprofile.bio/vp/6aabbbe69c594000137ba85a",
         "chatgpt-prompt-guide": "https://superprofile.bio/vp/6aabbae09c594000137b7a66"
     },
-    "download_url": "",
+    "download_url": "https://customer-assets-39nsmqrw.emergentagent.net/job_guide-central-16/artifacts/y6e6znzi_Digital%20Product%20Mastery%20Decode%20Ebook.pdf",
     "description": (
         "A complete digital product guide covering the full journey — finding and validating product ideas, "
         "creating the product, building the sales page, setting up tracking, crafting creatives, and running "

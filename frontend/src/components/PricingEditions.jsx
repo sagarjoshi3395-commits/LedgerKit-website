@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { api, formatINR } from "../lib/api";
 import { trackEvent, getStoredUtms } from "../lib/analytics";
 import { startRazorpayCheckout } from "../lib/razorpay";
+import BuyerEmailDialog from "./BuyerEmailDialog";
 import { useOfferTimer } from "../lib/offerTimer";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "./ui/dialog";
 
@@ -18,6 +19,7 @@ export default function PricingEditions({ product }) {
   const [ticks, setTicks] = useState({});
   const [offerOpen, setOfferOpen] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [pending, setPending] = useState(null); // { items, value, title } -> email dialog
   const countdown = useOfferTimer(10);
   const timerText = countdown != null
     ? `${String(Math.floor(countdown / 60)).padStart(2, "0")}:${String(countdown % 60).padStart(2, "0")}`
@@ -43,22 +45,30 @@ export default function PricingEditions({ product }) {
   const total = (edition.price || 0) + addonsTotal;
   const bundleSavings = bundleEdition?.price != null && total > bundleEdition.price ? total - bundleEdition.price : null;
 
-  async function checkout(items, value) {
+  function checkout(items, value, title) {
     if (busy) return;
+    setPending({ items, value, title });
+  }
+
+  async function handleEmailSubmit(email) {
+    if (!pending || busy) return;
+    const { items, value } = pending;
     setBusy(true);
     trackEvent("InitiateCheckout", { content_name: product.slug, value, currency: product.currency || "INR", ...getStoredUtms() });
     await startRazorpayCheckout({
       items,
+      email,
       onError: (msg) => toast.error("Couldn't start checkout", { description: msg }),
-      onDismiss: () => setBusy(false),
+      onDismiss: () => { setBusy(false); setPending(null); },
     });
     setBusy(false);
+    setPending(null);
   }
 
   function handleMainCta() {
     if (busy) return;
     if (!ticked.length) {
-      checkout([{ product_slug: product.slug, edition: "digital" }], edition.price);
+      checkout([{ product_slug: product.slug, edition: "digital" }], edition.price, product.title);
       return;
     }
     setOfferOpen(true);
@@ -70,7 +80,7 @@ export default function PricingEditions({ product }) {
       { product_slug: product.slug, edition: "digital" },
       ...ticked.map((t) => ({ product_slug: t.slug, edition: "digital" })),
     ];
-    checkout(items, total);
+    checkout(items, total, product.title);
   }
 
   function handleGetBundle() {
@@ -79,7 +89,7 @@ export default function PricingEditions({ product }) {
       return;
     }
     setOfferOpen(false);
-    checkout([{ product_slug: BUNDLE_SLUG, edition: "digital" }], bundleEdition?.price);
+    checkout([{ product_slug: BUNDLE_SLUG, edition: "digital" }], bundleEdition?.price, bundle?.title || "Complete Business Bundle");
   }
 
   return (
@@ -186,6 +196,15 @@ export default function PricingEditions({ product }) {
           </button>
         </div>
       )}
+
+      <BuyerEmailDialog
+        open={pending != null}
+        onOpenChange={(v) => !v && setPending(null)}
+        onSubmit={handleEmailSubmit}
+        busy={busy}
+        productTitle={pending?.title || product?.title || "your guide"}
+        total={pending?.value ?? null}
+      />
 
       <Dialog open={offerOpen} onOpenChange={setOfferOpen}>
         <DialogContent className="max-w-md overflow-hidden p-0" data-testid="bundle-offer-modal">

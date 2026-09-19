@@ -36,19 +36,22 @@ export function loadRazorpayScript() {
  * @returns {Promise<boolean>} true if the modal opened
  */
 export async function startRazorpayCheckout({ items, email, prefill = {}, onSuccess, onError, onDismiss }) {
-  const ok = await loadRazorpayScript();
-  if (!ok || !window.Razorpay) {
-    onError?.("Could not load the payment window. Please check your connection and try again.");
-    return false;
-  }
+  // Load the checkout script and create the server-side order concurrently.
+  const createOrder = async () => {
+    try {
+      const res = await api.post("/checkout/create-order", { items, email, ...getStoredUtms() });
+      return res.data;
+    } catch (err) {
+      const detail = err?.response?.data?.detail;
+      onError?.(typeof detail === "string" ? detail : "Couldn't start checkout. Please try again.");
+      return null;
+    }
+  };
 
-  let order;
-  try {
-    const res = await api.post("/checkout/create-order", { items, email, ...getStoredUtms() });
-    order = res.data;
-  } catch (err) {
-    const detail = err?.response?.data?.detail;
-    onError?.(typeof detail === "string" ? detail : "Couldn't start checkout. Please try again.");
+  const [scriptOk, order] = await Promise.all([loadRazorpayScript(), createOrder()]);
+  if (!order) return false;
+  if (!scriptOk || !window.Razorpay) {
+    onError?.("Could not load the payment window. Please check your connection and try again.");
     return false;
   }
 

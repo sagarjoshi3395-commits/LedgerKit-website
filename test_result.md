@@ -147,6 +147,18 @@ frontend:
           agent: "main"
           comment: "New lib/razorpay.js loads checkout.js, calls /checkout/create-order, opens Razorpay modal, verifies via /checkout/verify, redirects to /order-success?order_id=. All 3 buy paths rewired away from SuperProfile redirects. NOT yet tested via UI — LIVE keys mean a completed payment charges real money, so frontend payment testing is DEFERRED pending explicit user permission."
 
+  - task: "Email delivery: buyer email capture + auto product delivery email (Resend)"
+    implemented: true
+    working: true
+    file: "backend/email_service.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "main"
+          comment: "BuyerEmailDialog collects email before Razorpay on ALL buy paths (validated, remembered in localStorage, pre-filled into Razorpay, stored on order). create-order stores email (curl-verified: buyer.test@example.com stored in DB). verify fetches payer email from Razorpay payment as fallback, sends branded delivery email with per-guide Download buttons, records delivery_status. meta-ads-decode download_url = real PDF (35MB user-uploaded artifact). Bundle expands to 3 guides. _deliver_products integration test: HTTP 202 Accepted from email proxy. PENDING: ai-business-ideas-2026 + chatgpt-prompt-guide download_urls empty until user provides those PDFs."
+
 metadata:
   created_by: "main_agent"
   version: "1.2"
@@ -163,7 +175,7 @@ test_plan:
 
 agent_communication:
     - agent: "main"
-      message: "Please test the two new Razorpay backend endpoints ONLY. These use LIVE Razorpay keys, so DO NOT complete any real payment. Safe tests: (1) POST /api/checkout/create-order with valid single item {items:[{product_slug:'meta-ads-decode',edition:'digital'}]} -> expect 200 with razorpay_order_id starting 'order_', amount 29900, key_id present. (2) Multi-item bundle math (meta-ads-decode + ai-business-ideas-2026 -> 49800). (3) Edge cases: unknown slug -> 404; unknown edition -> 400; empty items -> 400. (4) POST /api/checkout/verify with a bogus signature for a real created order_id/razorpay_order_id -> expect 400 signature failure and the order must NOT be marked paid (GET /api/orders/{order_id} should still be payment_failed, not paid). (5) verify with unknown order_id -> 404. Do NOT call Razorpay to simulate a successful capture."
+      message: "v12 added: buyer email capture dialog before Razorpay + auto product delivery email on verified payment (real PDF for main guide). See backend task 'Email delivery: buyer email capture + auto product delivery email (Resend)' for details. No retest needed unless a real payment is made."
     - agent: "testing"
       message: "Backend testing completed successfully. Created comprehensive backend_test.py with 8 test scenarios covering all requirements. All tests passed (8/8): ✅ Single item order creation (₹299 -> 29900 paise), ✅ Multi-item order with server-side total calculation (₹299+₹199 -> 49800 paise), ✅ Bundle order (₹499 -> 49900 paise), ✅ Unknown slug returns 404, ✅ Unknown edition returns 400, ✅ Empty items returns 400, ✅ Bogus signature verification returns 400 and marks order as 'payment_failed' (NOT 'paid'), ✅ Unknown order verification returns 404. Both Razorpay endpoints are working correctly with LIVE keys. NO real payments were completed during testing. Both backend tasks marked as working=true, needs_retesting=false."
 
