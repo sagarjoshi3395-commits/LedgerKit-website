@@ -104,6 +104,20 @@ Students; side-income explorers; beginners in digital business; existing digital
 - Tested: send_email to delivered@resend.dev returned a provider id (proxy works); gate passes on the template. End-to-end (real payment) not auto-tested (live keys).
 - BLOCKER for real delivery: every product download_url is empty. Owner must provide the hosted https link to each product's file (or upload the PDFs) so the email carries the actual product. Until then buyers get a "your access link is being prepared" delivery email.
 
+## Update (2026-09-19, v12 — buyer email capture + real PDF delivery)
+- New BuyerEmailDialog (components/BuyerEmailDialog.jsx): branded email-capture step before Razorpay on every buy path (CheckoutButton, StickyBuyBar, PricingEditions). Validated input, remembered via localStorage (lk_buyer_email), pre-fills Razorpay, shows live total. Native + custom validation.
+- Email flows into create-order → stored on order → verify fetches payer email from Razorpay payment as authoritative fallback → delivery email sent to it.
+- lib/razorpay.js: create-order + checkout.js load now run concurrently (faster modal, order created even if CDN is slow).
+- meta-ads-decode download_url = user-provided PDF (Digital Product Mastery Decode Ebook.pdf, 35MB, hosted artifact URL) → delivery email Download button + /order-success Download Now both serve the real guide. Bundle expands to the 3 guides.
+- Verified: dialog UI + validation in browser, email in create-order payload, email stored in DB (curl), full _deliver_products pipeline → HTTP 202 from email proxy with real PDF link.
+- STILL PENDING: download_url for ai-business-ideas-2026 + chatgpt-prompt-guide (user to provide PDFs).
+
+## Update (2026-09-19, v13 — Meta Pixel connected)
+- REACT_APP_META_PIXEL_ID=3470309736541129 added to frontend/.env (mechanism pre-existed in public/index.html: snippet inits pixel + tracks PageView when the env var is set)
+- Verified live in-browser: fbevents.js fetched from connect.facebook.net, fbq.loaded=true, version 2.9.403, event queue processed (init + PageView sent)
+- Event funnel now complete: PageView (all pages) → ViewContent (product views) → InitiateCheckout (fires on "Continue to Payment" in the email dialog) → Purchase (NEW: fires once on /order-success when order status = paid, with value/currency/order_id/UTMs — OrderSuccess.jsx)
+- Note: after deploys the platform rewrites REACT_APP_BACKEND_URL in frontend/.env — the pixel var must be re-added if .env is regenerated (verify after each deploy)
+
 - **P0**: Configure real per-edition checkout URLs (SuperProfile) in product data; set bundle price; set ADMIN_KEY in backend/.env; replace [PLACEHOLDER] business details (support email/phone/address, refund/shipping timelines); upload real sample pages, Ads Manager screenshots, physical-book photos
 - **P1**: Direct Razorpay integration (create order → checkout → server-side signature verify → paid status → delivery email → /order-success); customer download/access flow; admin UI for editing products/settings/testimonials; real testimonials once collected
 - **P2**: Meta CAPI server-side events, offer countdown config, physical order shipping status tracking in admin

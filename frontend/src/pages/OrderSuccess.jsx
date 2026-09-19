@@ -1,8 +1,10 @@
+import { useEffect, useRef } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { CheckCircle2, Clock, Mail, ArrowRight, Download } from "lucide-react";
 import { api, formatINR } from "../lib/api";
+import { trackEvent, getStoredUtms } from "../lib/analytics";
 import Seo from "../components/Seo";
 import { Skeleton } from "../components/ui/skeleton";
 
@@ -45,6 +47,22 @@ export default function OrderSuccess() {
   }
 
   const paid = order?.status === "paid" || order?.status === "delivered";
+
+  // Fire the Meta Pixel Purchase event exactly once when a paid order loads.
+  const purchaseFired = useRef(false);
+  useEffect(() => {
+    if (paid && order && !purchaseFired.current) {
+      purchaseFired.current = true;
+      trackEvent("Purchase", {
+        content_name: order.product_slug,
+        content_category: order.edition,
+        value: order.amount || undefined,
+        currency: order.currency || "INR",
+        order_id: order.order_id,
+        ...getStoredUtms(),
+      });
+    }
+  }, [paid, order]);
 
   return (
     <main className="py-16 sm:py-24" data-testid="order-success-page">
