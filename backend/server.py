@@ -12,6 +12,7 @@ from typing import Optional, Annotated, List
 from pydantic import BaseModel, Field, ConfigDict, BeforeValidator, EmailStr
 
 from seed_data import META_ADS_DECODE_PRODUCT, CATEGORIES, SITE_SETTINGS, TESTIMONIALS, AI_IDEAS_PRODUCT, PROMPT_GUIDE_PRODUCT, BUNDLE_PRODUCT
+from email_service import send_email, build_delivery_email
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -291,9 +292,53 @@ async def create_razorpay_order(payload: RazorpayCreateIn):
     }
 
 
+BUNDLE_PART_SLUGS = ["meta-ads-decode", "ai-business-ideas-2026", "chatgpt-prompt-guide"]
+
+
+async def _deliver_products(order_doc: dict, buyer_email: str) -> bool:
+    """Build and send the digital-product delivery email for a paid order.
+    Recipient + content are entirely server-side (G4). Never raises."""
+    items = order_doc.get("items") or [{
+        "product_slug": order_doc.get("product_slug"),
+        "product_title": order_doc.get("product_title"),
+        "edition": order_doc.get("edition", "digital"),
+    }]
+    # Expand each purchased item to the actual downloadable guide(s).
+    slugs: list[str] = []
+    for it in items:
+        slug = it.get("product_slug")
+        if slug == "complete-business-bundle":
+            slugs.extend(BUNDLE_PART_SLUGS)
+        elif slug:
+            slugs.append(slug)
+    seen = set()
+    delivery_items = []
+    for slug in slugs:
+        if slug in seen:
+            continue
+        seen.add(slug)
+        product = await db.products.find_one({"slug": slug})
+        if not product:
+            continue
+        delivery_items.append({
+            "title": product.get("title", "Your guide"),
+            "download_url": product.get("download_url", ""),
+        })
+    settings = await db.settings.find_one({"key": "site"}) or {}
+    support_email = settings.get("support_email") or SITE_SETTINGS.get("support_email")
+    subject, html = build_delivery_email(
+        order_id=order_doc.get("order_id"),
+        items=delivery_items,
+        amount=order_doc.get("amount"),
+        support_email=support_email,
+    )
+    email_id = await send_email(to=buyer_email, subject=subject, html=html)
+    return bool(email_id)
+
+
 @api_router.post("/checkout/verify")
 async def verify_razorpay_payment(payload: RazorpayVerifyIn):
-    """Verify the Razorpay payment signature and mark the order paid."""
+    """Verify the Razorpay payment signature, mark the order paid, and email delivery."""
     if razorpay_client is None:
         raise HTTPException(status_code=503, detail="Payments are not configured.")
     order = await db.orders.find_one({"order_id": payload.order_id, "razorpay_order_id": payload.razorpay_order_id})
@@ -308,15 +353,36 @@ async def verify_razorpay_payment(payload: RazorpayVerifyIn):
     except razorpay.errors.SignatureVerificationError:
         await db.orders.update_one({"order_id": payload.order_id}, {"$set": {"status": "payment_failed"}})
         raise HTTPException(status_code=400, detail="Payment signature verification failed")
+
+    # Resolve the buyer's email authoritatively from the Razorpay payment record.
+    buyer_email = order.get("email")
+    try:
+        payment = razorpay_client.payment.fetch(payload.razorpay_payment_id)
+        buyer_email = payment.get("email") or buyer_email
+    except Exception as exc:
+        logger.warning("Could not fetch Razorpay payment %s: %s", payload.razorpay_payment_id, exc)
+
     await db.orders.update_one(
         {"order_id": payload.order_id},
         {"$set": {
             "status": "paid",
             "razorpay_payment_id": payload.razorpay_payment_id,
+            "email": buyer_email,
             "paid_at": datetime.now(timezone.utc).isoformat(),
         }},
     )
-    return {"ok": True, "order_id": payload.order_id, "status": "paid"}
+
+    # Deliver the product by email (never blocks the payment result).
+    delivered = False
+    if buyer_email:
+        order["items"] = order.get("items")
+        delivered = await _deliver_products(order, buyer_email)
+        await db.orders.update_one(
+            {"order_id": payload.order_id},
+            {"$set": {"delivery_status": "sent" if delivered else "pending", "delivered_to": buyer_email if delivered else None}},
+        )
+
+    return {"ok": True, "order_id": payload.order_id, "status": "paid", "delivered": delivered}
 
 
 @api_router.get("/orders/recent-summary")

@@ -96,6 +96,14 @@ Students; side-income explorers; beginners in digital business; existing digital
 - NEXT: Razorpay webhook (/api/webhook + RAZORPAY_WEBHOOK_SECRET) for server-authoritative paid status; email/download delivery on paid; capture buyer email into order
 
 
+## Update (2026-09-18, v11 — Resend product delivery on payment)
+- After Razorpay signature is verified (order -> paid), backend now emails the buyer their digital product automatically via Emergent-managed email (Resend proxy). No Resend key/domain needed — platform-managed.
+- New backend/email_service.py: playbook guardrail gate (_assert_safe_email, G2/G3) + async send_email (httpx, non-blocking, never raises) + build_delivery_email server-side template (LedgerKit brand header, order ref, amount, per-guide Download buttons, support reply-to, security footer)
+- verify endpoint: fetches buyer email via razorpay_client.payment.fetch(), stores email on order, sends delivery email, records delivery_status(sent/pending)+delivered_to. Bundle purchase auto-expands to the 3 included guides' download links (BUNDLE_PART_SLUGS). Email failure never blocks the paid result.
+- .env: EMERGENT_EMAIL_KEY, EMAIL_FROM_NAME="LedgerKit", EMAIL_REPLY_TO=ledgerkitsupport@gmail.com. email_service loads its own .env (avoids load_dotenv timing bug). requirements: httpx.
+- Tested: send_email to delivered@resend.dev returned a provider id (proxy works); gate passes on the template. End-to-end (real payment) not auto-tested (live keys).
+- BLOCKER for real delivery: every product download_url is empty. Owner must provide the hosted https link to each product's file (or upload the PDFs) so the email carries the actual product. Until then buyers get a "your access link is being prepared" delivery email.
+
 - **P0**: Configure real per-edition checkout URLs (SuperProfile) in product data; set bundle price; set ADMIN_KEY in backend/.env; replace [PLACEHOLDER] business details (support email/phone/address, refund/shipping timelines); upload real sample pages, Ads Manager screenshots, physical-book photos
 - **P1**: Direct Razorpay integration (create order → checkout → server-side signature verify → paid status → delivery email → /order-success); customer download/access flow; admin UI for editing products/settings/testimonials; real testimonials once collected
 - **P2**: Meta CAPI server-side events, offer countdown config, physical order shipping status tracking in admin
