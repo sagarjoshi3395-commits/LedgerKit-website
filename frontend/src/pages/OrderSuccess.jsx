@@ -28,25 +28,14 @@ export default function OrderSuccess() {
     queryFn: async () => (await api.get(`/orders/${orderId}`)).data,
     enabled: Boolean(orderId),
     retry: false,
+    refetchInterval: (q) => {
+      const s = q.state.data?.status;
+      return s === "paid" || s === "delivered" ? false : 4000;
+    },
   });
-
-  const { data: product } = useQuery({
-    queryKey: ["product", "meta-ads-decode"],
-    queryFn: async () => (await api.get("/products/meta-ads-decode")).data,
-    staleTime: 60_000,
-  });
-
-  function handleDownload() {
-    if (product?.download_url) {
-      window.open(product.download_url, "_blank");
-    } else {
-      toast.info("Download link is on its way", {
-        description: "Your access link is delivered by the payment provider — please check your email inbox (and spam folder).",
-      });
-    }
-  }
 
   const paid = order?.status === "paid" || order?.status === "delivered";
+  const downloads = order?.downloads || [];
 
   // Fire the Meta Pixel Purchase event exactly once when a paid order loads.
   const purchaseFired = useRef(false);
@@ -95,15 +84,56 @@ export default function OrderSuccess() {
                 </div>
               )}
 
+              {paid && downloads.length > 0 && (
+                <div className="mt-8 space-y-3 text-left" data-testid="download-list">
+                  <p className="text-center font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500">
+                    Your {downloads.length > 1 ? `${downloads.length} downloads` : "download"} — ready now
+                  </p>
+                  {downloads.map((d) => (
+                    <div
+                      key={d.slug}
+                      data-testid={`download-item-${d.slug}`}
+                      className="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
+                    >
+                      {d.cover_image ? (
+                        <img src={d.cover_image} alt={d.title} loading="lazy" className="h-16 w-12 shrink-0 rounded-md object-cover ring-1 ring-slate-200" />
+                      ) : (
+                        <span className="flex h-16 w-12 shrink-0 items-center justify-center rounded-md bg-brand-100 text-brand-700"><Download className="h-5 w-5" /></span>
+                      )}
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate font-display text-sm font-bold text-ink">{d.title}</p>
+                        <p className="mt-0.5 text-xs text-slate-500">Digital PDF • Instant access</p>
+                      </div>
+                      {d.download_url ? (
+                        <a
+                          href={d.download_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          download
+                          data-testid={`download-link-${d.slug}`}
+                          className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-700"
+                        >
+                          <Download className="h-4 w-4" /> Download
+                        </a>
+                      ) : (
+                        <span className="shrink-0 rounded-lg bg-amber-50 px-3 py-2 text-xs font-medium text-amber-700 ring-1 ring-amber-200">
+                          Emailed shortly
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                  <p className="pt-1 text-center text-xs text-slate-400">
+                    A copy of {downloads.length > 1 ? "these links" : "this link"} has also been sent to your email.
+                  </p>
+                </div>
+              )}
+
               <div className="mt-8 flex flex-col items-center gap-3">
-                <button
-                  type="button"
-                  onClick={handleDownload}
-                  data-testid="download-now-button"
-                  className="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-6 py-3.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-700"
-                >
-                  <Download className="h-4 w-4" /> Download Now
-                </button>
+                {!paid && (
+                  <p className="rounded-lg bg-amber-50 px-4 py-3 text-sm font-medium text-amber-700 ring-1 ring-amber-200" data-testid="pending-download-note">
+                    Your download links will appear here as soon as your payment is confirmed.
+                  </p>
+                )}
                 <Link to="/products" className="inline-flex items-center gap-2 rounded-lg bg-ink-surface px-6 py-3.5 text-sm font-semibold text-white hover:bg-ink" data-testid="order-continue-link">
                   Continue Browsing <ArrowRight className="h-4 w-4" />
                 </Link>

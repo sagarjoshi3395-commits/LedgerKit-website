@@ -295,15 +295,15 @@ async def create_razorpay_order(payload: RazorpayCreateIn):
 BUNDLE_PART_SLUGS = ["meta-ads-decode", "ai-business-ideas-2026", "chatgpt-prompt-guide"]
 
 
-async def _deliver_products(order_doc: dict, buyer_email: str) -> bool:
-    """Build and send the digital-product delivery email for a paid order.
-    Recipient + content are entirely server-side (G4). Never raises."""
+async def _resolve_downloads(order_doc: dict) -> list:
+    """Expand a paid order's items into the actual downloadable guides.
+    A bundle expands to its parts; duplicates are removed. Returns
+    [{slug, title, download_url, cover_image}] in purchase order."""
     items = order_doc.get("items") or [{
         "product_slug": order_doc.get("product_slug"),
         "product_title": order_doc.get("product_title"),
         "edition": order_doc.get("edition", "digital"),
     }]
-    # Expand each purchased item to the actual downloadable guide(s).
     slugs: list[str] = []
     for it in items:
         slug = it.get("product_slug")
@@ -312,7 +312,7 @@ async def _deliver_products(order_doc: dict, buyer_email: str) -> bool:
         elif slug:
             slugs.append(slug)
     seen = set()
-    delivery_items = []
+    downloads = []
     for slug in slugs:
         if slug in seen:
             continue
@@ -320,10 +320,20 @@ async def _deliver_products(order_doc: dict, buyer_email: str) -> bool:
         product = await db.products.find_one({"slug": slug})
         if not product:
             continue
-        delivery_items.append({
+        downloads.append({
+            "slug": slug,
             "title": product.get("title", "Your guide"),
             "download_url": product.get("download_url", ""),
+            "cover_image": product.get("cover_image", ""),
         })
+    return downloads
+
+
+async def _deliver_products(order_doc: dict, buyer_email: str) -> bool:
+    """Build and send the digital-product delivery email for a paid order.
+    Recipient + content are entirely server-side (G4). Never raises."""
+    downloads = await _resolve_downloads(order_doc)
+    delivery_items = [{"title": d["title"], "download_url": d["download_url"]} for d in downloads]
     settings = await db.settings.find_one({"key": "site"}) or {}
     support_email = settings.get("support_email") or SITE_SETTINGS.get("support_email")
     subject, html = build_delivery_email(
@@ -398,8 +408,12 @@ async def get_order(order_id: str):
     order = await db.orders.find_one({"order_id": order_id})
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
+    downloads = []
+    if order.get("status") in ("paid", "delivered"):
+        downloads = await _resolve_downloads(order)
     order = serialize_doc(order)
     order.pop("email", None)
+    order["downloads"] = downloads
     return order
 
 

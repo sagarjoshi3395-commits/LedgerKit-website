@@ -118,6 +118,13 @@ Students; side-income explorers; beginners in digital business; existing digital
 - Event funnel now complete: PageView (all pages) → ViewContent (product views) → InitiateCheckout (fires on "Continue to Payment" in the email dialog) → Purchase (NEW: fires once on /order-success when order status = paid, with value/currency/order_id/UTMs — OrderSuccess.jsx)
 - Note: after deploys the platform rewrites REACT_APP_BACKEND_URL in frontend/.env — the pixel var must be re-added if .env is regenerated (verify after each deploy)
 
+## Update (2026-09-19, v14 — all 3 PDFs live + per-product download page)
+- download_url wired for all 3 guides (ai-business-ideas-2026 + chatgpt-prompt-guide artifacts added; meta-ads-decode already done) — every product + the bundle now delivers real files
+- Backend: new _resolve_downloads(order) expands a paid order's items to actual guides (bundle → 3 parts, dedup) returning {slug,title,download_url,cover_image}; shared by delivery email AND GET /api/orders/{id} (adds `downloads` list, only when paid/delivered)
+- OrderSuccess.jsx redesigned: after payment the customer sees a per-product download card (cover + title + direct Download button opening the real PDF) for everything they bought; polls every 4s until paid; Meta Purchase event still fires once; email copy still sent in parallel
+- Verified end-to-end: bundle order → API returns 3 downloads all with real URLs → page renders 3 download cards with correct PDF links + covers; single order → 1 download; delivery email HTTP 202 for both
+- Result: buyer both (a) lands on site and downloads directly, and (b) gets the same links by email via Resend — exactly as requested
+
 - **P0**: Configure real per-edition checkout URLs (SuperProfile) in product data; set bundle price; set ADMIN_KEY in backend/.env; replace [PLACEHOLDER] business details (support email/phone/address, refund/shipping timelines); upload real sample pages, Ads Manager screenshots, physical-book photos
 - **P1**: Direct Razorpay integration (create order → checkout → server-side signature verify → paid status → delivery email → /order-success); customer download/access flow; admin UI for editing products/settings/testimonials; real testimonials once collected
 - **P2**: Meta CAPI server-side events, offer countdown config, physical order shipping status tracking in admin
