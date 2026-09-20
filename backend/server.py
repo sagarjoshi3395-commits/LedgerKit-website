@@ -11,7 +11,7 @@ from datetime import datetime, timezone, timedelta
 from typing import Optional, Annotated, List
 from pydantic import BaseModel, Field, ConfigDict, BeforeValidator, EmailStr
 
-from seed_data import META_ADS_DECODE_PRODUCT, CATEGORIES, SITE_SETTINGS, TESTIMONIALS, AI_IDEAS_PRODUCT, PROMPT_GUIDE_PRODUCT, BUNDLE_PRODUCT
+from seed_data import META_ADS_DECODE_PRODUCT, CATEGORIES, SITE_SETTINGS, TESTIMONIALS, AI_IDEAS_PRODUCT, PROMPT_GUIDE_PRODUCT, BUNDLE_PRODUCT, MEDICAL_BUNDLE_PRODUCT
 from email_service import send_email, build_delivery_email
 
 ROOT_DIR = Path(__file__).parent
@@ -320,12 +320,23 @@ async def _resolve_downloads(order_doc: dict) -> list:
         product = await db.products.find_one({"slug": slug})
         if not product:
             continue
-        downloads.append({
-            "slug": slug,
-            "title": product.get("title", "Your guide"),
-            "download_url": product.get("download_url", ""),
-            "cover_image": product.get("cover_image", ""),
-        })
+        files = product.get("download_files")
+        if files:
+            # Product bundles multiple files (e.g. a 2-book bundle).
+            for f in files:
+                downloads.append({
+                    "slug": f"{slug}:{(f.get('title') or '').lower().replace(' ', '-')}",
+                    "title": f.get("title", product.get("title", "Your guide")),
+                    "download_url": f.get("url", ""),
+                    "cover_image": product.get("cover_image", ""),
+                })
+        else:
+            downloads.append({
+                "slug": slug,
+                "title": product.get("title", "Your guide"),
+                "download_url": product.get("download_url", ""),
+                "cover_image": product.get("cover_image", ""),
+            })
     return downloads
 
 
@@ -472,12 +483,12 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 @app.on_event("startup")
 async def seed_database():
     await db.products.create_index("slug", unique=True)
-    for product_doc in [META_ADS_DECODE_PRODUCT, AI_IDEAS_PRODUCT, PROMPT_GUIDE_PRODUCT, BUNDLE_PRODUCT]:
+    for product_doc in [META_ADS_DECODE_PRODUCT, AI_IDEAS_PRODUCT, PROMPT_GUIDE_PRODUCT, BUNDLE_PRODUCT, MEDICAL_BUNDLE_PRODUCT]:
         doc = dict(product_doc)
         doc["created_at"] = datetime.now(timezone.utc).isoformat()
         await db.products.update_one({"slug": doc["slug"]}, {"$set": doc}, upsert=True)
-    if await db.categories.count_documents({}) == 0:
-        await db.categories.insert_many([dict(c) for c in CATEGORIES])
+    for cat in CATEGORIES:
+        await db.categories.update_one({"slug": cat["slug"]}, {"$set": dict(cat)}, upsert=True)
     await db.settings.update_one({"key": "site"}, {"$set": SITE_SETTINGS}, upsert=True)
     if await db.testimonials.count_documents({}) == 0:
         await db.testimonials.insert_many([dict(t) for t in TESTIMONIALS])

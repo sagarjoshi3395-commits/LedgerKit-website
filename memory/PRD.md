@@ -125,6 +125,14 @@ Students; side-income explorers; beginners in digital business; existing digital
 - Verified end-to-end: bundle order → API returns 3 downloads all with real URLs → page renders 3 download cards with correct PDF links + covers; single order → 1 download; delivery email HTTP 202 for both
 - Result: buyer both (a) lands on site and downloads directly, and (b) gets the same links by email via Resend — exactly as requested
 
+## Update (2026-09-20, v15 — Medical/Ayurvedic bundle product + 2-file delivery + sticky bump fix)
+- Added new product "Medical Diseases & Ayurvedic Reference Bundle" (slug medical-reference-bundle, ₹299 / regular ₹1999) ported from user's now-public GitHub repo. 2 PDFs (Diseases Reference Book 21MB + Medicine Reference Guide 8.5MB) → /app/frontend/public/downloads/; 2 covers → /samples/*.webp. New "health" category ("Health & Reference"); category seeding now upserts each (was only-if-empty).
+- Multi-file delivery: products can carry download_files:[{title,url}]. _resolve_downloads expands them so both PDFs appear as separate download cards on /order-success AND as separate Download buttons in the Resend email. Verified: resolves to 2 downloads, delivery HTTP 202.
+- Fixed who_for schema ({title,text}) so the product page renders proper bullets.
+- Frontend testing agent: PASS — store lists 5 products + Health filter; product page price/copy/buy; buy → email dialog → create-order 200 → Razorpay modal (no real pay); order-success shows both PDF download cards with correct https .pdf hrefs.
+- Bug fixes verified same session (v earlier): sticky-bar Buy Now shows bundle bump offer first (Guide Only), and email input set to 16px to stop mobile auto-zoom/shake.
+- NOTE (deploy): the medical PDFs/covers are served from the app's own /downloads & /samples paths with absolute preview-domain URLs in seed_data SITE_BASE — update SITE_BASE if the production domain differs, or the emailed/download links for this product will point at the preview domain.
+
 - **P0**: Configure real per-edition checkout URLs (SuperProfile) in product data; set bundle price; set ADMIN_KEY in backend/.env; replace [PLACEHOLDER] business details (support email/phone/address, refund/shipping timelines); upload real sample pages, Ads Manager screenshots, physical-book photos
 - **P1**: Direct Razorpay integration (create order → checkout → server-side signature verify → paid status → delivery email → /order-success); customer download/access flow; admin UI for editing products/settings/testimonials; real testimonials once collected
 - **P2**: Meta CAPI server-side events, offer countdown config, physical order shipping status tracking in admin

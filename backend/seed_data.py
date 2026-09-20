@@ -20,6 +20,7 @@ CATEGORIES = [
     {"slug": "productivity", "name": "Productivity"},
     {"slug": "templates", "name": "Templates"},
     {"slug": "guides", "name": "Guides"},
+    {"slug": "health", "name": "Health & Reference"},
 ]
 
 CURRICULUM = [
@@ -451,6 +452,83 @@ BUNDLE_PRODUCT = {
             "note": "Secure Checkout • Digital Products • Instant Access",
             "checkout_url": "https://superprofile.bio/vp/6aabaf99aa63460013c9c19f",
             "features": [],
+        },
+    },
+}
+
+
+SITE_BASE = "https://guide-central-16.preview.emergentagent.com"
+
+MEDICAL_BUNDLE_PRODUCT = {
+    "slug": "medical-reference-bundle",
+    "title": "Medical Diseases & Ayurvedic Reference Bundle",
+    "short_title": "Medical Reference Bundle",
+    "cover_image": "/samples/med-disease-cover.webp",
+    "gallery": ["/samples/med-disease-cover.webp", "/samples/med-medicine-cover.webp"],
+    "tagline": "Two illustrated reference guides in one bundle — a Diseases Reference Book and a Medicine Reference Guide, organised chapter-by-chapter for easy study and revision.",
+    "description": (
+        "A complete medical reference bundle for students, learners and the curious. The Diseases Reference Book "
+        "walks through disease conditions and common clinical presentations — causes, features, assessment concepts "
+        "and important considerations — in clear, colourful reference pages. The Medicine Reference Guide organises "
+        "medicines into easy-to-browse categories with educational information at a glance. Both guides are designed "
+        "for study, revision and general awareness, presented visually so information is easy to scan and remember."
+    ),
+    "category": "health",
+    "product_type": "Bundle",
+    "format": "Digital PDF (2 books)",
+    "delivery_method": "Instant digital access after successful payment",
+    "cta_text": "Get the Bundle",
+    "currency": "INR",
+    "regular_price": 1999,
+    "sale_price": 299,
+    "featured": False,
+    "is_new": True,
+    "bestseller": False,
+    "status": "published",
+    "offer_end": None,
+    # Two files delivered together for this single purchase.
+    "download_files": [
+        {"title": "Diseases Reference Book", "url": f"{SITE_BASE}/downloads/diseases-reference-book.pdf"},
+        {"title": "Medicine Reference Guide", "url": f"{SITE_BASE}/downloads/medicine-reference-guide.pdf"},
+    ],
+    "whats_included": [
+        "Diseases Reference Book — conditions & clinical presentations (illustrated)",
+        "Medicine Reference Guide — medicines organised by category",
+        "Bilingual, easy-to-browse visual reference pages",
+        "Instant digital access to both PDFs",
+    ],
+    "key_benefits": [
+        "Study, revise and browse disease & medicine topics in one place",
+        "Colourful, chapter-by-chapter layout designed for quick review",
+        "For education and general awareness — not prescribing guidance",
+    ],
+    "bonuses": [],
+    "curriculum": [],
+    "sample_pages": [],
+    "who_for": [
+        {"title": "Students & learners", "text": "studying medical, health or Ayurvedic topics"},
+        {"title": "Curious readers", "text": "who want a clear, illustrated reference to browse anytime"},
+        {"title": "Educators", "text": "looking for a structured revision and awareness aid"},
+    ],
+    "not_for": [],
+    "faqs": [
+        {"q": "Is this medical advice?", "a": "No. Both guides are for education, study, revision and general awareness only. They are not a substitute for advice from a qualified healthcare professional and must not be used to start, stop or change any medicine."},
+        {"q": "How do I receive the books?", "a": "Instantly. After successful payment you're taken to a download page with both PDFs, and the same links are emailed to you."},
+        {"q": "What's inside the bundle?", "a": "Two digital PDF books — a Diseases Reference Book and a Medicine Reference Guide — delivered together in a single purchase."},
+    ],
+    "editions": {
+        "digital": {
+            "label": "Digital Bundle (2 Books)",
+            "badge": "Instant Access",
+            "price": 299,
+            "cta": "Get Instant Access",
+            "note": "Secure Checkout • Digital PDFs • Instant Access",
+            "checkout_url": "",
+            "features": [
+                "Diseases Reference Book (PDF)",
+                "Medicine Reference Guide (PDF)",
+                "Instant download + emailed links",
+            ],
         },
     },
 }
