@@ -133,6 +133,12 @@ Students; side-income explorers; beginners in digital business; existing digital
 - Bug fixes verified same session (v earlier): sticky-bar Buy Now shows bundle bump offer first (Guide Only), and email input set to 16px to stop mobile auto-zoom/shake.
 - NOTE (deploy): the medical PDFs/covers are served from the app's own /downloads & /samples paths with absolute preview-domain URLs in seed_data SITE_BASE — update SITE_BASE if the production domain differs, or the emailed/download links for this product will point at the preview domain.
 
+## Update (2026-09-20, v16 — dual Meta Pixels)
+- User asked to add second Pixel ID 940189282348093 while keeping the old one (3470309736541129) firing simultaneously.
+- REACT_APP_META_PIXEL_ID now comma-separated ("3470309736541129,940189282348093"); public/index.html splits the list and calls fbq("init", id) per ID before a single PageView. All analytics.js events (ViewContent/InitiateCheckout/Purchase) flow through window.fbq → fire to BOTH pixels automatically.
+- Verified live in-browser: fbevents.js loaded, fbq v2.9.403, signals/config requests sent for BOTH pixel IDs on page load.
+
+
 - **P0**: Configure real per-edition checkout URLs (SuperProfile) in product data; set bundle price; set ADMIN_KEY in backend/.env; replace [PLACEHOLDER] business details (support email/phone/address, refund/shipping timelines); upload real sample pages, Ads Manager screenshots, physical-book photos
 - **P1**: Direct Razorpay integration (create order → checkout → server-side signature verify → paid status → delivery email → /order-success); customer download/access flow; admin UI for editing products/settings/testimonials; real testimonials once collected
 - **P2**: Meta CAPI server-side events, offer countdown config, physical order shipping status tracking in admin
