@@ -135,8 +135,8 @@ Students; side-income explorers; beginners in digital business; existing digital
 
 ## Update (2026-09-20, v16 — triple Meta Pixels)
 - User asked to add Pixel 940189282348093 while keeping the old one (3470309736541129), then added a third dataset ID 4445400379031726 — all fire simultaneously.
-- REACT_APP_META_PIXEL_ID is comma-separated ("3470309736541129,940189282348093,4445400379031726"); public/index.html splits the list and calls fbq("init", id) per ID before a single PageView. All analytics.js events (ViewContent/InitiateCheckout/Purchase) flow through window.fbq → fire to ALL pixels automatically.
-- Verified live in-browser: fbevents.js loaded, signals/config requests sent for ALL THREE pixel IDs on page load.
+- REACT_APP_META_PIXEL_ID is comma-separated ("940189282348093,4445400379031726" — old pixel 3470309736541129 removed per user request); public/index.html splits the list and calls fbq("init", id) per ID before a single PageView. All analytics.js events (ViewContent/InitiateCheckout/Purchase) flow through window.fbq → fire to ALL pixels automatically.
+- Verified live in-browser: signals/config requests sent ONLY for the 2 remaining pixel IDs; old pixel no longer fires.
 
 
 - **P0**: Configure real per-edition checkout URLs (SuperProfile) in product data; set bundle price; set ADMIN_KEY in backend/.env; replace [PLACEHOLDER] business details (support email/phone/address, refund/shipping timelines); upload real sample pages, Ads Manager screenshots, physical-book photos
