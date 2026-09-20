@@ -5,6 +5,7 @@ import { api, formatINR } from "../lib/api";
 import { trackEvent, getStoredUtms } from "../lib/analytics";
 import { startRazorpayCheckout } from "../lib/razorpay";
 import BuyerEmailDialog from "./BuyerEmailDialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "./ui/dialog";
 import { useOfferTimer } from "../lib/offerTimer";
 
 const BUNDLE_SLUG = "complete-business-bundle";
@@ -15,6 +16,8 @@ export default function StickyBuyBar({ product, offset = 600 }) {
   const [choice, setChoice] = useState("guide");
   const [busy, setBusy] = useState(false);
   const [emailOpen, setEmailOpen] = useState(false);
+  const [offerOpen, setOfferOpen] = useState(false);
+  const [pending, setPending] = useState(null); // { slug, price, title } -> email dialog
   const countdown = useOfferTimer(10);
   const timerText = countdown != null
     ? `${String(Math.floor(countdown / 60)).padStart(2, "0")}:${String(countdown % 60).padStart(2, "0")}`
@@ -49,39 +52,103 @@ export default function StickyBuyBar({ product, offset = 600 }) {
   ];
   const active = options.find((o) => o.key === choice) || options[0];
 
-  const handleClick = () => {
-    if (busy) return;
+  // Genuine bundle math: buying the 3 guides separately vs the bundle price.
+  const partSlugs = ["meta-ads-decode", "ai-business-ideas-2026", "chatgpt-prompt-guide"];
+  const separateTotal = partSlugs.reduce((sum, slug) => {
+    const p = allProducts.find((x) => x.slug === slug);
+    return sum + (p?.editions?.digital?.price || 0);
+  }, 0);
+  const bundleSavings = bundleEdition?.price != null && separateTotal > bundleEdition.price
+    ? separateTotal - bundleEdition.price
+    : null;
+
+  const openEmail = (slug, price, title) => {
+    setPending({ slug, price, title });
     setEmailOpen(true);
   };
 
+  const handleClick = () => {
+    if (busy) return;
+    // Buying the guide alone? Show the bundle bump offer first (same as the pricing card).
+    if (choice === "guide" && hasBundle) {
+      setOfferOpen(true);
+      return;
+    }
+    openEmail(active.slug, active.price, active.key === "bundle" ? (bundle?.title || "Complete Business Bundle") : product.title);
+  };
+
+  const handleTakeBundle = () => {
+    setOfferOpen(false);
+    openEmail(BUNDLE_SLUG, bundleEdition.price, bundle?.title || "Complete Business Bundle");
+  };
+
+  const handleKeepGuide = () => {
+    setOfferOpen(false);
+    openEmail(product.slug, edition.price, product.title);
+  };
+
   const handleEmailSubmit = async (email) => {
+    if (!pending) return;
     setBusy(true);
     trackEvent("InitiateCheckout", {
-      content_name: active.slug,
-      value: active.price || undefined,
+      content_name: pending.slug,
+      value: pending.price || undefined,
       currency: product.currency || "INR",
       ...getStoredUtms(),
     });
     await startRazorpayCheckout({
-      items: [{ product_slug: active.slug, edition: "digital" }],
+      items: [{ product_slug: pending.slug, edition: "digital" }],
       email,
       onError: (msg) => toast.error("Couldn't start checkout", { description: msg }),
-      onDismiss: () => { setBusy(false); setEmailOpen(false); },
+      onDismiss: () => { setBusy(false); setEmailOpen(false); setPending(null); },
     });
     setBusy(false);
     setEmailOpen(false);
+    setPending(null);
   };
 
   return (
     <>
     <BuyerEmailDialog
       open={emailOpen}
-      onOpenChange={setEmailOpen}
+      onOpenChange={(v) => { setEmailOpen(v); if (!v) setPending(null); }}
       onSubmit={handleEmailSubmit}
       busy={busy}
-      productTitle={active.key === "bundle" ? "Complete Business Bundle" : product.title}
-      total={active.price}
+      productTitle={pending?.title || product.title}
+      total={pending?.price ?? active.price}
     />
+    <Dialog open={offerOpen} onOpenChange={setOfferOpen}>
+      <DialogContent className="max-w-md overflow-hidden p-0" data-testid="sticky-bundle-offer-modal">
+        <img src="/samples/bundle-covers.webp" alt="All three LedgerKit guides" className="w-full" />
+        <div className="p-6">
+          <span className="eyebrow">Special Offer — Only Here</span>
+          <DialogTitle className="mt-2 font-display text-2xl font-extrabold tracking-tight text-ink">
+            Get Everything for {formatINR(bundleEdition?.price)}
+          </DialogTitle>
+          <DialogDescription className="mt-2 text-sm leading-relaxed text-slate-600">
+            Before you check out — take the Complete Business Bundle instead: all three guides for {formatINR(bundleEdition?.price)} instead of {formatINR(separateTotal)}.{bundleSavings ? ` You save ${formatINR(bundleSavings)}.` : ""}
+          </DialogDescription>
+          <button
+            type="button"
+            onClick={handleTakeBundle}
+            disabled={busy}
+            data-testid="sticky-offer-accept"
+            className="mt-5 w-full rounded-xl bg-brand-600 px-5 py-4 text-sm font-bold text-white shadow-[0_12px_30px_-8px_rgba(46,26,200,0.5)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-brand-700 disabled:opacity-60"
+          >
+            Get the Bundle Offer — {formatINR(bundleEdition?.price)}
+          </button>
+          <button
+            type="button"
+            onClick={handleKeepGuide}
+            disabled={busy}
+            data-testid="sticky-offer-decline"
+            className="mt-3 w-full rounded-xl px-5 py-3 text-sm font-semibold text-slate-500 underline-offset-4 transition-colors hover:text-ink hover:underline"
+          >
+            Continue with the Guide only — {formatINR(edition.price)}
+          </button>
+        </div>
+      </DialogContent>
+    </Dialog>
     <div
       className={`fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 backdrop-blur-md transition-transform duration-300 ${
         visible ? "translate-y-0" : "translate-y-full"

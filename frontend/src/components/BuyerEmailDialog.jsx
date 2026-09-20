@@ -75,7 +75,7 @@ export default function BuyerEmailDialog({ open, onOpenChange, onSubmit, busy = 
             onChange={(e) => { setEmail(e.target.value); setError(""); }}
             placeholder="you@example.com"
             data-testid="buyer-email-input"
-            className="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-slate-400 focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+            className="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-base text-ink outline-none transition-colors placeholder:text-slate-400 focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
           />
           {error && <p className="mt-1.5 text-xs font-medium text-red-600" data-testid="buyer-email-error">{error}</p>}
           <button

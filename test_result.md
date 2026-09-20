@@ -157,25 +157,43 @@ frontend:
     status_history:
         - working: true
           agent: "main"
-          comment: "BuyerEmailDialog collects email before Razorpay on ALL buy paths (validated, remembered in localStorage, pre-filled into Razorpay, stored on order). create-order stores email (curl-verified: buyer.test@example.com stored in DB). verify fetches payer email from Razorpay payment as fallback, sends branded delivery email with per-guide Download buttons, records delivery_status. meta-ads-decode download_url = real PDF (35MB user-uploaded artifact). Bundle expands to 3 guides. _deliver_products integration test: HTTP 202 Accepted from email proxy. PENDING: ai-business-ideas-2026 + chatgpt-prompt-guide download_urls empty until user provides those PDFs."
+          comment: "BuyerEmailDialog collects email before Razorpay on ALL buy paths (validated, remembered in localStorage, pre-filled into Razorpay, stored on order). create-order stores email (curl-verified: buyer.test@example.com stored in DB). verify fetches payer email from Razorpay payment as fallback, sends branded delivery email with per-guide Download buttons, records delivery_status. All 3 guides now have real download_url (Sales Engine + AI Ideas + ChatGPT Prompt Guide PDFs from user). Bundle expands to 3 guides. GET /api/orders/{id} returns downloads[] for paid orders; OrderSuccess shows per-product download cards. Verified via simulated paid orders."
+
+  - task: "Sticky bar bump offer + email dialog mobile zoom fix"
+    implemented: true
+    working: true
+    file: "frontend/src/components/StickyBuyBar.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: "NA"
+          agent: "user"
+          comment: "USER REPORTED BUG: (1) clicking Buy Now on the bottom sticky bar skips the bump/bundle offer shown in the Launch Offer section — user wants the offer shown first for sticky-bar purchases too. (2) On mobile, while typing in the email dialog the screen shakes/zooms and does not fit the layout."
+        - working: "NA"
+          agent: "main"
+          comment: "FIXES APPLIED: (1) StickyBuyBar now opens a bundle-offer modal first when 'Guide Only' is selected (bundle trio image, genuine savings auto-calc vs separate total, 'Get the Bundle Offer' -> email dialog with bundle item, 'Continue with the Guide only' -> email dialog with guide item); 'Bundle' switch choice goes straight to email dialog. (2) Root cause of shake/zoom: email input was 14px (text-sm) which triggers iOS/Android auto-zoom on focus -> fixed viewport jumps. Changed to text-base (16px), the standard fix. Needs verification: sticky buy -> offer modal appears; accept path uses bundle slug/price; decline path uses guide slug/price; email dialog input is 16px and no zoom/shake on focus while typing."
+        - working: true
+          agent: "testing"
+          comment: "COMPREHENSIVE TESTING COMPLETED - ALL CHECKS PASSED. BUG FIX 1 (Sticky bar bundle offer): ✅ On /meta-ads-decode, scrolled to trigger sticky bar (600px+), selected 'Guide Only', clicked Buy Now -> bundle offer modal (sticky-bundle-offer-modal) appeared FIRST showing 'Get Everything for ₹499' with bundle trio image and genuine savings calculation. ✅ Clicked 'Get the Bundle Offer' (sticky-offer-accept) -> email dialog opened with 'Complete Business Bundle' title and 'Continue to Payment — ₹499' button. ✅ Re-tested decline path: clicked 'Continue with the Guide only' (sticky-offer-decline) -> email dialog opened with 'Digital Product Sales Engine' title and 'Continue to Payment — ₹299' button. ✅ Selected 'Bundle' in sticky switch, clicked Buy Now -> offer modal correctly SKIPPED, email dialog opened directly with ₹499. BUG FIX 2 (Mobile zoom fix): ✅ Email input (buyer-email-input) computed font-size verified as 16px (prevents iOS/Android auto-zoom). ✅ Mobile viewport test (390x844): focused email input, typed 'test@example.com' -> viewport scale remained 1.0 (no zoom), viewport width stayed 390px (no layout overflow), dialog remained visible and centered. REGRESSION CHECK: ✅ Pricing card buy button (buy-digital-button) opens email dialog directly with ₹299 (no ticks selected). Both user-reported bugs are fully resolved. NO real payments completed (LIVE Razorpay keys protected)."
 
 metadata:
   created_by: "main_agent"
   version: "1.2"
-  test_sequence: 2
+  test_sequence: 3
   run_ui: false
 
 test_plan:
-  current_focus:
-    - "Razorpay create-order endpoint (POST /api/checkout/create-order)"
-    - "Razorpay verify endpoint (POST /api/checkout/verify)"
+  current_focus: []
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
 agent_communication:
     - agent: "main"
-      message: "v12 added: buyer email capture dialog before Razorpay + auto product delivery email on verified payment (real PDF for main guide). See backend task 'Email delivery: buyer email capture + auto product delivery email (Resend)' for details. No retest needed unless a real payment is made."
+      message: "v14 added: all 3 product PDFs wired for delivery + per-product download cards on order-success. v15: two user-reported bugs fixed in frontend — please verify the 'Sticky bar bump offer + email dialog mobile zoom fix' task against the user's report. Key checks: (a) on /meta-ads-decode, scroll down so the sticky bottom bar appears, select 'Guide Only', click Buy Now -> the bundle offer modal (testid sticky-bundle-offer-modal) must appear FIRST; clicking 'Get the Bundle Offer' (sticky-offer-accept) must open the email dialog with bundle title + Rs.499 total; re-opening and clicking 'Continue with the Guide only' (sticky-offer-decline) must open the email dialog with guide title + Rs.299 total; selecting 'Bundle' in the sticky switch then Buy Now must skip the offer modal. (b) The email input (buyer-email-input) must be 16px font (text-base) so mobile browsers do not auto-zoom/shake on focus. Do NOT complete any real payment (live Razorpay keys) — stop at the email dialog."
     - agent: "testing"
       message: "Backend testing completed successfully. Created comprehensive backend_test.py with 8 test scenarios covering all requirements. All tests passed (8/8): ✅ Single item order creation (₹299 -> 29900 paise), ✅ Multi-item order with server-side total calculation (₹299+₹199 -> 49800 paise), ✅ Bundle order (₹499 -> 49900 paise), ✅ Unknown slug returns 404, ✅ Unknown edition returns 400, ✅ Empty items returns 400, ✅ Bogus signature verification returns 400 and marks order as 'payment_failed' (NOT 'paid'), ✅ Unknown order verification returns 404. Both Razorpay endpoints are working correctly with LIVE keys. NO real payments were completed during testing. Both backend tasks marked as working=true, needs_retesting=false."
+    - agent: "testing"
+      message: "User-reported bug fixes verified and FULLY WORKING. Comprehensive UI testing completed via Playwright on https://guide-central-16.preview.emergentagent.com/meta-ads-decode. All test scenarios passed (10/10): BUG FIX 1 - Sticky bar bundle offer modal flow working perfectly: offer modal appears first for 'Guide Only' purchases, accept button opens email dialog with bundle ₹499, decline button opens email dialog with guide ₹299, 'Bundle' selection skips offer modal correctly. BUG FIX 2 - Mobile zoom fix working perfectly: email input is 16px (prevents auto-zoom), mobile viewport (390x844) testing confirmed no zoom/shake while typing, viewport scale stayed 1.0, layout remained stable. Regression check passed: pricing card buy button works correctly. Task marked as working=true, needs_retesting=false. Ready for user acceptance. NO real payments completed (LIVE keys protected)."
 
