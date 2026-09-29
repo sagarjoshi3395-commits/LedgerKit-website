@@ -35,7 +35,6 @@ export function MrgBuyProvider({ children }) {
   const [selectedAddOns, setSelectedAddOns] = useState([]);
   const [loading, setLoading] = useState(false);
   const [emailOpen, setEmailOpen] = useState(false);
-  const [includeAddOns, setIncludeAddOns] = useState(false);
   const [pricingSeen, setPricingSeen] = useState(false);
   const [highlight, setHighlight] = useState(false);
 
@@ -64,6 +63,8 @@ export function MrgBuyProvider({ children }) {
   const addOnTotal = addOns
     .filter((a) => selectedAddOns.includes(a.slug))
     .reduce((s, a) => s + (a.price || 0), 0);
+  // Buttons across the page always show and charge the live total
+  // (bundle + whatever add-ons the visitor has ticked).
   const total = product.price + addOnTotal;
 
   const scrollToPricing = () => {
@@ -72,24 +73,17 @@ export function MrgBuyProvider({ children }) {
     window.setTimeout(() => setHighlight(false), 2200);
   };
 
-  // CTA buttons (hero/sticky/anchor/final): first click scrolls to the pricing
-  // section with the add-on picker; the next click opens checkout (bundle only).
-  // Pricing-section buttons pass `true` and always go straight to the gateway,
-  // with or without add-ons.
-  const openBuy = (withAddOns) => {
+  // Page CTA buttons (hero/sticky/anchor/final): first click scrolls to the
+  // pricing section with the add-on picker; the next click opens checkout.
+  // Pricing-section buttons pass `true` and always go straight to checkout.
+  const openBuy = (straightToCheckout) => {
     if (loading) return;
-    if (withAddOns === true) {
-      setIncludeAddOns(true);
+    if (straightToCheckout === true || pricingSeen) {
       setEmailOpen(true);
       return;
     }
-    if (!pricingSeen) {
-      setPricingSeen(true);
-      scrollToPricing();
-      return;
-    }
-    setIncludeAddOns(false);
-    setEmailOpen(true);
+    setPricingSeen(true);
+    scrollToPricing();
   };
 
   const toggleAddOn = (slug) =>
@@ -97,12 +91,10 @@ export function MrgBuyProvider({ children }) {
 
   async function handleEmailSubmit(email) {
     setLoading(true);
-    const chosen = includeAddOns ? selectedAddOns : [];
-    const items = [{ product_slug: product.slug }, ...chosen.map((slug) => ({ product_slug: slug }))];
-    const charge = includeAddOns ? total : product.price;
+    const items = [{ product_slug: product.slug }, ...selectedAddOns.map((slug) => ({ product_slug: slug }))];
     trackEvent("InitiateCheckout", {
       content_name: product.slug,
-      value: charge,
+      value: total,
       currency: product.currency || "INR",
       ...getStoredUtms(),
     });
@@ -131,7 +123,7 @@ export function MrgBuyProvider({ children }) {
         onSubmit={handleEmailSubmit}
         busy={loading}
         productTitle={product.short_title || product.title}
-        total={includeAddOns ? total : product.price}
+        total={total}
       />
     </MrgBuyCtx.Provider>
   );

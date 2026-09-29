@@ -78,3 +78,9 @@ See /app/memory/test_credentials.md.
 - Click-to-enlarge still removed (pointer-events none, no lightbox) per owner: users must not read page details
 - Bug fixed: earlier insert_text had split the .mrg-eyebrow rule (keyframes injected mid-declaration) → .mrg-flow-row never applied (rows rendered as stacked blocks); CSS repaired and frontend restarted
 - Verified: .mrg-flow-row computed flex/3632px/mrgFlowLeft; rows render desktop + mobile 390px, no overflow; captions present; order Samples → Pricing unchanged
+
+## Update (2026-09-29, v22 — Live totals on all CTA buttons)
+- All page CTAs now display AND charge the live total (bundle + ticked add-ons): sticky mobile bar, hero, anchor strip, final CTA — e.g. "Get the Complete Guide · ₹199" → "· ₹447" the moment add-ons are ticked (verified in browser)
+- Checkout context simplified: openBuy always includes selectedAddOns in items; includeAddOns state removed; BuyerEmailDialog total always = live total
+- Two-phase kept: hero/anchor/sticky first click → pricing scroll, next click → checkout; FinalCta (below pricing) goes straight to checkout
+- Server-side charge already verified (₹447 = 199+99+149 order created via live Razorpay keys)

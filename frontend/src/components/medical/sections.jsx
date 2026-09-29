@@ -136,10 +136,10 @@ export const AnchorStrip = () => (
 );
 
 const BuyAnchorLink = () => {
-  const { openBuy, price } = useMrgBuy();
+  const { openBuy, price, total } = useMrgBuy();
   return (
     <button type="button" onClick={() => openBuy()} data-testid="mrg-anchor-buy" className="rounded-full bg-mrg-teal px-4 py-1.5 text-[13px] font-bold text-white transition-colors hover:bg-mrg-tealdark">
-      Get Access · ₹{price}
+      Get Access · ₹{total}
     </button>
   );
 };
@@ -212,7 +212,7 @@ const HERO_STATS = [
 ];
 
 export const Hero = () => {
-  const { openBuy, price, regularPrice } = useMrgBuy();
+  const { openBuy, price, regularPrice, total } = useMrgBuy();
   return (
     <section className="relative overflow-hidden">
       <div className="pointer-events-none absolute inset-0 -z-10">
@@ -251,7 +251,7 @@ export const Hero = () => {
           <Reveal delay={0.2}>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
               <button type="button" onClick={() => openBuy()} data-testid="mrg-hero-buy" className="mrg-btn-primary text-base">
-                Get the Complete Guide <Lucide.ArrowRight className="h-5 w-5" />
+                Get the Complete Guide · ₹{total} <Lucide.ArrowRight className="h-5 w-5" />
               </button>
               <a href="#samples" className="mrg-btn-ghost">View Sample Pages <Lucide.ChevronDown className="h-4 w-4" /></a>
             </div>
@@ -826,7 +826,7 @@ export const Faq = () => (
 
 /* ---------------- final cta ---------------- */
 export const FinalCta = () => {
-  const { openBuy, price } = useMrgBuy();
+  const { openBuy, price, total } = useMrgBuy();
   return (
     <section className="relative overflow-hidden bg-mrg-navy">
       <div className="pointer-events-none absolute inset-0">
@@ -838,8 +838,8 @@ export const FinalCta = () => {
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-mrg-teal">Illustrated • Structured • Educational</span>
           <h2 className="mx-auto mt-5 max-w-2xl font-display text-4xl font-extrabold leading-tight text-white sm:text-5xl">Make Medical Revision More Visual.</h2>
           <p className="mx-auto mt-4 max-w-xl text-[15px] text-white/70">Explore disease and medicine topics through colourful reference pages designed to make information easier to browse and review.</p>
-          <button type="button" onClick={() => openBuy()} data-testid="mrg-final-buy" className="mrg-btn-primary mt-8">Get the Medical Reference Guide <Lucide.ArrowRight className="h-5 w-5" /></button>
-          <p className="mt-4 text-sm text-white/60">Disease Guide + Medicine Guide • Digital PDFs • ₹{price}</p>
+          <button type="button" onClick={() => openBuy(true)} data-testid="mrg-final-buy" className="mrg-btn-primary mt-8">Get the Medical Reference Guide · ₹{total} <Lucide.ArrowRight className="h-5 w-5" /></button>
+          <p className="mt-4 text-sm text-white/60">Disease Guide + Medicine Guide • Digital PDFs • ₹{total}</p>
         </Reveal>
       </div>
     </section>
@@ -848,7 +848,7 @@ export const FinalCta = () => {
 
 /* ---------------- sticky mobile cta ---------------- */
 export const StickyCta = () => {
-  const { openBuy, price } = useMrgBuy();
+  const { openBuy, price, total } = useMrgBuy();
   const [show, setShow] = useState(false);
   const seconds = useOfferTimer(10);
   useEffect(() => {
@@ -864,7 +864,7 @@ export const StickyCta = () => {
           Offer ends in <span className="font-mono tabular-nums">{String(Math.floor(seconds / 60)).padStart(2, "0")}:{String(seconds % 60).padStart(2, "0")}</span>
         </div>
       )}
-      <button type="button" onClick={() => openBuy()} data-testid="mrg-sticky-buy" className="mrg-btn-primary w-full">Get the Complete Guide · ₹{price}</button>
+      <button type="button" onClick={() => openBuy()} data-testid="mrg-sticky-buy" className="mrg-btn-primary w-full">Get the Complete Guide · ₹{total}</button>
     </div>
   );
 };
