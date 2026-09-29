@@ -139,7 +139,7 @@ export const AnchorStrip = () => (
 const BuyAnchorLink = () => {
   const { openBuy, price } = useMrgBuy();
   return (
-    <button type="button" onClick={openBuy} data-testid="mrg-anchor-buy" className="rounded-full bg-mrg-teal px-4 py-1.5 text-[13px] font-bold text-white transition-colors hover:bg-mrg-tealdark">
+    <button type="button" onClick={() => openBuy()} data-testid="mrg-anchor-buy" className="rounded-full bg-mrg-teal px-4 py-1.5 text-[13px] font-bold text-white transition-colors hover:bg-mrg-tealdark">
       Get Access · ₹{price}
     </button>
   );
@@ -251,7 +251,7 @@ export const Hero = () => {
 
           <Reveal delay={0.2}>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <button type="button" onClick={openBuy} data-testid="mrg-hero-buy" className="mrg-btn-primary text-base">
+              <button type="button" onClick={() => openBuy()} data-testid="mrg-hero-buy" className="mrg-btn-primary text-base">
                 Get the Complete Guide <Lucide.ArrowRight className="h-5 w-5" />
               </button>
               <a href="#samples" className="mrg-btn-ghost">View Sample Pages <Lucide.ChevronDown className="h-4 w-4" /></a>
@@ -792,7 +792,7 @@ export const AccessSteps = () => {
 
 /* ---------------- pricing ---------------- */
 export const Pricing = () => {
-  const { openBuy, price, regularPrice, addOns, selectedAddOns, toggleAddOn, addOnTotal, total } = useMrgBuy();
+  const { openBuy, price, regularPrice, addOns, selectedAddOns, toggleAddOn, addOnTotal, total, highlight } = useMrgBuy();
   const includes = [
     "Illustrated Disease Reference Guide (PDF)",
     "Illustrated Medicine Reference Guide (PDF)",
@@ -828,7 +828,7 @@ export const Pricing = () => {
               ))}
             </ul>
             <button type="button" onClick={() => openBuy(true)} data-testid="mrg-pricing-buy" className="mrg-btn-primary mt-7 w-full text-lg">
-              {selCount > 0 ? `Get Bundle + ${selCount} Add-on${selCount > 1 ? "s" : ""} — ₹${total}` : `Grab it at ₹${price}`} <Lucide.ArrowRight className="h-5 w-5" />
+              {selCount > 0 ? `Get Bundle + ${selCount} Add-on${selCount > 1 ? "s" : ""} — ₹${total}` : `Get the Order — ₹${price}`} <Lucide.ArrowRight className="h-5 w-5" />
             </button>
             <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[12px] text-mrg-slateink"><Lucide.ShieldCheck className="h-3.5 w-3.5 text-mrg-teal" /> One-time purchase • Digital product • Educational reference only</p>
           </div>
@@ -836,7 +836,7 @@ export const Pricing = () => {
       </Reveal>
 
       <Reveal delay={0.12}>
-        <div className="mx-auto mt-8 max-w-3xl rounded-3xl border border-mrg-line bg-white p-6 shadow-mrg-soft md:p-8" data-testid="mrg-addons-panel">
+        <div className={`mx-auto mt-8 max-w-3xl rounded-3xl border p-6 shadow-mrg-soft transition-all duration-500 md:p-8 ${highlight ? "border-mrg-teal bg-mrg-teal/5 ring-4 ring-mrg-teal/20" : "border-mrg-line bg-white"}`} data-testid="mrg-addons-panel">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <span className="grid h-11 w-11 place-items-center rounded-xl bg-mrg-grape/10 text-mrg-grape"><Lucide.Puzzle className="h-5 w-5" /></span>
@@ -873,7 +873,7 @@ export const Pricing = () => {
               <span className="font-display text-xl font-extrabold text-mrg-teal">₹{total}</span>
             </div>
             <button type="button" onClick={() => openBuy(true)} data-testid="mrg-addons-buy" className="mrg-btn-primary">
-              {selCount > 0 ? `Checkout — ₹${total}` : `Get the Bundle — ₹${price}`} <Lucide.ArrowRight className="h-4 w-4" />
+              {selCount > 0 ? `Checkout — ₹${total}` : `Get the Order — ₹${price}`} <Lucide.ArrowRight className="h-4 w-4" />
             </button>
           </div>
           <p className="mt-3 text-center text-xs text-mrg-slateink">Add-ons are optional. One-time prices — all PDFs are delivered together after payment.</p>
@@ -918,7 +918,7 @@ export const FinalCta = () => {
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-mrg-teal">Illustrated • Structured • Educational</span>
           <h2 className="mx-auto mt-5 max-w-2xl font-display text-4xl font-extrabold leading-tight text-white sm:text-5xl">Make Medical Revision More Visual.</h2>
           <p className="mx-auto mt-4 max-w-xl text-[15px] text-white/70">Explore disease and medicine topics through colourful reference pages designed to make information easier to browse and review.</p>
-          <button type="button" onClick={openBuy} data-testid="mrg-final-buy" className="mrg-btn-primary mt-8">Get the Medical Reference Guide <Lucide.ArrowRight className="h-5 w-5" /></button>
+          <button type="button" onClick={() => openBuy()} data-testid="mrg-final-buy" className="mrg-btn-primary mt-8">Get the Medical Reference Guide <Lucide.ArrowRight className="h-5 w-5" /></button>
           <p className="mt-4 text-sm text-white/60">Disease Guide + Medicine Guide • Digital PDFs • ₹{price}</p>
         </Reveal>
       </div>
@@ -944,7 +944,7 @@ export const StickyCta = () => {
           Offer ends in <span className="font-mono tabular-nums">{String(Math.floor(seconds / 60)).padStart(2, "0")}:{String(seconds % 60).padStart(2, "0")}</span>
         </div>
       )}
-      <button type="button" onClick={openBuy} data-testid="mrg-sticky-buy" className="mrg-btn-primary w-full">Get the Complete Guide · ₹{price}</button>
+      <button type="button" onClick={() => openBuy()} data-testid="mrg-sticky-buy" className="mrg-btn-primary w-full">Get the Complete Guide · ₹{price}</button>
     </div>
   );
 };

@@ -8,6 +8,7 @@ import BuyerEmailDialog from "../BuyerEmailDialog";
 const MrgBuyCtx = createContext({
   product: null, openBuy: () => {}, price: 199, regularPrice: 1999,
   addOns: [], selectedAddOns: [], toggleAddOn: () => {}, addOnTotal: 0, total: 199,
+  highlight: false,
 });
 export const useMrgBuy = () => useContext(MrgBuyCtx);
 
@@ -35,6 +36,8 @@ export function MrgBuyProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [emailOpen, setEmailOpen] = useState(false);
   const [includeAddOns, setIncludeAddOns] = useState(false);
+  const [pricingSeen, setPricingSeen] = useState(false);
+  const [highlight, setHighlight] = useState(false);
 
   useEffect(() => {
     api.get("/products/medical-reference-bundle").then(({ data }) => {
@@ -63,9 +66,29 @@ export function MrgBuyProvider({ children }) {
     .reduce((s, a) => s + (a.price || 0), 0);
   const total = product.price + addOnTotal;
 
+  const scrollToPricing = () => {
+    document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setHighlight(true);
+    window.setTimeout(() => setHighlight(false), 2200);
+  };
+
+  // CTA buttons (hero/sticky/anchor/final): first click scrolls to the pricing
+  // section with the add-on picker; the next click opens checkout (bundle only).
+  // Pricing-section buttons pass `true` and always go straight to the gateway,
+  // with or without add-ons.
   const openBuy = (withAddOns) => {
     if (loading) return;
-    setIncludeAddOns(withAddOns === true);
+    if (withAddOns === true) {
+      setIncludeAddOns(true);
+      setEmailOpen(true);
+      return;
+    }
+    if (!pricingSeen) {
+      setPricingSeen(true);
+      scrollToPricing();
+      return;
+    }
+    setIncludeAddOns(false);
     setEmailOpen(true);
   };
 
@@ -100,7 +123,7 @@ export function MrgBuyProvider({ children }) {
   }
 
   return (
-    <MrgBuyCtx.Provider value={{ product, openBuy, price: product.price, regularPrice: product.regular_price, addOns, selectedAddOns, toggleAddOn, addOnTotal, total }}>
+    <MrgBuyCtx.Provider value={{ product, openBuy, price: product.price, regularPrice: product.regular_price, addOns, selectedAddOns, toggleAddOn, addOnTotal, total, highlight }}>
       {children}
       <BuyerEmailDialog
         open={emailOpen}

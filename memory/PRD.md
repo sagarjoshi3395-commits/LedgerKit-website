@@ -55,3 +55,9 @@ See /app/memory/test_credentials.md.
 - Pricing section of /medical-reference-bundle now has Add-On Offers panel: checkbox cards, live total (bundle + add-ons), buy buttons pass items[] to one Razorpay order (server computes total)
 - openBuy(withAddOns) flag: hero/sticky/anchor/CTA buttons = bundle only; pricing area buttons include selected add-ons; BuyerEmailDialog total matches
 - Verified: bundle ₹199 in DB/API; store list unchanged (5, no add-ons); add-on page 404; combined order 199+99+149=447 → real Razorpay order 44700p; browser: ticking 2 add-ons shows ₹447 total + "Get Bundle + 2 Add-ons — ₹447"
+
+## Update (2026-09-29, v19 — Two-phase buy flow on medical landing)
+- CTA buttons outside pricing (hero, anchor strip, sticky mobile bar, final CTA): 1st click smooth-scrolls to #pricing (add-on panel pulses teal ~2s); the NEXT click on any such CTA opens checkout directly — bundle-only ₹199 even if add-ons were ticked ("Get the Complete Guide" buttons keep their labels)
+- Pricing-section buttons (main card + add-on panel) pass withAddOns=true and always open the gateway immediately, with or without selections; totals match selection
+- Renamed per owner: no-selection buy buttons now read "Get the Order — ₹199" (previously "Get the Bundle"/"Grab it at"); with add-ons: "Get Bundle + N Add-ons — ₹X" / "Checkout — ₹X"
+- Verified in browser: click 1 scrolled to pricing (scrollY ≈ section top, no dialog); click 2 opened BuyerEmailDialog at ₹199; add-on totals still correct (₹447 test earlier)
