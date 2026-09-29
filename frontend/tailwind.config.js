@@ -35,6 +35,18 @@ module.exports = {
                     hover: '#C2410C',
                     soft: '#FFF4ED',
                 },
+                mrg: {
+                    navy: '#0B2A4A',
+                    navydark: '#071B33',
+                    teal: '#0E9AA7',
+                    tealdark: '#0B7E88',
+                    grassy: '#16A34A',
+                    grape: '#7C3AED',
+                    danger: '#DC2626',
+                    slateink: '#475569',
+                    mist: '#F4F8FB',
+                    line: '#E3ECF3',
+                },
                 background: 'hsl(var(--background))',
                 foreground: 'hsl(var(--foreground))',
                 card: {
@@ -77,6 +89,9 @@ module.exports = {
             boxShadow: {
                 'card-hover': '0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04)',
                 'subtle': '0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03)',
+                'mrg-soft': '0 4px 24px -6px rgba(11, 42, 74, 0.12)',
+                'mrg-card': '0 10px 40px -12px rgba(11, 42, 74, 0.18)',
+                'mrg-glow': '0 12px 30px -8px rgba(14, 154, 167, 0.45)',
             },
             keyframes: {
                 'accordion-down': {

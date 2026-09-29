@@ -56,7 +56,9 @@ export default function ProductDetail() {
   const digital = product.editions?.digital;
   const sale = digital?.price ?? product.sale_price;
   const regular = product.regular_price && sale && product.regular_price > sale ? product.regular_price : null;
-  const hasDedicatedPage = product.slug === "meta-ads-decode";
+  const dedicatedPages = { "meta-ads-decode": "/meta-ads-decode", "medical-reference-bundle": "/medical-reference-bundle" };
+  const hasDedicatedPage = Boolean(dedicatedPages[product.slug]);
+  const dedicatedPageUrl = dedicatedPages[product.slug];
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -95,7 +97,7 @@ export default function ProductDetail() {
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <CheckoutButton product={product} edition="digital" testId="product-buy-button" className="bg-brand-600 px-7 py-4 text-sm text-white hover:bg-brand-700" />
               {hasDedicatedPage && (
-                <Link to="/meta-ads-decode" data-testid="product-dedicated-page-link" className="inline-flex items-center justify-center gap-2 rounded-lg bg-ink-surface px-7 py-4 text-sm font-semibold text-white hover:bg-ink">
+                <Link to={dedicatedPageUrl} data-testid="product-dedicated-page-link" className="inline-flex items-center justify-center gap-2 rounded-lg bg-ink-surface px-7 py-4 text-sm font-semibold text-white hover:bg-ink">
                   View Full Details <ArrowRight className="h-4 w-4" />
                 </Link>
               )}

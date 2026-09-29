@@ -36,3 +36,13 @@ Students; side-income explorers; beginners in digital business; existing digital
 
 ## Credentials
 See /app/memory/test_credentials.md.
+
+## Update (2026-09-29, v17 — Razorpay live + Medical landing page)
+- Razorpay LIVE keys set in backend/.env (from owner) — create-order returns real razorpay_order_id (verified: order_…, ₹299 → 29900 paise, key rzp_live_…)
+- Full Medical Diseases & Ayurvedic Reference Bundle landing ported from github.com/sagarjoshi3395-commits/Medical-Diseases-Reference-guide-ayurvedic-bundle → new route /medical-reference-bundle (ads destination)
+  - Sections: announcement bar + anchor strip, hero (2 covers, floating chips, countdown), sample-pages coverflow with lightbox (disease/medicine tabs), inside-highlights, before/after why-created, bundle cards, disease topics (expandable), medicine categories, how-presented, bilingual (EN+HI), who-for, what-you-receive, educational disclaimer, access steps, pricing (live price from API ₹299/₹1999), FAQ accordion, final CTA, mobile sticky buy bar
+  - Buy flow = native Razorpay via BuyerEmailDialog → startRazorpayCheckout (items: medical-reference-bundle); prices read from /api/products/medical-reference-bundle
+  - Own teal/navy theme namespaced as Tailwind `mrg-` colors + shadows + scoped CSS (components/medical/) so nothing clashes with the violet site theme
+  - Dropped from the source repo: fake "buyers from cities" sales ticker + recent-sales pill (LedgerKit brand rule: no fake sales numbers)
+- ProductDetail: dedicated-page link map now routes medical product "View Full Details" → /medical-reference-bundle (meta-ads-decode unchanged)
+- Verified: landing desktop+mobile (no overflow, timers ticking), buy flow in browser → email dialog → REAL Razorpay modal at ₹299; product detail link resolves
