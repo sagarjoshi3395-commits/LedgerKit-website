@@ -68,3 +68,13 @@ See /app/memory/test_credentials.md.
 - Click-to-zoom REMOVED: Coverflow + Lightbox deleted, stream images pointer-events:none + non-draggable — pages cannot be enlarged/read in detail (owner: users shouldn't read page details)
 - Anchor strip order updated (Samples, Pricing, What's Inside, Topics, FAQ); "View Sample Pages" hero anchor unchanged
 - Verified: streams render desktop + mobile 390px (2-up), no overflow, section order samples→pricing→inside→bundle→topics→faq, click on stream image does nothing (no lightbox element exists)
+
+## Update (2026-09-29, v21 — Sample section rebuilt as stacked horizontal flow rows)
+- Owner shared masterybooks.in reference → SamplePages rebuilt: TWO horizontal flowing rows stacked vertically (no side-by-side columns)
+  - Row 1: "Section 01 · Disease Guide — Diseases & Clinical Conditions" — disease pages flow LEFT
+  - Row 2: "Section 02 · Medicine Guide — Medicines Reference" — medicine pages flow RIGHT (opposite direction)
+  - Each page card has a caption (English title · Hindi) below it, like the reference
+  - Speed 42s linear loop (moderate), edge fade masks, pause on hover, seamless 2x duplication
+- Click-to-enlarge still removed (pointer-events none, no lightbox) per owner: users must not read page details
+- Bug fixed: earlier insert_text had split the .mrg-eyebrow rule (keyframes injected mid-declaration) → .mrg-flow-row never applied (rows rendered as stacked blocks); CSS repaired and frontend restarted
+- Verified: .mrg-flow-row computed flex/3632px/mrgFlowLeft; rows render desktop + mobile 390px, no overflow; captions present; order Samples → Pricing unchanged

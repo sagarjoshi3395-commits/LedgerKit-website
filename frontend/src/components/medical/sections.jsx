@@ -299,24 +299,28 @@ export const Hero = () => {
   );
 };
 
-/* ---------------- flowing sample streams ---------------- */
-const FlowColumn = ({ title, images, anim, testid }) => (
+/* ---------------- flowing sample rows (disease row + medicine row) ---------------- */
+const FlowRow = ({ label, title, images, anim, testid }) => (
   <div data-testid={testid}>
-    <div className="mb-3 flex justify-center">
-      <span className="mrg-chip"><Lucide.BookOpen className="h-3.5 w-3.5 text-mrg-teal" /> {title}</span>
+    <div className="mb-4 flex items-center justify-center gap-3">
+      <span className="mrg-eyebrow">{label}</span>
+      <span className="hidden text-sm font-semibold text-mrg-slateink sm:inline">{title}</span>
     </div>
-    <div className="mrg-flow-mask rounded-2xl" style={{ height: "clamp(380px, 58vh, 640px)" }}>
-      <div className={`mrg-flow-col ${anim}`}>
+    <div className="mrg-flow-mask-x py-2">
+      <div className={`mrg-flow-row ${anim}`}>
         {[...images, ...images].map((s, i) => (
-          <img
-            key={`${s.title}-${i}`}
-            src={s.img}
-            alt={`${title} sample page`}
-            className="w-full shrink-0 select-none rounded-xl border border-mrg-line shadow-mrg-soft"
-            style={{ pointerEvents: "none" }}
-            loading="lazy"
-            draggable="false"
-          />
+          <figure key={`${s.title}-${i}`} className="w-56 shrink-0 sm:w-72" style={{ pointerEvents: "none" }}>
+            <img
+              src={s.img}
+              alt={`${title} sample page`}
+              className="w-full select-none rounded-xl border border-mrg-line shadow-mrg-soft"
+              loading="lazy"
+              draggable="false"
+            />
+            <figcaption className="mt-2 text-center text-[13px] font-semibold text-mrg-slateink">
+              {s.title} <span className="font-normal text-mrg-slateink/70">· {s.hi}</span>
+            </figcaption>
+          </figure>
         ))}
       </div>
     </div>
@@ -330,14 +334,28 @@ export const SamplePages = () => (
         <SectionHead
           eyebrow="Preview"
           title="Real Pages, Flowing Live"
-          sub="Disease reference pages stream on the left, medicine pages on the right — exactly how the guides look inside. Keep watching, the pages keep flowing."
+          sub="Section by section — the Diseases Reference pages first, then the Medicines Reference. Exactly how the guides look inside."
         />
       </Reveal>
-      <div className="mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-3 sm:gap-6">
-        <FlowColumn title="Diseases Reference" images={DISEASE_SAMPLES} anim="mrg-flow-down" testid="mrg-flow-disease" />
-        <FlowColumn title="Medicines Reference" images={MEDICINE_SAMPLES} anim="mrg-flow-up" testid="mrg-flow-medicine" />
-      </div>
-      <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-mrg-slateink">
+    </div>
+    <Reveal delay={0.08}>
+      <FlowRow
+        label="Section 01 · Disease Guide"
+        title="Diseases & Clinical Conditions"
+        images={DISEASE_SAMPLES}
+        anim="mrg-flow-left"
+        testid="mrg-flow-disease"
+      />
+      <FlowRow
+        label="Section 02 · Medicine Guide"
+        title="Medicines Reference"
+        images={MEDICINE_SAMPLES}
+        anim="mrg-flow-right"
+        testid="mrg-flow-medicine"
+      />
+    </Reveal>
+    <div className="mrg-container-x">
+      <p className="mx-auto mt-6 max-w-2xl text-center text-sm text-mrg-slateink">
         Sample pages demonstrate the design, structure and type of educational information included in the guides. The complete guides are delivered as PDFs after purchase.
       </p>
     </div>
