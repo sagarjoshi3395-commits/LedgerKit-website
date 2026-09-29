@@ -94,6 +94,29 @@
   padding: 0.375rem 0.875rem;
   font-size: 11px;
   font-weight: 700;
+@keyframes mrgFlowUp {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+@keyframes mrgFlowDown {
+  from { transform: translateY(-50%); }
+  to { transform: translateY(0); }
+}
+.mrg-flow-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  will-change: transform;
+}
+.mrg-flow-up { animation: mrgFlowUp 40s linear infinite; }
+.mrg-flow-down { animation: mrgFlowDown 40s linear infinite; }
+.mrg-flow-mask:hover .mrg-flow-col { animation-play-state: paused; }
+.mrg-flow-mask {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 7%, #000 93%, transparent);
+}
+
   text-transform: uppercase;
   letter-spacing: 0.16em;
   color: #0b7e88;

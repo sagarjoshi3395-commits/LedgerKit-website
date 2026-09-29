@@ -38,6 +38,7 @@ export default function MedicalLanding() {
           <AnchorStrip />
           <Hero />
           <SamplePages />
+          <Pricing />
           <InsideHighlights />
           <WhyCreated />
           <BundleCards />
@@ -49,7 +50,6 @@ export default function MedicalLanding() {
           <WhatYouReceive />
           <DisclaimerCard />
           <AccessSteps />
-          <Pricing />
           <Faq />
           <FinalCta />
         </main>

@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Lucide from "lucide-react";
 import { motion } from "framer-motion";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "../ui/accordion";
 import { useMrgBuy } from "./LandingContext";
 import { useOfferTimer } from "../../lib/offerTimer";
@@ -90,10 +89,10 @@ const FAQS = [
   { q: "Is the information guaranteed to be error-free?", a: "No educational resource should make that claim. The material is prepared for educational reference, but readers should verify clinically important information with current authoritative medical sources." },
 ];
 const NAV_LINKS = [
-  { label: "What's Inside", href: "#inside" },
   { label: "Samples", href: "#samples" },
-  { label: "Topics", href: "#topics" },
   { label: "Pricing", href: "#pricing" },
+  { label: "What's Inside", href: "#inside" },
+  { label: "Topics", href: "#topics" },
   { label: "FAQ", href: "#faq" },
 ];
 
@@ -300,147 +299,50 @@ export const Hero = () => {
   );
 };
 
-/* ---------------- coverflow + lightbox + sample pages ---------------- */
-export const Coverflow = ({ items, onOpen, testid = "coverflow" }) => {
-  const [active, setActive] = useState(0);
-  const [cardW, setCardW] = useState(280);
-  const ref = useRef(null);
-  const touch = useRef({ x: 0, active: false });
-
-  useEffect(() => {
-    const measure = () => {
-      const w = ref.current?.offsetWidth || 900;
-      setCardW(Math.max(240, Math.min(420, w * 0.52)));
-    };
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, []);
-
-  const cardH = cardW * 1.36;
-  const go = (dir) => setActive((a) => Math.min(items.length - 1, Math.max(0, a + dir)));
-
-  const onTouchStart = (e) => { touch.current = { x: e.touches[0].clientX, active: true }; };
-  const onTouchEnd = (e) => {
-    if (!touch.current.active) return;
-    const dx = e.changedTouches[0].clientX - touch.current.x;
-    if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
-    touch.current.active = false;
-  };
-
-  return (
-    <div className="select-none" data-testid={testid}>
-      <div
-        ref={ref}
-        className="relative mx-auto flex items-center justify-center overflow-hidden"
-        style={{ height: cardH + 40 }}
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
-      >
-        {items.map((s, i) => {
-          const rel = i - active;
-          const abs = Math.abs(rel);
-          if (abs > 2) return null;
-          const x = rel * (cardW * 0.62);
-          const scale = 1 - abs * 0.16;
-          const rotateY = rel * -16;
-          const opacity = abs === 0 ? 1 : abs === 1 ? 0.7 : 0.35;
-          const isCenter = abs === 0;
-          return (
-            <motion.button
-              key={s.title}
-              type="button"
-              onClick={() => (isCenter ? onOpen?.(i) : setActive(i))}
-              className="group absolute top-5 overflow-hidden rounded-2xl border border-mrg-line bg-white shadow-mrg-card"
-              style={{ width: cardW, height: cardH, marginLeft: -cardW / 2, left: "50%", transformStyle: "preserve-3d" }}
-              animate={{ x, scale, rotateY, opacity, zIndex: 20 - abs }}
-              transition={{ type: "spring", stiffness: 260, damping: 30 }}
-              data-testid={`${testid}-card-${i}`}
-              aria-label={s.title}
-            >
-              <img src={s.img} alt={`${s.title} reference page`} className="h-full w-full object-cover object-top" loading="lazy" draggable="false" />
-              {isCenter && (
-                <>
-                  <div className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/90 text-mrg-navy shadow-mrg-soft"><Lucide.ZoomIn className="h-4 w-4" /></div>
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-mrg-navy/85 to-transparent px-4 pb-3 pt-8 text-left">
-                    <p className="text-sm font-bold text-white">{s.title}</p>
-                    <p className="text-xs text-white/70">{s.hi}</p>
-                  </div>
-                </>
-              )}
-            </motion.button>
-          );
-        })}
-      </div>
-
-      <div className="mt-5 flex items-center justify-center gap-4">
-        <button type="button" onClick={() => go(-1)} disabled={active === 0} className="grid h-11 w-11 place-items-center rounded-full border border-mrg-line bg-white text-mrg-navy shadow-mrg-soft transition hover:border-mrg-teal/50 disabled:opacity-40" aria-label="Previous" data-testid={`${testid}-prev`}><Lucide.ChevronLeft className="h-5 w-5" /></button>
-        <div className="flex items-center gap-2">
-          {items.map((_, i) => (
-            <button key={i} type="button" onClick={() => setActive(i)} className={`h-2 rounded-full transition-all ${i === active ? "w-6 bg-mrg-teal" : "w-2 bg-mrg-line"}`} aria-label={`Go to slide ${i + 1}`} />
-          ))}
-        </div>
-        <button type="button" onClick={() => go(1)} disabled={active === items.length - 1} className="grid h-11 w-11 place-items-center rounded-full border border-mrg-line bg-white text-mrg-navy shadow-mrg-soft transition hover:border-mrg-teal/50 disabled:opacity-40" aria-label="Next" data-testid={`${testid}-next`}><Lucide.ChevronRight className="h-5 w-5" /></button>
+/* ---------------- flowing sample streams ---------------- */
+const FlowColumn = ({ title, images, anim, testid }) => (
+  <div data-testid={testid}>
+    <div className="mb-3 flex justify-center">
+      <span className="mrg-chip"><Lucide.BookOpen className="h-3.5 w-3.5 text-mrg-teal" /> {title}</span>
+    </div>
+    <div className="mrg-flow-mask rounded-2xl" style={{ height: "clamp(380px, 58vh, 640px)" }}>
+      <div className={`mrg-flow-col ${anim}`}>
+        {[...images, ...images].map((s, i) => (
+          <img
+            key={`${s.title}-${i}`}
+            src={s.img}
+            alt={`${title} sample page`}
+            className="w-full shrink-0 select-none rounded-xl border border-mrg-line shadow-mrg-soft"
+            style={{ pointerEvents: "none" }}
+            loading="lazy"
+            draggable="false"
+          />
+        ))}
       </div>
     </div>
-  );
-};
+  </div>
+);
 
-const Lightbox = ({ items, index, setIndex }) => {
-  useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === "Escape") setIndex(null);
-      if (e.key === "ArrowRight") setIndex((i) => (i + 1) % items.length);
-      if (e.key === "ArrowLeft") setIndex((i) => (i - 1 + items.length) % items.length);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [items.length, setIndex]);
-  if (index === null) return null;
-  const item = items[index];
-  return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-mrg-navy/90 p-4 backdrop-blur-sm" onClick={() => setIndex(null)} data-testid="mrg-lightbox">
-      <button type="button" className="absolute right-4 top-4 grid h-11 w-11 place-items-center rounded-full bg-white/10 text-white hover:bg-white/20" onClick={() => setIndex(null)} aria-label="Close"><Lucide.X className="h-6 w-6" /></button>
-      <button type="button" className="absolute left-3 grid h-11 w-11 place-items-center rounded-full bg-white/10 text-white hover:bg-white/20 sm:left-6" onClick={(e) => { e.stopPropagation(); setIndex((i) => (i - 1 + items.length) % items.length); }} aria-label="Previous"><Lucide.ChevronLeft className="h-6 w-6" /></button>
-      <button type="button" className="absolute right-3 grid h-11 w-11 place-items-center rounded-full bg-white/10 text-white hover:bg-white/20 sm:right-6" onClick={(e) => { e.stopPropagation(); setIndex((i) => (i + 1) % items.length); }} aria-label="Next"><Lucide.ChevronRight className="h-6 w-6" /></button>
-      <figure className="max-h-[90vh] max-w-3xl" onClick={(e) => e.stopPropagation()}>
-        <img src={item.img} alt={`${item.title} full reference page`} className="mx-auto max-h-[82vh] w-auto rounded-xl object-contain shadow-2xl" />
-        <figcaption className="mt-3 text-center text-sm text-white/80">{item.title} <span className="text-white/50">| {item.hi}</span></figcaption>
-      </figure>
-    </div>
-  );
-};
-
-export const SamplePages = () => {
-  const [lb, setLb] = useState({ list: DISEASE_SAMPLES, index: null });
-  const openDisease = (i) => setLb({ list: DISEASE_SAMPLES, index: i });
-  const openMedicine = (i) => setLb({ list: MEDICINE_SAMPLES, index: i });
-  const setIndex = (updater) => setLb((s) => ({ ...s, index: typeof updater === "function" ? updater(s.index) : updater }));
-
-  return (
-    <section id="samples" className="border-y border-mrg-line bg-mrg-mist py-16 md:py-20 scroll-mt-20">
-      <div className="mrg-container-x">
-        <Reveal><SectionHead eyebrow="Preview" title="Preview Before You Buy" sub="Swipe or use the arrows to flip through actual pages. Tap the centre page to view it full-screen." /></Reveal>
-        <div className="mt-9">
-          <Tabs defaultValue="disease" className="w-full">
-            <TabsList className="mx-auto mb-10 flex w-full max-w-sm rounded-full bg-white p-1 shadow-mrg-soft">
-              <TabsTrigger value="disease" className="flex-1 rounded-full data-[state=active]:bg-mrg-teal data-[state=active]:text-white">Disease Guide</TabsTrigger>
-              <TabsTrigger value="medicine" className="flex-1 rounded-full data-[state=active]:bg-mrg-teal data-[state=active]:text-white">Medicine Guide</TabsTrigger>
-            </TabsList>
-            <TabsContent value="disease">
-              <Coverflow items={DISEASE_SAMPLES} onOpen={openDisease} testid="mrg-disease-flow" />
-            </TabsContent>
-            <TabsContent value="medicine">
-              <Coverflow items={MEDICINE_SAMPLES} onOpen={openMedicine} testid="mrg-medicine-flow" />
-            </TabsContent>
-          </Tabs>
-        </div>
-        <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-mrg-slateink">Sample pages are provided to demonstrate the design, structure and type of educational information included in the guides.</p>
+export const SamplePages = () => (
+  <section id="samples" className="border-y border-mrg-line bg-mrg-mist py-16 md:py-20 scroll-mt-20">
+    <div className="mrg-container-x">
+      <Reveal>
+        <SectionHead
+          eyebrow="Preview"
+          title="Real Pages, Flowing Live"
+          sub="Disease reference pages stream on the left, medicine pages on the right — exactly how the guides look inside. Keep watching, the pages keep flowing."
+        />
+      </Reveal>
+      <div className="mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-3 sm:gap-6">
+        <FlowColumn title="Diseases Reference" images={DISEASE_SAMPLES} anim="mrg-flow-down" testid="mrg-flow-disease" />
+        <FlowColumn title="Medicines Reference" images={MEDICINE_SAMPLES} anim="mrg-flow-up" testid="mrg-flow-medicine" />
       </div>
-      <Lightbox items={lb.list} index={lb.index} setIndex={setIndex} />
-    </section>
-  );
-};
+      <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-mrg-slateink">
+        Sample pages demonstrate the design, structure and type of educational information included in the guides. The complete guides are delivered as PDFs after purchase.
+      </p>
+    </div>
+  </section>
+);
 
 /* ---------------- what's inside highlights ---------------- */
 export const InsideHighlights = () => {

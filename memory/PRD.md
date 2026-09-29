@@ -61,3 +61,10 @@ See /app/memory/test_credentials.md.
 - Pricing-section buttons (main card + add-on panel) pass withAddOns=true and always open the gateway immediately, with or without selections; totals match selection
 - Renamed per owner: no-selection buy buttons now read "Get the Order — ₹199" (previously "Get the Bundle"/"Grab it at"); with add-ons: "Get Bundle + N Add-ons — ₹X" / "Checkout — ₹X"
 - Verified in browser: click 1 scrolled to pricing (scrollY ≈ section top, no dialog); click 2 opened BuyerEmailDialog at ₹199; add-on totals still correct (₹447 test earlier)
+
+## Update (2026-09-29, v20 — Flowing samples + restructured page order)
+- Page order now: Hero → Samples (flowing streams) → Pricing + Add-Ons → What's Inside → Why → Bundle Cards → Topics → Medicine Categories → Format → Bilingual → Who For → What You Receive → Disclaimer → Access Steps → FAQ → Final CTA (examples & pricing pulled to the top per owner)
+- SamplePages rebuilt as dual vertical streams (owner request, referenced from reel-style flow): Diseases Reference column on LEFT flowing down, Medicines Reference column on RIGHT flowing up, 40s linear loop (moderate speed), gradient mask fade top/bottom, pause on hover, seamless via duplicated list
+- Click-to-zoom REMOVED: Coverflow + Lightbox deleted, stream images pointer-events:none + non-draggable — pages cannot be enlarged/read in detail (owner: users shouldn't read page details)
+- Anchor strip order updated (Samples, Pricing, What's Inside, Topics, FAQ); "View Sample Pages" hero anchor unchanged
+- Verified: streams render desktop + mobile 390px (2-up), no overflow, section order samples→pricing→inside→bundle→topics→faq, click on stream image does nothing (no lightbox element exists)
