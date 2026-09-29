@@ -490,8 +490,8 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 @app.on_event("startup")
 async def seed_database():
     await db.products.create_index("slug", unique=True)
-    from seed_data import ADD_ON_PRODUCTS
-    for product_doc in [META_ADS_DECODE_PRODUCT, AI_IDEAS_PRODUCT, PROMPT_GUIDE_PRODUCT, BUNDLE_PRODUCT, MEDICAL_BUNDLE_PRODUCT, *ADD_ON_PRODUCTS]:
+    from seed_data import ADD_ON_PRODUCTS, BOOKKEEPING_PRODUCT
+    for product_doc in [META_ADS_DECODE_PRODUCT, AI_IDEAS_PRODUCT, PROMPT_GUIDE_PRODUCT, BUNDLE_PRODUCT, MEDICAL_BUNDLE_PRODUCT, BOOKKEEPING_PRODUCT, *ADD_ON_PRODUCTS]:
         doc = dict(product_doc)
         doc["created_at"] = datetime.now(timezone.utc).isoformat()
         await db.products.update_one({"slug": doc["slug"]}, {"$set": doc}, upsert=True)

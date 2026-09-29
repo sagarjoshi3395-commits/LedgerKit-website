@@ -47,6 +47,7 @@ module.exports = {
                     mist: '#F4F8FB',
                     line: '#E3ECF3',
                 },
+                volt: '#D4FF11',
                 background: 'hsl(var(--background))',
                 foreground: 'hsl(var(--foreground))',
                 card: {

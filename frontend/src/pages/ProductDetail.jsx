@@ -56,7 +56,7 @@ export default function ProductDetail() {
   const digital = product.editions?.digital;
   const sale = digital?.price ?? product.sale_price;
   const regular = product.regular_price && sale && product.regular_price > sale ? product.regular_price : null;
-  const dedicatedPages = { "meta-ads-decode": "/meta-ads-decode", "medical-reference-bundle": "/medical-reference-bundle" };
+  const dedicatedPages = { "meta-ads-decode": "/meta-ads-decode", "medical-reference-bundle": "/medical-reference-bundle", "business-bookkeeping-system": "/business-bookkeeping-system" };
   const hasDedicatedPage = Boolean(dedicatedPages[product.slug]);
   const dedicatedPageUrl = dedicatedPages[product.slug];
 

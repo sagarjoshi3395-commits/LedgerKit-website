@@ -9,6 +9,7 @@ import Products from "@/pages/Products";
 import ProductDetail from "@/pages/ProductDetail";
 import MetaAdsDecode from "@/pages/MetaAdsDecode";
 import MedicalLanding from "@/pages/MedicalLanding";
+import BookkeepingLanding from "@/pages/BookkeepingLanding";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import FaqPage from "@/pages/FaqPage";
@@ -44,6 +45,7 @@ function App() {
           <Route path="/products/:slug" element={<ProductDetail />} />
           <Route path="/meta-ads-decode" element={<MetaAdsDecode />} />
         <Route path="/medical-reference-bundle" element={<MedicalLanding />} />
+        <Route path="/business-bookkeeping-system" element={<BookkeepingLanding />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/faq" element={<FaqPage />} />

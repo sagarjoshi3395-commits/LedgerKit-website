@@ -84,3 +84,12 @@ See /app/memory/test_credentials.md.
 - Checkout context simplified: openBuy always includes selectedAddOns in items; includeAddOns state removed; BuyerEmailDialog total always = live total
 - Two-phase kept: hero/anchor/sticky first click → pricing scroll, next click → checkout; FinalCta (below pricing) goes straight to checkout
 - Server-side charge already verified (₹447 = 199+99+149 order created via live Razorpay keys)
+
+## Update (2026-09-29, v23 — Business Bookkeeping Sheet System product + landing)
+- Imported product from github.com/sagarjoshi3395-commits/Spreadsheet-Excel (repo was private at first, made public by owner)
+- New seeded product: business-bookkeeping-system — "Business Bookkeeping Sheet System", ₹290 (regular ₹999), category templates, cover/gallery = 10 real dashboard screenshots (copied to /assets/bookkeeping/*.webp), 8 whats_included, 5 FAQs (ported from static-site copy)
+- Complete landing page ported at /business-bookkeeping-system (bone #f6f5f2 / ink / volt #D4FF11 editorial-brutalist theme, bbs- scoped CSS): anchor strip, hero ("The last spreadsheet you'll ever need.", tilted dashboard card, live marquee of dashboard names), flowing horizontal dashboard gallery (all 10 shots, captions, non-clickable), How-it-works (3 steps), Problem list, dark pricing card (₹999→₹290, INCLUDES checklist), FAQ accordion, final CTA, mobile sticky bar
+- Same two-phase buy flow as medical page (1st CTA click → pricing scroll, next click → checkout; pricing buttons straight); own lean BbsBuyProvider (no add-ons); PRODUCT PDF (Google Sheets + Excel links + video tutorial) was NOT in the repo — download_files [] PENDING owner supply
+- Dropped from source: fake "2,400+ businesses / 4.9★" stats + invented reviews (brand rule: no fake social proof)
+- ProductDetail dedicated-pages map + store card: product visible in store (6 products), detail page links "View Full Details" → landing
+- Verified: API product ₹290/999, real Razorpay order ₹29000p created; landing desktop+mobile no overflow; store shows 6 products
