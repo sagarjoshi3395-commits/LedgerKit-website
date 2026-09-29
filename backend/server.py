@@ -146,7 +146,7 @@ async def list_products(
     sort: Optional[str] = "featured",
     featured: Optional[bool] = None,
 ):
-    query: dict = {"status": "published"}
+    query: dict = {"status": "published", "is_add_on": {"$ne": True}}
     if category and category != "all":
         query["category"] = category
     if featured is not None:
@@ -176,10 +176,17 @@ async def list_products(
 
 @api_router.get("/products/{slug}")
 async def get_product(slug: str):
-    product = await db.products.find_one({"slug": slug, "status": "published"})
+    product = await db.products.find_one({"slug": slug, "status": "published", "is_add_on": {"$ne": True}})
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
     return serialize_doc(product)
+
+
+@api_router.get("/add-ons")
+async def list_add_ons():
+    """Add-on guides — purchasable at checkout, hidden from store listings."""
+    docs = await db.products.find({"status": "published", "is_add_on": True}).sort("editions.digital.price", 1).to_list(50)
+    return [serialize_doc(d) for d in docs]
 
 
 @api_router.get("/testimonials")
@@ -483,7 +490,8 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 @app.on_event("startup")
 async def seed_database():
     await db.products.create_index("slug", unique=True)
-    for product_doc in [META_ADS_DECODE_PRODUCT, AI_IDEAS_PRODUCT, PROMPT_GUIDE_PRODUCT, BUNDLE_PRODUCT, MEDICAL_BUNDLE_PRODUCT]:
+    from seed_data import ADD_ON_PRODUCTS
+    for product_doc in [META_ADS_DECODE_PRODUCT, AI_IDEAS_PRODUCT, PROMPT_GUIDE_PRODUCT, BUNDLE_PRODUCT, MEDICAL_BUNDLE_PRODUCT, *ADD_ON_PRODUCTS]:
         doc = dict(product_doc)
         doc["created_at"] = datetime.now(timezone.utc).isoformat()
         await db.products.update_one({"slug": doc["slug"]}, {"$set": doc}, upsert=True)

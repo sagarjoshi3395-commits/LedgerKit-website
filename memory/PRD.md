@@ -46,3 +46,12 @@ See /app/memory/test_credentials.md.
   - Dropped from the source repo: fake "buyers from cities" sales ticker + recent-sales pill (LedgerKit brand rule: no fake sales numbers)
 - ProductDetail: dedicated-page link map now routes medical product "View Full Details" → /medical-reference-bundle (meta-ads-decode unchanged)
 - Verified: landing desktop+mobile (no overflow, timers ticking), buy flow in browser → email dialog → REAL Razorpay modal at ₹299; product detail link resolves
+
+## Update (2026-09-29, v18 — Add-on offers + price drop, medical landing only)
+- Medical Reference Bundle price 299 → 199 (seed_data.py sale_price + editions.digital.price; DB reseeded on restart; regular ₹1999 kept)
+- 5 add-on guides seeded as hidden products (is_add_on: True, status published, editions.digital.price set, download_files [] PENDING — owner to supply PDFs):
+  ecg-guide ₹99, emergency-guide ₹149, ayurvedic-medicine-guide ₹99, physiotherapy-clinical-guide ₹149, lab-report-guide ₹99 (names/prices per owner; copy referenced from ssphysio.store)
+- server.py: /api/add-ons endpoint (sorted by price); list_products + get_product filter is_add_on → add-ons invisible in store & have no standalone page (404), but checkout-able
+- Pricing section of /medical-reference-bundle now has Add-On Offers panel: checkbox cards, live total (bundle + add-ons), buy buttons pass items[] to one Razorpay order (server computes total)
+- openBuy(withAddOns) flag: hero/sticky/anchor/CTA buttons = bundle only; pricing area buttons include selected add-ons; BuyerEmailDialog total matches
+- Verified: bundle ₹199 in DB/API; store list unchanged (5, no add-ons); add-on page 404; combined order 199+99+149=447 → real Razorpay order 44700p; browser: ticking 2 add-ons shows ₹447 total + "Get Bundle + 2 Add-ons — ₹447"

@@ -480,7 +480,7 @@ MEDICAL_BUNDLE_PRODUCT = {
     "cta_text": "Get the Bundle",
     "currency": "INR",
     "regular_price": 1999,
-    "sale_price": 299,
+    "sale_price": 199,
     "featured": False,
     "is_new": True,
     "bestseller": False,
@@ -520,7 +520,7 @@ MEDICAL_BUNDLE_PRODUCT = {
         "digital": {
             "label": "Digital Bundle (2 Books)",
             "badge": "Instant Access",
-            "price": 299,
+            "price": 199,
             "cta": "Get Instant Access",
             "note": "Secure Checkout • Digital PDFs • Instant Access",
             "checkout_url": "",
@@ -532,3 +532,79 @@ MEDICAL_BUNDLE_PRODUCT = {
         },
     },
 }
+
+
+def _add_on(slug, title, price, tagline, description):
+    """Hidden add-on guide: purchasable at checkout, excluded from store listings."""
+    return {
+        "slug": slug,
+        "title": title,
+        "short_title": title,
+        "cover_image": "",
+        "gallery": [],
+        "tagline": tagline,
+        "description": description,
+        "category": "health",
+        "product_type": "Add-on Guide",
+        "format": "Digital PDF",
+        "delivery_method": "Instant digital access after successful payment",
+        "cta_text": "Add to Order",
+        "currency": "INR",
+        "regular_price": price,
+        "sale_price": price,
+        "featured": False,
+        "is_new": False,
+        "bestseller": False,
+        "status": "published",
+        "is_add_on": True,
+        "offer_end": None,
+        "download_files": [],
+        "whats_included": [],
+        "key_benefits": [],
+        "bonuses": [],
+        "curriculum": [],
+        "sample_pages": [],
+        "who_for": [],
+        "not_for": [],
+        "faqs": [],
+        "editions": {
+            "digital": {
+                "label": "Digital PDF",
+                "badge": "Add-on",
+                "price": price,
+                "cta": "Add to Order",
+                "note": "Optional add-on • Digital PDF",
+                "checkout_url": "",
+                "features": [],
+            },
+        },
+    }
+
+
+ADD_ON_PRODUCTS = [
+    _add_on(
+        "ecg-guide", "ECG Guide", 99,
+        "Read ECG strips with confidence — rate, rhythm & axis made simple, common abnormalities at a glance and quick-reference charts for revision.",
+        "A quick-reference ECG guide covering rate, rhythm and axis interpretation, common abnormalities and revision charts. Educational reference only.",
+    ),
+    _add_on(
+        "emergency-guide", "Emergency Guide", 149,
+        "Emergency presentations and first-response information organised for quick revision — warning signs, red flags and what to check first.",
+        "An emergency reference guide covering common emergency presentations, warning signs and first-response information in a quick-revision format. Educational reference only.",
+    ),
+    _add_on(
+        "ayurvedic-medicine-guide", "Ayurvedic Medicine Guide", 99,
+        "Common Ayurvedic medicines and remedies organised for easy educational reference — classical context, uses and precautions.",
+        "An Ayurvedic medicine reference covering commonly referenced medicines and remedies with classical context, uses and precautions. Educational reference only — not prescribing guidance.",
+    ),
+    _add_on(
+        "physiotherapy-clinical-guide", "Physiotherapy Clinical Guide", 149,
+        "A clinical physiotherapy reference — assessment approaches, treatment plan concepts and home exercise programme ideas at a glance.",
+        "A physiotherapy clinical reference covering assessment approaches, treatment plan concepts and home exercise programme ideas in a structured visual format. Educational reference only.",
+    ),
+    _add_on(
+        "lab-report-guide", "Lab Report Guide", 99,
+        "Understand common lab reports — what each marker means, typical reference ranges and why values matter, in plain language.",
+        "A lab report reference explaining common lab markers, typical reference ranges and what values indicate, in plain language. Educational reference only.",
+    ),
+]
