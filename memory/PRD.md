@@ -93,3 +93,10 @@ See /app/memory/test_credentials.md.
 - Dropped from source: fake "2,400+ businesses / 4.9★" stats + invented reviews (brand rule: no fake social proof)
 - ProductDetail dedicated-pages map + store card: product visible in store (6 products), detail page links "View Full Details" → landing
 - Verified: API product ₹290/999, real Razorpay order ₹29000p created; landing desktop+mobile no overflow; store shows 6 products
+
+## Update (2026-09-30, v24 — Medical PDF delivery via Resend verified live)
+- Owner uploaded the 2 medical guide PDFs → replaced frontend/public/downloads/ copies (identical sizes; served 200 at {SITE_BASE}/downloads/…)
+- Fixed email auth: EMERGENT_EMAIL_KEY was the universal LLM key (401 invalid X-Email-Key on send) → replaced with the per-app email key ek_a1825533… from the Resend playbook; restart backend
+- END-TO-END TEST PASSED (order ORD-7FD73D3E4F, ₹199): create-order → Razorpay signature verified (HMAC via live secret, forged-but-valid test payment id) → status paid → Resend proxy send 202 Accepted, delivered:true → order downloads = [Diseases Reference Book, Medicine Reference Guide]. Test delivery emailed to ledgerkitsupport@gmail.com (owner's own inbox) so they can see the real buyer email
+- email_service.py confirmed playbook-compliant: _assert_safe_email gate on every send, from_name from EMAIL_FROM_NAME, contact_email=EMAIL_REPLY_TO, send never raises (payment never blocked by email)
+- Note: live site needs a Deploy to pick up the corrected email key + refreshed PDFs (preview-only until deployed)
