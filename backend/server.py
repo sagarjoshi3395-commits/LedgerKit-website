@@ -182,10 +182,19 @@ async def get_product(slug: str):
     return serialize_doc(product)
 
 
+@api_router.get("/add-ons/combo")
+async def get_add_ons_combo():
+    """Special all-5 add-ons combo product (hidden from store listings)."""
+    combo = await db.products.find_one({"slug": "addons-combo-pack", "status": "published", "is_combo": True})
+    if not combo:
+        raise HTTPException(status_code=404, detail="Combo not found")
+    return serialize_doc(combo)
+
+
 @api_router.get("/add-ons")
 async def list_add_ons():
     """Add-on guides — purchasable at checkout, hidden from store listings."""
-    docs = await db.products.find({"status": "published", "is_add_on": True}).sort("editions.digital.price", 1).to_list(50)
+    docs = await db.products.find({"status": "published", "is_add_on": True, "is_combo": {"$ne": True}}).sort("editions.digital.price", 1).to_list(50)
     return [serialize_doc(d) for d in docs]
 
 
@@ -490,8 +499,8 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 @app.on_event("startup")
 async def seed_database():
     await db.products.create_index("slug", unique=True)
-    from seed_data import ADD_ON_PRODUCTS, BOOKKEEPING_PRODUCT
-    for product_doc in [META_ADS_DECODE_PRODUCT, AI_IDEAS_PRODUCT, PROMPT_GUIDE_PRODUCT, BUNDLE_PRODUCT, MEDICAL_BUNDLE_PRODUCT, BOOKKEEPING_PRODUCT, *ADD_ON_PRODUCTS]:
+    from seed_data import ADD_ON_PRODUCTS, BOOKKEEPING_PRODUCT, COMBO_PRODUCT
+    for product_doc in [META_ADS_DECODE_PRODUCT, AI_IDEAS_PRODUCT, PROMPT_GUIDE_PRODUCT, BUNDLE_PRODUCT, MEDICAL_BUNDLE_PRODUCT, BOOKKEEPING_PRODUCT, *ADD_ON_PRODUCTS, COMBO_PRODUCT]:
         doc = dict(product_doc)
         doc["created_at"] = datetime.now(timezone.utc).isoformat()
         await db.products.update_one({"slug": doc["slug"]}, {"$set": doc}, upsert=True)

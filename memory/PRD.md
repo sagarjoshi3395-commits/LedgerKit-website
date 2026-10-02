@@ -112,3 +112,11 @@ See /app/memory/test_credentials.md.
 - Compact one-line add-on rows (tick + name + Recommended chip on ECG/Emergency + price); "N selected"/"None selected" count chip; highlight pulse from two-phase scroll now rings the in-card add-on block
 - Verified in browser (390px): 1 panel only; button ₹199 → ₹447 on ticking ECG+Emergency; total row correct; sticky/hero/final CTAs all live-total (₹447)
 - Rationale: order bump inside the pricing card = zero navigation between offer and payment; cheapest "recommended" rows visible while the ₹199 anchor price is on screen — should lift AOV vs the old below-card panel
+
+## Update (2026-10-02, v27 — All-5 Add-Ons Combo ₹449)
+- New hidden combo product: addons-combo-pack ₹449 (regular ₹595, is_add_on + is_combo, download_files [] PENDING the 5 add-on PDFs)
+- server.py: GET /api/add-ons/combo; /api/add-ons now excludes is_combo (still returns the 5 individual add-ons)
+- Pricing card add-on block: one-tick "All 5 Add-Ons Combo" row (dashed border, BEST VALUE chip, ₹595 struck → ₹449, Save ₹146) below the 5 individual rows
+- Mutual exclusion: combo tick → all 5 individual rows show ticked + dimmed (pointer-events none); ticking any individual row unticks the combo; total = 199 + 449 = ₹648
+- Verified: API combo ₹449 + real Razorpay order ₹64800p (199 bundle + 449 combo); browser: combo tick → button/sticky/hero/final all ₹648, rows dimmed, total row "Bundle ₹199 + Combo ₹449"; fixed a destructure crash (comboOn undefined) caught on first load
+- Seed_data.py note: insert_text on files without trailing newline splits the last dict — close the dict before appending (bit twice, fixed both times)

@@ -8,7 +8,7 @@ import BuyerEmailDialog from "../BuyerEmailDialog";
 const MrgBuyCtx = createContext({
   product: null, openBuy: () => {}, price: 199, regularPrice: 1999,
   addOns: [], selectedAddOns: [], toggleAddOn: () => {}, addOnTotal: 0, total: 199,
-  highlight: false,
+  highlight: false, comboOn: false, toggleCombo: () => {}, combo: { slug: "addons-combo-pack", price: 449, regularPrice: 595 },
 });
 export const useMrgBuy = () => useContext(MrgBuyCtx);
 
@@ -29,10 +29,14 @@ const FALLBACK_ADDONS = [
   { slug: "lab-report-guide", title: "Lab Report Guide", description: "Understand common lab markers and reference ranges in plain language.", price: 99 },
 ];
 
+const FALLBACK_COMBO = { slug: "addons-combo-pack", price: 449, regularPrice: 595 };
+
 export function MrgBuyProvider({ children }) {
   const [product, setProduct] = useState(FALLBACK);
   const [addOns, setAddOns] = useState(FALLBACK_ADDONS);
   const [selectedAddOns, setSelectedAddOns] = useState([]);
+  const [combo, setCombo] = useState(FALLBACK_COMBO);
+  const [comboOn, setComboOn] = useState(false);
   const [loading, setLoading] = useState(false);
   const [emailOpen, setEmailOpen] = useState(false);
   const [pricingSeen, setPricingSeen] = useState(false);
@@ -58,13 +62,21 @@ export function MrgBuyProvider({ children }) {
         })));
       }
     }).catch(() => {});
+    api.get("/add-ons/combo").then(({ data }) => {
+      const edition = data?.editions?.digital || {};
+      setCombo((c) => ({
+        ...c,
+        slug: data.slug ?? c.slug,
+        price: edition.price ?? data.sale_price ?? c.price,
+        regularPrice: edition.regular_price ?? data.regular_price ?? c.regularPrice,
+      }));
+    }).catch(() => {});
   }, []);
 
-  const addOnTotal = addOns
-    .filter((a) => selectedAddOns.includes(a.slug))
-    .reduce((s, a) => s + (a.price || 0), 0);
-  // Buttons across the page always show and charge the live total
-  // (bundle + whatever add-ons the visitor has ticked).
+  // Live total: bundle + (combo at its special price, or the individually ticked add-ons).
+  const addOnTotal = comboOn
+    ? combo.price
+    : addOns.filter((a) => selectedAddOns.includes(a.slug)).reduce((s, a) => s + (a.price || 0), 0);
   const total = product.price + addOnTotal;
 
   const scrollToPricing = () => {
@@ -86,12 +98,24 @@ export function MrgBuyProvider({ children }) {
     scrollToPricing();
   };
 
-  const toggleAddOn = (slug) =>
+  const toggleCombo = () => {
+    setComboOn((prev) => {
+      if (!prev) setSelectedAddOns([]);
+      return !prev;
+    });
+  };
+
+  const toggleAddOn = (slug) => {
+    setComboOn(false);
     setSelectedAddOns((prev) => (prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]));
+  };
 
   async function handleEmailSubmit(email) {
     setLoading(true);
-    const items = [{ product_slug: product.slug }, ...selectedAddOns.map((slug) => ({ product_slug: slug }))];
+    const extraItems = comboOn
+      ? [{ product_slug: combo.slug }]
+      : selectedAddOns.map((slug) => ({ product_slug: slug }));
+    const items = [{ product_slug: product.slug }, ...extraItems];
     trackEvent("InitiateCheckout", {
       content_name: product.slug,
       value: total,
@@ -115,7 +139,7 @@ export function MrgBuyProvider({ children }) {
   }
 
   return (
-    <MrgBuyCtx.Provider value={{ product, openBuy, price: product.price, regularPrice: product.regular_price, addOns, selectedAddOns, toggleAddOn, addOnTotal, total, highlight }}>
+    <MrgBuyCtx.Provider value={{ product, openBuy, price: product.price, regularPrice: product.regular_price, addOns, selectedAddOns, toggleAddOn, addOnTotal, total, highlight, comboOn, toggleCombo, combo }}>
       {children}
       <BuyerEmailDialog
         open={emailOpen}

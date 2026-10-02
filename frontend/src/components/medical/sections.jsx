@@ -712,7 +712,7 @@ export const AccessSteps = () => {
 
 /* ---------------- pricing ---------------- */
 export const Pricing = () => {
-  const { openBuy, price, regularPrice, addOns, selectedAddOns, toggleAddOn, addOnTotal, total, highlight } = useMrgBuy();
+  const { openBuy, price, regularPrice, addOns, selectedAddOns, toggleAddOn, addOnTotal, total, highlight, comboOn, toggleCombo, combo } = useMrgBuy();
   const includes = [
     "Illustrated Disease Reference Guide (PDF)",
     "Illustrated Medicine Reference Guide (PDF)",
@@ -760,12 +760,12 @@ export const Pricing = () => {
                   const active = selectedAddOns.includes(a.slug);
                   const recommended = a.slug === "ecg-guide" || a.slug === "emergency-guide";
                   return (
-                    <label key={a.slug} data-testid={`mrg-addon-${a.slug}`} className={`flex cursor-pointer items-center gap-3 rounded-xl border px-3.5 py-2.5 transition-all ${active ? "border-mrg-teal bg-mrg-teal/10 ring-1 ring-mrg-teal/40" : recommended ? "border-mrg-teal/40 bg-white hover:border-mrg-teal" : "border-mrg-line bg-white hover:border-mrg-teal/50"}`}>
-                      <input type="checkbox" className="sr-only" checked={active} onChange={() => toggleAddOn(a.slug)} data-testid={`mrg-addon-check-${a.slug}`} />
-                      <span className={`grid h-5 w-5 shrink-0 place-items-center rounded-md border transition-colors ${active ? "border-mrg-teal bg-mrg-teal text-white" : "border-mrg-line bg-white text-transparent"}`}><Lucide.Check className="h-3.5 w-3.5" /></span>
+                    <label key={a.slug} data-testid={`mrg-addon-${a.slug}`} className={`flex cursor-pointer items-center gap-3 rounded-xl border px-3.5 py-2.5 transition-all ${comboOn ? "pointer-events-none opacity-50" : ""} ${active || comboOn ? "border-mrg-teal bg-mrg-teal/10 ring-1 ring-mrg-teal/40" : recommended ? "border-mrg-teal/40 bg-white hover:border-mrg-teal" : "border-mrg-line bg-white hover:border-mrg-teal/50"}`}>
+                      <input type="checkbox" className="sr-only" checked={active || comboOn} onChange={() => toggleAddOn(a.slug)} data-testid={`mrg-addon-check-${a.slug}`} />
+                      <span className={`grid h-5 w-5 shrink-0 place-items-center rounded-md border transition-colors ${active || comboOn ? "border-mrg-teal bg-mrg-teal text-white" : "border-mrg-line bg-white text-transparent"}`}><Lucide.Check className="h-3.5 w-3.5" /></span>
                       <span className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-1">
                         <span className="text-[14px] font-bold text-mrg-navy">{a.title}</span>
-                        {!active && recommended && (
+                        {!active && !comboOn && recommended && (
                           <span className="inline-flex items-center gap-1 rounded-full bg-mrg-teal px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white"><Lucide.Star className="h-2.5 w-2.5" /> Recommended</span>
                         )}
                       </span>
@@ -773,9 +773,27 @@ export const Pricing = () => {
                     </label>
                   );
                 })}
+
+                <label data-testid="mrg-addon-combo" className={`flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed px-3.5 py-3 transition-all ${comboOn ? "border-mrg-teal bg-mrg-teal/10 ring-2 ring-mrg-teal/40" : "border-mrg-grape/50 bg-mrg-grape/5 hover:border-mrg-grape"}`}>
+                  <input type="checkbox" className="sr-only" checked={comboOn} onChange={toggleCombo} data-testid="mrg-addon-check-combo" />
+                  <span className={`grid h-5 w-5 shrink-0 place-items-center rounded-md border transition-colors ${comboOn ? "border-mrg-teal bg-mrg-teal text-white" : "border-mrg-grape/60 bg-white text-transparent"}`}><Lucide.Check className="h-3.5 w-3.5" /></span>
+                  <span className="min-w-0 flex-1">
+                    <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                      <span className="text-[14px] font-extrabold text-mrg-navy">All 5 Add-Ons Combo</span>
+                      <span className="inline-flex items-center gap-1 rounded-full bg-mrg-grape px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white"><Lucide.Zap className="h-2.5 w-2.5" /> Best value</span>
+                    </span>
+                    <span className="mt-0.5 block text-[12px] text-mrg-slateink">One tick — every extra guide · Save ₹{(addOns.reduce((s, a) => s + a.price, 0) - combo.price).toLocaleString("en-IN")}</span>
+                  </span>
+                  <span className="text-right">
+                    <span className="block text-[11px] font-semibold text-mrg-slateink line-through">₹{addOns.reduce((s, a) => s + a.price, 0).toLocaleString("en-IN")}</span>
+                    <span className="font-display text-[15px] font-extrabold text-mrg-grape">₹{combo.price}</span>
+                  </span>
+                </label>
               </div>
               <div className="mt-3 flex items-center justify-between gap-2 rounded-xl border border-mrg-line bg-white px-3.5 py-2.5" data-testid="mrg-addons-total">
-                {selCount > 0 ? (
+                {comboOn ? (
+                  <span className="text-[13px] font-semibold text-mrg-navy">Bundle ₹{price} <span className="text-mrg-slateink">+ Combo</span> ₹{combo.price}</span>
+                ) : selCount > 0 ? (
                   <span className="text-[13px] font-semibold text-mrg-navy">Bundle ₹{price} <span className="text-mrg-slateink">+ Add-ons</span> ₹{addOnTotal}</span>
                 ) : (
                   <span className="text-[13px] text-mrg-slateink">Tick any extras above — pay once for everything</span>
