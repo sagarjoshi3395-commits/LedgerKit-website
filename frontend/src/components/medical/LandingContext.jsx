@@ -29,7 +29,7 @@ const FALLBACK_ADDONS = [
   { slug: "lab-report-guide", title: "Lab Report Guide", description: "Understand common lab markers and reference ranges in plain language.", price: 99 },
 ];
 
-const FALLBACK_COMBO = { slug: "addons-combo-pack", price: 449, regularPrice: 595 };
+const FALLBACK_COMBO = { slug: "addons-combo-pack", price: 299, regularPrice: 595 };
 
 export function MrgBuyProvider({ children }) {
   const [product, setProduct] = useState(FALLBACK);

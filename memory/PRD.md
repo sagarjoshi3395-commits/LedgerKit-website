@@ -120,3 +120,7 @@ See /app/memory/test_credentials.md.
 - Mutual exclusion: combo tick → all 5 individual rows show ticked + dimmed (pointer-events none); ticking any individual row unticks the combo; total = 199 + 449 = ₹648
 - Verified: API combo ₹449 + real Razorpay order ₹64800p (199 bundle + 449 combo); browser: combo tick → button/sticky/hero/final all ₹648, rows dimmed, total row "Bundle ₹199 + Combo ₹449"; fixed a destructure crash (comboOn undefined) caught on first load
 - Seed_data.py note: insert_text on files without trailing newline splits the last dict — close the dict before appending (bit twice, fixed both times)
+
+## Update (2026-10-02, v28 — Combo price 449 → 299)
+- addons-combo-pack repriced ₹449 → ₹299 (seed sale_price + editions.digital.price; regular ₹595 kept; save ₹296)
+- Verified: /api/add-ons/combo → 299; combo checkout = 199 + 299 = ₹498 (real Razorpay order 49800p); browser shows combo row ₹299/Save ₹296, total ₹498, all CTAs (button/sticky/hero/final) at ₹498 live
