@@ -100,3 +100,9 @@ See /app/memory/test_credentials.md.
 - END-TO-END TEST PASSED (order ORD-7FD73D3E4F, ₹199): create-order → Razorpay signature verified (HMAC via live secret, forged-but-valid test payment id) → status paid → Resend proxy send 202 Accepted, delivered:true → order downloads = [Diseases Reference Book, Medicine Reference Guide]. Test delivery emailed to ledgerkitsupport@gmail.com (owner's own inbox) so they can see the real buyer email
 - email_service.py confirmed playbook-compliant: _assert_safe_email gate on every send, from_name from EMAIL_FROM_NAME, contact_email=EMAIL_REPLY_TO, send never raises (payment never blocked by email)
 - Note: live site needs a Deploy to pick up the corrected email key + refreshed PDFs (preview-only until deployed)
+
+## Update (2026-10-02, v25 — Add-on conversion fix)
+- Owner report: only ~1/10 buyers add an add-on. Diagnosis: the big ₹199 pricing card + its "Get the Order" button sat ABOVE the add-on panel — buyers clicked pay before ever seeing the add-ons; add-ons also lacked any cues
+- Fix: reordered pricing section — "Before You Pay — Add-On Offers" panel now FIRST (verified addon_top 340 < price card top 1184), pricing card below; panel retitled "Before You Pay — Add-On Offers" with "tick what you want, pay once for everything"
+- ECG Guide (₹99) + Emergency Guide (₹149) now carry teal "Recommended add-on" chips + tinted cards (verified rendering); live total row + Checkout button remain right under the cards so the buyer can pay immediately after ticking
+- Pre-ticked add-ons (default-selection order bump) NOT implemented — charges buyers by default, needs owner's explicit choice
