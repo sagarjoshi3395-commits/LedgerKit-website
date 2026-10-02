@@ -726,56 +726,7 @@ export const Pricing = () => {
     <section id="pricing" className="mrg-container-x py-16 md:py-20 scroll-mt-20">
       <Reveal><SectionHead eyebrow="Pricing" title="Get the Medical Reference Guide Bundle" /></Reveal>
       <Reveal delay={0.08}>
-        <div className={`mx-auto mt-10 max-w-3xl rounded-3xl border p-6 shadow-mrg-soft transition-all duration-500 md:p-8 ${highlight ? "border-mrg-teal bg-mrg-teal/5 ring-4 ring-mrg-teal/20" : "border-mrg-line bg-white"}`} data-testid="mrg-addons-panel">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
-              <span className="grid h-11 w-11 place-items-center rounded-xl bg-mrg-grape/10 text-mrg-grape"><Lucide.Puzzle className="h-5 w-5" /></span>
-              <div>
-                <h3 className="font-display text-xl font-extrabold text-mrg-navy" data-testid="mrg-addons-title">Before You Pay — Add-On Offers</h3>
-                <p className="text-[13px] text-mrg-slateink">Optional illustrated PDF guides — tick what you want, pay once for everything.</p>
-              </div>
-            </div>
-            <span className="mrg-eyebrow">One-time prices</span>
-          </div>
-          <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            {addOns.map((a) => {
-              const active = selectedAddOns.includes(a.slug);
-              const recommended = a.slug === "ecg-guide" || a.slug === "emergency-guide";
-              return (
-                <label key={a.slug} data-testid={`mrg-addon-${a.slug}`} className={`relative flex cursor-pointer items-start gap-3 rounded-2xl border p-4 transition-all ${active ? "border-mrg-teal bg-mrg-teal/5 ring-2 ring-mrg-teal/30" : recommended ? "border-mrg-teal/40 bg-mrg-teal/5 hover:border-mrg-teal" : "border-mrg-line bg-white hover:border-mrg-teal/40"}`}>
-                  <input type="checkbox" className="sr-only" checked={active} onChange={() => toggleAddOn(a.slug)} data-testid={`mrg-addon-check-${a.slug}`} />
-                  <span className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-md border transition-colors ${active ? "border-mrg-teal bg-mrg-teal text-white" : "border-mrg-line bg-white text-transparent"}`}><Lucide.Check className="h-3.5 w-3.5" /></span>
-                  <span className="min-w-0 flex-1">
-                    <span className="flex items-center justify-between gap-2">
-                      <span className="font-display text-[15px] font-extrabold text-mrg-navy">{a.title}</span>
-                      <span className="font-display text-[15px] font-extrabold text-mrg-teal">₹{a.price}</span>
-                    </span>
-                    <span className="mt-1 block text-[13px] leading-snug text-mrg-slateink">{a.description}</span>
-                    {!active && recommended && (
-                      <span className="mt-2 inline-flex items-center gap-1 rounded-full bg-mrg-teal px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white"><Lucide.Star className="h-2.5 w-2.5" /> Recommended add-on</span>
-                    )}
-                  </span>
-                </label>
-              );
-            })}
-          </div>
-          <div className="mt-5 flex flex-col items-center justify-between gap-3 rounded-2xl bg-mrg-mist px-5 py-4 sm:flex-row">
-            <div className="text-sm font-semibold text-mrg-navy" data-testid="mrg-addons-total">
-              Bundle ₹{price}
-              {selCount > 0 && <span> + Add-ons ₹{addOnTotal}</span>}
-              <span className="mx-1.5 text-mrg-slateink">=</span>
-              <span className="font-display text-xl font-extrabold text-mrg-teal">₹{total}</span>
-            </div>
-            <button type="button" onClick={() => openBuy(true)} data-testid="mrg-addons-buy" className="mrg-btn-primary">
-              {selCount > 0 ? `Checkout — ₹${total}` : `Get the Order — ₹${price}`} <Lucide.ArrowRight className="h-4 w-4" />
-            </button>
-          </div>
-          <p className="mt-3 text-center text-xs text-mrg-slateink">Add-ons are optional. One-time prices — all PDFs are delivered together after payment.</p>
-        </div>
-      </Reveal>
-
-      <Reveal delay={0.12}>
-        <div className="mx-auto mt-8 max-w-lg overflow-hidden rounded-3xl border border-mrg-line bg-white shadow-mrg-card">
+        <div className="mx-auto mt-10 max-w-lg overflow-hidden rounded-3xl border border-mrg-line bg-white shadow-mrg-card">
           <div className="bg-gradient-to-br from-mrg-navy to-mrg-tealdark px-8 py-8 text-center text-white">
             <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">Complete Bundle • Digital</p>
             <div className="mt-3 flex items-end justify-center gap-2">
@@ -785,19 +736,56 @@ export const Pricing = () => {
             <p className="mt-1 text-xs font-bold uppercase tracking-widest text-amber-300">
               Save ₹{regularPrice - price} · Limited-time price
             </p>
-            <p className="mt-1 text-sm text-white/70">One-time purchase</p>
             <div className="mt-4 flex justify-center">
               <CountdownBadge variant="banner" className="w-full max-w-xs" />
             </div>
           </div>
-          <div className="p-8">
-            <ul className="space-y-3">
+
+          <div className="p-6 sm:p-8">
+            <ul className="space-y-2.5">
               {includes.map((it) => (
                 <li key={it} className="flex items-start gap-3 text-[15px] text-mrg-navy"><span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-mrg-teal/15 text-mrg-teal"><Lucide.Check className="h-3.5 w-3.5" /></span>{it}</li>
               ))}
             </ul>
-            <button type="button" onClick={() => openBuy(true)} data-testid="mrg-pricing-buy" className="mrg-btn-primary mt-7 w-full text-lg">
-              {selCount > 0 ? `Get Bundle + ${selCount} Add-on${selCount > 1 ? "s" : ""} — ₹${total}` : `Get the Order — ₹${price}`} <Lucide.ArrowRight className="h-5 w-5" />
+
+            <div className={`mt-6 rounded-2xl border p-4 transition-all duration-500 ${highlight ? "border-mrg-teal bg-mrg-teal/5 ring-4 ring-mrg-teal/20" : "border-mrg-line bg-mrg-mist/70"}`} data-testid="mrg-addons-panel">
+              <div className="flex items-center justify-between gap-2">
+                <p className="font-display text-[13px] font-extrabold uppercase tracking-wider text-mrg-navy" data-testid="mrg-addons-title">Add-On Offers · Optional</p>
+                <span className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${selCount > 0 ? "bg-mrg-teal text-white" : "border border-mrg-line bg-white text-mrg-slateink"}`} data-testid="mrg-addons-count">
+                  {selCount > 0 ? `${selCount} selected` : "None selected"}
+                </span>
+              </div>
+              <div className="mt-3 space-y-2">
+                {addOns.map((a) => {
+                  const active = selectedAddOns.includes(a.slug);
+                  const recommended = a.slug === "ecg-guide" || a.slug === "emergency-guide";
+                  return (
+                    <label key={a.slug} data-testid={`mrg-addon-${a.slug}`} className={`flex cursor-pointer items-center gap-3 rounded-xl border px-3.5 py-2.5 transition-all ${active ? "border-mrg-teal bg-mrg-teal/10 ring-1 ring-mrg-teal/40" : recommended ? "border-mrg-teal/40 bg-white hover:border-mrg-teal" : "border-mrg-line bg-white hover:border-mrg-teal/50"}`}>
+                      <input type="checkbox" className="sr-only" checked={active} onChange={() => toggleAddOn(a.slug)} data-testid={`mrg-addon-check-${a.slug}`} />
+                      <span className={`grid h-5 w-5 shrink-0 place-items-center rounded-md border transition-colors ${active ? "border-mrg-teal bg-mrg-teal text-white" : "border-mrg-line bg-white text-transparent"}`}><Lucide.Check className="h-3.5 w-3.5" /></span>
+                      <span className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-1">
+                        <span className="text-[14px] font-bold text-mrg-navy">{a.title}</span>
+                        {!active && recommended && (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-mrg-teal px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white"><Lucide.Star className="h-2.5 w-2.5" /> Recommended</span>
+                        )}
+                      </span>
+                      <span className="font-display text-[14px] font-extrabold text-mrg-teal">₹{a.price}</span>
+                    </label>
+                  );
+                })}
+              </div>
+              <div className="mt-3 flex items-center justify-between gap-2 rounded-xl border border-mrg-line bg-white px-3.5 py-2.5" data-testid="mrg-addons-total">
+                {selCount > 0 ? (
+                  <span className="text-[13px] font-semibold text-mrg-navy">Bundle ₹{price} <span className="text-mrg-slateink">+ Add-ons</span> ₹{addOnTotal}</span>
+                ) : (
+                  <span className="text-[13px] text-mrg-slateink">Tick any extras above — pay once for everything</span>
+                )}
+                <span className="font-display text-lg font-extrabold text-mrg-teal">₹{total}</span>
+              </div>
+            </div>
+
+            <button type="button" onClick={() => openBuy(true)} data-testid="mrg-pricing-buy" className="mrg-btn-primary mt-6 w-full text-lg">
+              Get the Order — ₹{total} <Lucide.ArrowRight className="h-5 w-5" />
             </button>
             <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[12px] text-mrg-slateink"><Lucide.ShieldCheck className="h-3.5 w-3.5 text-mrg-teal" /> One-time purchase • Digital product • Educational reference only</p>
           </div>

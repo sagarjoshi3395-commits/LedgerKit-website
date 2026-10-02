@@ -106,3 +106,9 @@ See /app/memory/test_credentials.md.
 - Fix: reordered pricing section — "Before You Pay — Add-On Offers" panel now FIRST (verified addon_top 340 < price card top 1184), pricing card below; panel retitled "Before You Pay — Add-On Offers" with "tick what you want, pay once for everything"
 - ECG Guide (₹99) + Emergency Guide (₹149) now carry teal "Recommended add-on" chips + tinted cards (verified rendering); live total row + Checkout button remain right under the cards so the buyer can pay immediately after ticking
 - Pre-ticked add-ons (default-selection order bump) NOT implemented — charges buyers by default, needs owner's explicit choice
+
+## Update (2026-10-02, v26 — Unified order-bump pricing card)
+- Owner suggestion adopted: removed the separate two-panel layout; add-ons now live INSIDE the dark Complete-Bundle card — price header → includes checklist → "Add-On Offers · Optional" tick rows → live total row (Bundle ₹199 + Add-ons ₹X = ₹Y, or "Tick any extras above — pay once for everything") → single "Get the Order — ₹{total}" button
+- Compact one-line add-on rows (tick + name + Recommended chip on ECG/Emergency + price); "N selected"/"None selected" count chip; highlight pulse from two-phase scroll now rings the in-card add-on block
+- Verified in browser (390px): 1 panel only; button ₹199 → ₹447 on ticking ECG+Emergency; total row correct; sticky/hero/final CTAs all live-total (₹447)
+- Rationale: order bump inside the pricing card = zero navigation between offer and payment; cheapest "recommended" rows visible while the ₹199 anchor price is on screen — should lift AOV vs the old below-card panel
